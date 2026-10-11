@@ -1,0 +1,622 @@
+*** CURCY – WooCommerce Multi Currency – Currency Switcher Changelog ***
+
+2026.08.20 - version 2.4.3
+- Updated: VillaTheme support
+
+2026.06.19 - version 2.4.2
+- Updated: Conflict with theme Woodmart
+- Updated: Checked the capability of loading Ajax prices.
+- Updated: Added a filter to skip price processing in the user interface.
+- Updated: Added a check function during data initialization to avoid errors.
+
+2026.06.19 - version 2.4.2
+- Updated: Support Class
+
+2026.05.19 - version 2.4.1
+- Fixed: Xe Finance API
+- Updated: Conflict with theme Alukas
+- Updated: Conflict with B2BKing pro
+- Updated: Conflict with WooCommerce Stripe Payment Gateway
+
+2026.04.24 - version 2.4.0
+- Updated: Optimize code
+- Updated: Compatible with Checkout WC
+- Updated: Compatible with Tiered Price Table for WC
+- Updated: Compatible with new version of WooCommerce TM Extra Product Options (themeComplete)
+- Added: Widget preview support within the Gutenberg editor.
+
+2026.02.06 - version 2.3.13
+- Updated: Only specific conditional tags are supported in the “Conditional Tags” option.
+- Updated: Compatible with Fluentbooking
+
+2025.12.05 - version 2.3.12
+- Fixed: Conflict with WooCommerce Extra Product Options version 7.5 by ThemeHigh
+- Fixed: Problem when save product fixed price
+- Fixed: Conflict with WPC Name Your Price for WooCommerce
+- Fixed: Conflict reload ajax bundle price with WooCommerce Product Bundles by WooCommerce
+- Updated: Add custom currency flag
+- Updated: Add Shortcode woo_multi_currency_rates layout to display rate as table
+- Updated: Add Shortcode display current currency woo_multi_currency_current
+
+2025.09.05 - version 2.3.11
+- Fixed: Issue with High-Performance order storage
+- Fixed: Price issue with Tiered pricing table
+- Updated: New register Elementor widget hook
+- Updated: New External Geo API
+- Updated: Add new sidebar layout
+
+2025.07.04 - version 2.3.10
+- Updated: Remove WP Rocket dynamic cache functions
+- Updated: When auto detect set to Initial currency, user can change to other currency
+- Fixed: Product price collate display wrong currency
+
+2025.06.16 - version 2.3.9
+- Updated: Add new Price switcher style
+- Updated: Add option Fixed Schema Structure currency
+- Updated: Add option Data storage method for store currency data
+- Updated: Add option Initial currency
+
+2025.04.11 - version 2.3.8
+- Updated: Add new sidebar layout
+- Updated: Add display name color for new layout
+- Updated: Add top position setting for sidebar
+- Updated: Add Openexchangerates, Exchagerate API, Currencyapi Finance API
+- Fixed: Conflict with Learnpress and some addons of Learnpress
+
+2025.02.28 - version 2.3.7
+- Updated: Add filter 'wmc_previous_currency_cart_item_price' to format cart item price
+- Updated: Add compatible code with GIFT4U - Gift Cards All in One for Woo
+- Updated: Add setting description
+- Updated: Change ajax reload filter price code flow
+- Fixed: Conflict with WooCommerce Subscriptions
+
+2024.12.21 - version 2.3.6
+- Fixed: Conflict with WooCommerce Wholesale Prices Premium
+- Fixed: Conflict with WooCommerce Extra Product Options by ThemeHigh
+- Updated: Add setting to switch currency when user login
+
+2024.10.28 - version 2.3.5
+- Fixed: Finance API XE return wrong data
+- Updated: Add setting to change currency switcher layout
+- Updated: Add setting to change currency switcher color, background
+- Updated: Add setting to display product price collate in multiple currencies
+
+2024.09.27 - version 2.3.4
+- Fixed: Price issues with Wpfunnels
+- Fixed: Loading icon when update currency rate
+- Fixed: Currency symbol when filter price
+- Fixed: Compatible cache plugin by json when loading wc ajax
+- Updated: Add some setting description
+
+2024.07.12 - version 2.3.3
+- Fixed: Checkout issues when only one currency active
+- Fixed: Price issues with WPFunnels
+- Fixed: Price issues with WC Fields Factory
+- Fixed: Filter price issues with cache
+
+2024.01.26 - version 2.3.2
+- Fixed: Conflict with WooCommerce Amazon Pay
+- Fixed: Conflict with MotoPress WordPress Hotel Booking
+- Fixed: Shipping price issues with Toret PPL by Toret.cz
+- Fixed: Shipping country missing with custom checkout page
+- Fixed: Missing currency info in admin order
+- Fixed: Issues with Bookings For WooCommerce by WP Swings
+- Fixed: Issues with Subscriptions for WooCommerce by WP Swings
+- Fixed: Conflict with B2BKing by WebWizards
+- Fixed: Price Issues with WooCommerce Wholesale Prices
+- Updated: Add option to reload filter price
+- Updated: Add style for currency switcher widget
+- Updated: Add option to display Currency Symbol for Product Currency Price Switcher
+
+2023.10.26 - version 2.3.1
+- Fixed: Load bulk fixed price file error
+- Fixed: Decimal separator working with empty value
+- Fixed: Conflict with WooCommerce Loyalty Points and Rewards
+- Updated: Add filter wmc_switcher_display_currency_name to change display currency name
+
+2023.10.10 - version 2.3.0
+- Fixed: Issues with WPC Product Bundles for WooCommerce plugin by WPClever
+- Fixed: Finance API Wise change to sandbox development
+- Fixed: Status replaced when overridden by price when using Custom Stock Status
+- Fixed: Conflict with CheckoutWC option Template Loader Distraction Free Portal
+- Fixed: Conflict fixed price with Extra Product Options & Add-Ons for WooCommerce by ThemeComplete
+- Fixed: Conflict shipping price with Envia Shipping and Fulfillment
+- Fixed: Conflict fixed price in the invoice with Germanized for WooCommerce
+- Fixed: Conflict fixed price with Advanced Dynamic Pricing for WooCommerce by AlgolPlus
+- Fixed: Error when changing currency when checkout page not set
+- Fixed: Wrong COD price with WooCommerce Smart COD
+- Updated: Issues with WooCommerce Product Add-ons version 6.4 and higher
+- Updated: Add direction='top' param for widget shortcode plain_vertical to open select to top
+- Updated: Add MaxMind Geolocation Geo API to detect customer country
+- Updated: Add option to edit thousand separator and decimal separator for each currency
+- Updated: Add option to edit position of Currency Price Switcher
+- Updated: Compatible with High-Performance order storage (COT)
+
+2023.06.08 - version 2.2.5
+- Fixed: Currency value when active both PPOM and PPOM Pro
+- Fixed: Currency value with YITH WooCommerce Product Add-ons & Extra Options
+- Fixed: Tax value for order with YITH WooCommerce EU VAT, OSS & IOSS
+- Fixed: Error when an empty variation of variable product with fixed price
+
+2023.05.24 - version 2.2.4
+- Fixed: Calculate coupon again when change order currency in order edit page
+- Fixed: Calculate the coupon type of Sumo Subscriptions
+- Fixed: Finance API TransferWise change to Wise
+
+2023.03.10 - version 2.2.3
+- Updated: Add option allow other widget change currency when TranslatePress enable
+- Updated: Compatible with DHL Express Commerce
+- Updated: Remove filter woocommerce_cart_item_price in \AmeliaBooking\Infrastructure\WP\Integrations\WooCommerce\WooCommerceService class
+- Updated: Compatible with WooCommerce Product Add-ons - order item meta
+- Fixed: Compatible with WooCommerce Product Add-Ons Ultimate (Plugin Republic - product-extras-for-woocommerce)
+- Fixed: Compatible with WooCommerce Wholesale prices
+- Updated: Change currency belong to payment gateway as soon as customer select payment gateway
+- Updated: Shortcode currency convertor [woo_multi_currency_convertor]
+
+2022.12.05 - version 2.2.2
+- Fixed: Auto detect currency with override by AJAX
+- Fixed: Force variable type with PHP8
+
+2022.11.29 - version 2.2.1
+- Updated: Compatible with CTXFeed
+- Updated: Add Xe finance API
+- Updated: Add exclude exchange rate when enable fixed price
+- Updated: Add hook 'wmc_after_init_currency'
+
+2022.10.13 - version 2.2.0
+- Fixed: Compatibility issues with WooCommerce TM Extra Product Options By ThemeComplete - Price not converting in cart when Cart Field Display is set to Advanced display
+- Fixed: Compatibility issues with WPC Product Bundles for WooCommerce by WPClever
+- Fixed: Bulk fixed price
+- Fixed: "Use cache plugin" and approximate price
+- Fixed: Flag css overridden by some themes
+- Fixed: Compatibility issue with OrderBumps: WooCommerce Checkout Offers - WooFunnels
+- Fixed: Convert refunded value in Analytics
+- Updated: Convert refund amount TeraWallet
+- Updated: Use cache plugin with override by JSON option
+- Updated: Add query args to product url when Google Listing & Ads push data to Google Merchant center
+- Updated: Compatible with WooCommerce Product Add-Ons Ultimate (Plugin Republic)
+
+2022.05.20 - version 2.1.36
+- Fixed: Compatibility issues with WooCommerce TM Extra Product Options By ThemeComplete
+
+2022.05.14 - version 2.1.35
+- Fixed: Compatibility issues with TeraWallet and UddoktaPay Gateway
+- Fixed: Compatibility issues with Lumise
+- Fixed: Fixed price(regular) not showing properly in some cases
+- Fixed: Error when changing order currency(order edit) if fixed price is enabled but order product item does not have fixed price in target currency
+
+2022.05.10 - version 2.1.34
+- Fixed: Unable to dismiss renew message in 2.1.33
+
+2022.05.09 - version 2.1.33
+- Fixed: Deprecated _register_controls notice from Elementor 3.6
+- Fixed: Compatibility issues with TeraWallet - credit not converted if order status is manually switched to paid statuses after payment; cashback conversion
+- Fixed: Compatibility issues with Visual Products Configurator by ORION - linked options not converting
+- Fixed: WPML - get fixed price of original product if the translated product does not have fixed price but the original product has
+- Added: VillaTheme support - ability to hide recommended plugins list under the plugin settings
+- Added: "Sync checkout currency" option - make currency changed by "Change currency follow" option remain for the current customer session as if it's switched by the customer via currency switcher widgets
+
+2022.04.07 - version 2.1.32
+- Fixed: Compatibility issues with Flexible Shipping by WP Desk - do not convert INF
+- Fixed: Compatibility issues with Visual Products Configurator by ORION
+- Fixed: Compatibility issues with Woo Discount Rules plugin by Flycart(discount applied twice when "Display multi currencies" option is enabled in some cases)
+- Fixed: View changelog from plugins page when a new version is available
+
+2022.03.29 - version 2.1.31
+- Fixed: Compatibility issues with WooCommerce Name Your Price by Kathy Darling
+- Fixed: Compatibility issues with LearnPress - WooCommerce Payment Methods Integration
+- Fixed: Coupon is not automatically applied after changing order currency
+- Updated: VillaTheme support
+
+2022.03.19 - version 2.1.30
+- Updated: Support Class
+
+2022.03.18 - version 2.1.29
+- Fixed: Compatibility issues with Learnpress when price of courses without sale price is converted twice
+
+2022.03.11 - version 2.1.28
+- Fixed: Compatibility issues with Learnpress as some hooks are duplicated
+- Fixed: Compatibility issues with Bookly
+- Fixed: Compatibility issues with TeraWallet
+- Improved: Currency sidebar UX on mobile
+- Added: Option to use Geo API as Inherited from server
+
+2022.03.03 - version 2.1.27
+- Fixed: Fixed price fields of shipping not showing in the previous version
+
+2022.03.02 - version 2.1.26
+- Fixed: Compatibility issue with Learnpress(since 4.1.5)
+- Improved: Currency bar UX
+- Improved: WP rocket compatibility - mandatory cookies filter
+- Added: Option to expand currency selector on clicking instead of hovering
+- Added: Option to choose which currency should show to web crawler tools
+- Added: Ability to choose dropdown icon type for dropdown currency selector shortcodes/widgets
+
+2022.01.15 - version 2.1.25
+- Fixed: Deprecated is_ajax in WC6.1
+- Fixed: Compatibility issues with WooCommerce Payments plugin
+- Fixed: Compatibility issues with Woo Discount Rules plugin by Flycart(prices in discount table not converted in some cases)
+- Fixed: Compatibility issues with PPOM for WooCommerce by N-MEDIA - Najeeb Ahmad
+- Fixed: Compatibility issues with Polylang
+- Added: TranslatePress Multilingual compatibility - Option to setup currencies by languages
+
+2021.12.14 - version 2.1.24
+- Updated: Added Trademark name
+
+2021.12.11 - version 2.1.23
+- Fixed: Compatibility with Woo Discount Rules: fixed regular price is not used to calculate discount if "Calculate discount from" option(Woo Discount Rules settings) is set to Regular price
+- Fixed: Cuex API
+- Fixed: Some strings not translatable
+- Fixed: Analytics net sales in some cases
+- Fixed: Some compatibility issues with WPC Product Bundles for WooCommerce plugin by WPClever
+- Fixed: Price format of EUR may have be incorrect due to WooCommerce Payments plugin
+- Updated: SCSS
+- Updated: Show converted amount of Stripe fee and payout if order currency is different from Stripe paid currency
+
+2021.10.22 - version 2.1.22
+- Fixed: Incorrect price shown by calculate_extra_price_ajax_handler ajax(WooCommerce Extra Product Options Pro by ThemeHigh)
+- Fixed: Compatibility issue with Yith frequently bought together, OrderBumps: WooCommerce Checkout Offers - WooFunnels
+- Fixed: Shipping issue with CDEK + Aramex shipping methods
+- Fixed: PayPal Card Processing method(WooCommerce PayPal Payments) enabled in WooCommerce payments settings but not available to select in the plugin settings/Checkout
+- Added: Compatibility with Catna - WooCommerce Name Your Price and Offers(convert price + support fixed price for Name your price fields)
+- Added: Compatibility with WooCommerce Boost Sales new feature - dynamic price and discount for bundle
+
+2021.09.20 - version 2.1.21
+- Fixed: Make converted coupon min/max amount round with respective currency decimals
+- Fixed: Error with PHP version before 7.4
+- Fixed: Duplicated add-to-cart action if switching currency(by js) after adding a product to cart(submit)
+- Updated: [woo_multi_currency_exchange] shortcode can now be used to print out product price
+
+2021.09.16 - version 2.1.20
+- Fixed: [woo_multi_currency_exchange] shortcode not working with currencies that have 0 decimals
+- Fixed: Incorrect prices shown in product price switcher for variable products when using fixed price
+
+2021.09.15 - version 2.1.19
+- Updated: PHP required
+
+2021.09.02 - version 2.1.18
+- Fixed: Add ajax nonce check for Bulk fixed price feature
+- Fixed: Some issues with WooCommerce PayPal Payments plugin from WooCommerce
+- Updated: Make all payment methods selectable for "Checkout currency" and "Currency by Payment method" options in plugin settings/Checkout regardless of the default currency
+
+2021.08.16 - version 2.1.17
+- Fixed: Shipping tax conversion issue in some cases
+- Fixed: WooCommerce Booking resource not converting
+- Fixed: WooCommerce Product addons compatibility issue
+- Fixed: Flexible shipping cost not converting
+- Fixed: Conversion issue with Smart bundle for WooCommerce plugin
+- Fixed: Conversion issue with PPOM for WooCommerce plugin
+- Fixed: Incorrect approximate price of cart elements(if enabled) if the current currency is not the default currency
+- Fixed: "Use cache plugin" option changes multiple shortcodes on a page to one layout
+- Updated: Compatibility with WP 5.8 and WC 5.5
+- Added: Auto fill EU countries when using "Get country by currency" button
+- Added: Button to fix the issue with orders missing currency rates info
+- Added: ETH, LTC, ZWL
+
+2021.06.19 - version 2.1.16
+- Fixed: Shipping formula not converting in some cases
+
+2021.06.18 - version 2.1.15
+- Fixed: Shipping class costs conversion
+- Added: Support fixed price for Shipping class costs
+
+2021.06.15 - version 2.1.14
+- Fixed: Division by zero in price filter of some themes
+
+2021.06.11 - version 2.1.13
+- Fixed: Compatibility issue with WooCommerce Free Shipping Bar when enabling cache compatibility functions in both plugins
+- Fixed: Division by zero when using price filter in some cases
+- Updated: Order stats from other currencies are converted to default currency in WooCommerce Analytics(revenue/orders)
+- Added: Multilingual support for the title of currencies bar
+- Added: Import/Export fixed price
+- Added: View report in other currencies
+
+2021.06.02 - version 2.1.12
+- Fixed: Currency back to default on Pixel phone
+- Fixed: Compatibility issue with Polylang
+- Added: Support fixed price for min amount field of Free shipping and cost field of Flat rate shipping
+- Added: Change WooCommerce price filter step according to currency
+- Added: Shortcode [woo_multi_currency_product_price_switcher]
+- Added: Compatibility with Woo Discount Rules from Flycart including Bulk discount(percentage+fixed), Product adjustment(percentage+fixed), Cart adjustment(percentage discount only)
+
+2021.03.09 - version 2.1.11
+- Fixed: WooCommerce subscription - renew subscription + fixed price issue
+- Fixed: Advanced product fields for WooCommerce pro - Min cart subtotal rule issue
+- Fixed: Yith dynamic pricing and discount - Quantity discount rule
+- Fixed: Use cache plugin option not working with currency rates table shortcode
+- Fixed: Restricted currency issue with update_order_review ajax
+- Fixed: Wrong order currency issue with WooCommerce 2Checkout Payment Gateway plugin when sending link for payment
+- Fixed: Compatibility issue with Visual product configurator plugin
+- Fixed: Change order currency by admin
+- Fixed: Wrong price in Facebook feed created by WooCommerce Product Feed Pro plugin from WebAppick
+- Fixed: 404 error of translated products with WPML when using one domain per language
+- Added: Compatibility with WooCommerce Product Add-ons from WooCommerce
+- Added: Option to round-up final price after applying the price format rules
+- Updated: Compatibility with WP 5.7 and WC 5.0
+
+2020.11.09 - version 2.1.10.2
+- Fixed: Change currency in some cases
+
+2020.10.31 - version 2.1.10.1
+- Fixed: session_write_close
+
+2020.10.28 - version 2.1.10
+- Fixed: Check update request
+- Fixed: Change currency when change billing or shipping address compatible with auto detect currency by country
+- Updated: New Approximate position
+- Updated: Fixed price for WCFM - WooCommerce Frontend Manager (WC Lovers - 6.5.4)
+- Updated: Option compatible with cache plugin via AJAX
+
+2020.06.21 - version 2.1.9.4
+- Fixed: Support request class
+- Fixed: Link to guide
+- Fixed: Show tax with fixed price for variable products
+- Updated: Shortcode [woo_multi_currency_layout10]
+- Updated: Change currency when change billing or shipping address
+- Fixed: Display Approximately options
+
+2020.05.22 - version 2.1.9.3
+- Fixed: Compatible with WP Rocket Cache
+
+2020.05.20 - version 2.1.9.2
+- Updated: Compatible with Elementor
+
+2020.04.29 - version 2.1.9.1
+- Fixed: Show 2 currencies at checkout page
+
+2020.04.20 - version 2.1.9
+- Updated: Increase decimal in format exchange rate
+- Updated: Switcher bar max height option
+- Updated: Add a new shortcode
+- Updated: Change color option for shortcode
+- Updated: Class support
+- Fixed: Switch currency by js for default shortcode
+- Added: Disable collapse sidebar on mobile
+- Updated: Compatible with WooCommerce TM Extra Product Options (themeComplete) - full
+- Updated: Compatible with Subscription - WooCommerce Subscriptions (RightPress) - full
+- Updated: Compatible with Discussion on RnB - WooCommerce Booking & Rental Plugin (RedQ Team) - full
+- Updated: Compatible with WooCommerce PDF Vouchers - WordPress Plugin (wpweb) - full
+- Added: New exchange rate API: TransferWise, Cuex.
+
+2020.03.11 - version 2.1.8.2
+- Updated: Add compatibility with WooCommerce Name Your Price (Kathy Darling - 2.11.5)
+
+2020.01.10 - version 2.1.8.1
+- Fixed: Conditional to run beauty price
+- Fixed: WooCommerce Status in WP dashboard
+
+2020.01.02 - version 2.1.8
+- Added: Change currency in admin order
+- Added: Beauty price feature
+- Added: Add filter 'wmc_get_price' at the end of wmc_get_price function
+- Added: Currency position in email
+- Fixed: Set price bulk actions
+- Updated: Add/Remove all currencies
+- Updated: Change currency by ajax for switcher at single product page
+- Updated: Add compatibility(converted price only, not working with fixed price) with WooCommerce Dynamic Pricing & Discounts plugin by RightPress: Product pricing, Cart discounts, Promotion
+- Updated: Add compatibility with WooCommerce reports
+
+2019.11.26 - version 2.1.7
+- Added: Add more attribute to shortcode layout5 [woo_multi_currency_layout5 flag_size='0.5' symbol='true']
+- Fixed: CSS on Firefox browser
+- Fixed: Display currency on orders page
+
+2019.10.17 - version 2.1.6.9
+- Fixed: Display Zambia flag
+- Fixed: WooCommerce filter price
+
+2019.08.13 - version 2.1.6.8
+- Fixed: Ajax change currency
+
+2019.08.08 - version 2.1.6.7
+- Fixed: Currency notice in order page
+
+2019.08.08 - version 2.1.6.6
+- Fixed: Flag CSS
+
+2019.08.05 - version 2.1.6.5
+- Fixed: Compatible with WooCommerce PDF Invoices & Packing Slips
+- Updated: Change flag from image tag to CSS sprite
+- Fixed: Display ETH flag
+- Fixed: Optimize display
+
+2019.05.07 - version 2.1.6.4
+- Fixed: Update version
+
+2019.05.06 - version 2.1.6.3
+- Fixed: Looping checkout error with theme HandMade
+- Fixed: Error with The event calendar
+- Updated: Custom flag of countries using the same currency is selected by detected country
+- Updated: URL Default API get exchange rate
+
+2019.03.08 - version 2.1.6.2
+- Fixed: Warning checkout page
+- Fixed: Some text description in backend
+- Fixed: Calculate shipping cost when using shortcode [fee],[cost]
+- Fixed: Exchange rate widget
+- Fixed: Approximately CSS
+- Added: Auto get key
+
+2018.12.04 - version 2.1.6.1
+- Fixed: Google finance API
+
+2018.11.30 - version 2.1.6
+- Fixed: Changed text Auto update key
+- Fixed: Check SSL url
+- Fixed: Tab JS in backend
+- Fixed: Product fixed price rounder with decimal=0 when decimal separator is not '.'
+- Fixed: Flag custom
+- Removed: Auto update with old plugin v1.x
+- Removed: Clear cache of WP Super Cache and WP Fastest Cache
+- Added: Notices when use WP Super Cache and WP Fastest Cache
+
+2018.10.30 - version 2.1.5.3.1
+- Fixed: Revert old currency when checkout page back
+
+2018.10.25 - version 2.1.5.3
+- Fixed: Double price of Currency price switcher
+- Fixed: General fields in setting page
+- Fixed: Fixed price when product->changes exist
+- Fixed: Currencies bar unclickable on some customers' site
+- Fixed: Class support
+- Fixed: Loop on checkout page
+- Fixed: Hide Currency bar if not allow multi currencies checkout
+- Updated: Video Preview
+- Updated: BTC Flag
+- Updated: Compatible with Learnpress
+- Updated: Compatible with WooCommerce Pre-Orders
+
+2018.09.05 - version 2.1.5.2
+- Fixed: Currency price switcher
+
+2018.09.04 - version 2.1.5.1
+- Fixed: CSS with sidebar default on the left
+- Removed: Price currency switcher JS and fixed RTL CSS
+
+2018.09.04 - version 2.1.5
+- Added: JS with load page by Ajax
+- Added: Currency price switcher in single product page
+- Added: IP status in system page
+- Added: Show currency on cart page the same checkout page
+- Fixed: Shipping cost decimal
+- Fixed: CSS, JS version
+- Fixed: Active purchased code
+- Fixed: Design on mobile
+- Fixed: Approximately
+- Fixed: Show double currency on shorcodes
+- Updated: Yahoo finance API
+- Updated: Class check key
+
+2018.06.29 - version 2.1.4.4
+- Fixed: Default WooCommerce decimal "." in price
+- Fixed: Cookie time
+- Fixed: IP statics
+- Compatible with WooCommerce Bookings
+
+2018.06.26 - version 2.1.4.3
+- Fixed: WooCommerce Multi Currency shortcode CSS
+
+2018.06.25 - version 2.1.4.2
+- Added: More time auto update
+- Fixed: WooCommerce Multi Currency shortcode
+
+2018.06.25 - version 2.1.4.1
+- Fixed: Widget selector
+
+2018.06.23 - version 2.1.4
+- Added: Show currency on sidebar, shortcode and widget
+- Added: Control payment methods
+- Added: Shortcode exchange rates
+- Added: More design on sidebar
+- Added: Check purchased code
+- Added: Clear cache browser
+- Changed: Flag images
+- Changed: Bulk actions fixed price with product variations
+- Fixed: Approximately with tax
+- Fixed: RTL auto detect
+- Fixed: Fixed price
+
+2018.05.29 - version 2.1.3
+- Added: rel="nofollow" in shortcode.
+- Added: Compatible with WPML.org in product
+
+2018.05.14 - version 2.1.2.1
+- Fixed: Clear cache
+
+2018.05.14 - version 2.1.2
+- Fixed: Currency not change on widget Price filter
+- Fixed: Cache price when exchange of price.php
+- Updated: Class Support
+- Added: Shortcode exchange with number
+- Updated: WooCommerce Wholesale prices
+
+2018.04.28 - version 2.1.1
+- Fixed: Fixed price not saving on external/affiliate product
+- Fixed: Decimal is 0 with other currencies
+- Added: Clear cache with Autoptimize
+- Added: Clear cache with WP Fastest Cache
+- Added: Clear cache with WP Rocket
+- Added: RTL Support
+
+2018.03.23 - version 2.1.0.2
+- Fixed: Double price using Google finance API
+
+2018.03.05 - version 2.1.0.1
+- Updated: Compatible with Printful Integration for WooCommerce plugin
+- Fixed: Class support
+
+2018.02.22 - version 2.1.0
+- Fixed: Update checkout with one currency
+- Fixed: Decimals
+- Added: Exchange fee
+- Added: Use Session
+- Added: Notification to custom email.
+
+2018.02.05 - version 2.0.9.1.1
+- Fixed: Checkout with one currency without default currency
+
+2018.02.05 - version 2.0.9.1
+- Fixed: Tax on Shipping
+- Fixed: Checkout with one currency
+- Updated: Working only from WooCommerce 3.2.x or higher
+
+2017.01.17 - version 2.0.9
+- Updated: Get data, price
+- Fixed: Tab CSS in backend
+- Fixed: W3 total cache
+- Fixed: Class support
+- Fixed: Mini cart JS
+
+2017.01.06 - version 2.0.8
+- Fixed: Hide approximately if currency detect is the same current currency
+- Fixed: Change currency back that override in checkout page
+
+2017.01.02 - version 2.0.7
+- Fixed: Some errors
+- Fixed: Currency sidebar CSS
+
+2017.12.20 - version 2.0.6
+- Updated: Large size for flag
+- Added: Geo API
+- Fixed: Compatible WooComerce Subscriptions
+
+2017.12.07 - version 2.0.5
+- Removed: Get GEO IP
+- Fixed: Currency symbol not change when empty cart
+- Fixed: Thousand separator
+- Updated: Compatible with Visual Product Builder
+- Added: Yahoo finance API
+- Added: ETH, LTC currency
+- Added: Drag and drop currency
+
+2017.11.30 - version 2.0.4
+- Fixed: JS default currency
+- Fixed: Remove transient when save settings
+- Fixed: Update system page
+- Added: Rate in emails
+- Added: Checkout with default currency
+- Updated: Compatible with WooCommerce Product Bundles
+- Updated: Compatible with Polylang plugin
+
+2017.11.21 - version 2.0.3
+- Fixed: Shipping Compatible WooCommerce 3.x
+- Fixed: Custom CSS show
+- Fixed: Error in location
+- Added: Update old version
+- Added: Buld add fixed price for variation
+- Added: Page system status
+- Added: Conditional tags
+
+2017.11.14 - version 2.0.2
+- Fixed: Text in sidebar
+
+2017.11.09 - version 2.0.1
+- Added: Compatible WooCommerce Advanced Free Shipping
+- Added: Compatible WooCommerce Table Rate Shipping
+- Added: Compatible Visual Composer
+- Added: Yith Product Bundles
+- Fixed: Style on Bar
+- Fixed: Conflict UX Builder of Flatsome Theme
+
+2017.11.08 - version 2.0.0
+~ The first released.

@@ -1,0 +1,78 @@
+.yith-wcwl-add-to-wishlist {
+	.yith-wcwl-wishlistexistsbrowse {
+		display: none;
+		 .wishlist_icon path{
+		 		fill: #e25842;
+		 		stroke: #e25842;
+		 }
+	}
+	.yith-wcwl-add-button {
+		.wishlist_icon path{
+			fill: transparent;
+			stroke: $color1;
+
+		}
+		&:hover {
+			.wishlist_icon path {
+				stroke: #e25842;
+			}
+		}
+	}
+	&.exists {
+		.yith-wcwl-wishlistexistsbrowse {
+			display: block;
+		}
+	}
+}
+.yith_wcwl_wishlist_footer {
+	.yith-wcwl-share {
+		ul {
+			list-style: none;
+			li {
+				display: inline-block;
+
+				a {
+					display: block;
+					font-size: 18px;
+					padding-right: 5px;
+					margin-right: 10px;
+					@each $profile, $color in $social {
+					  &.#{$profile} {
+					  	&:hover {
+					  		color: $color;
+					  	}
+					  }
+					}
+				}
+			}
+		}
+	}
+}
+
+.wishlist-title {
+	h2 {
+		display: inline-block;
+		margin-right: 20px;
+	}
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		margin-bottom: 20px;
+		vertical-align: middle;
+		    font-size: 14px;
+		i {
+			margin-right: 5px;
+		}
+	}
+	& + .hidden-title-form {
+		display: none;
+		.btn, .button, input[type=submit] {
+			display: inline-flex;
+			align-items: center;
+			    font-size: 14px;
+			i {
+				margin-right: 5px;
+			}
+		}
+	}
+}

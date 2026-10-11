@@ -1,0 +1,42 @@
+{% extends 'grid-gallery.twig' %}
+
+{% block header %}
+
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs">
+        {#<a href="{{ environment.generateUrl('galleries') }}">{{ translate('Gallery by Supsystic') }}</a>#}
+        {#<i class="fa fa-angle-right"></i>#}
+        <a href="{{ environment.generateUrl('galleries') }}">{{ translate('Galleries') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ galleryName|capitalize }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ translate('Import images') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('googledrive', 'authorization', { 'id': id }) }}">{{ translate('Google Drive authorization') }}</a>
+    </nav>
+
+{% endblock %}
+
+{% block content %}
+
+    <h2 id="gg-alrt" style="text-align: center; color: #bfbfbf; margin: 50px 0 25px 0;">
+		<span style="margin-bottom: 20px; display: block;">
+			{{ translate('Upload your images from Google Drive CDN') }}
+		</span>
+        {#<a class="button button-primary button-hero bordered" href="{{ url }}">#}
+            {#<i class="fa fa-fw fa-google"></i>#}
+            {#{{ translate('Upload from Google Drive') }}#}
+        {#</a>#}
+		<span style="font-size: 14px; color: black; font-weight: 600;">{{ translate('Sign in with:') }}</span>
+		<a class="" href="{{ url }}" style="text-align: left;">
+			<div id="ggGoogleSignIn">
+				<span class="icon"></span>
+				<span class="buttonText">{{ translate('Google') }}</span>
+			</div>
+		</a>
+		<style type="text/css">
+			#ggGoogleSignIn span.icon {
+				background: url('{{logoSrc}}') transparent 5px 50% no-repeat;
+			}
+		</style>
+    </h2>
+{% endblock %}

@@ -1,0 +1,42 @@
+<wpml-config>
+		<admin-texts>
+			<key name="copyright"/>
+			<key name="thb_cookie_bar_content"/>
+			<key name="logo"/>
+			<key name="logo_light"/>
+		</admin-texts>
+    <custom-types>
+        <custom-type translate="1">revslider</custom-type>
+    </custom-types>
+    <shortcodes>
+        <shortcode>
+            <tag>thb_button</tag>
+            <attributes>
+                <attribute>caption</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>thb_iconbox</tag>
+            <attributes>
+                <attribute>heading</attribute>
+                <attribute>btn_content</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>thb_notification</tag>
+        </shortcode>
+        <shortcode>
+            <tag>thb_product_list</tag>
+            <attributes>
+                <attribute>title</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>thb_teammember</tag>
+            <attributes>
+                <attribute>name</attribute>
+                <attribute>position</attribute>
+            </attributes>
+        </shortcode>
+    </shortcodes>
+</wpml-config>

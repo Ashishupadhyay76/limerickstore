@@ -1,0 +1,37 @@
+$break-small: 736px;
+$break-medium: 1068px;
+$break-large: 1200px;
+$break-xlarge: 1440px;
+
+$color1: #151515; // black
+$black: #151515;
+$color2: #e5e5e5; // light-grey
+$color3: #647694; // blue
+$color4: #eaeaea; // light border
+$border: #eaeaea;
+
+$transition: cubic-bezier(0.25,.46,.45,.94);
+
+$social: (
+	facebook: #3b5998,
+	linkedin: #007bb6,
+	pinterest: #cb2027,
+	twitter: #00aced,
+	instagram: #3f729b,
+	vk: #45668e,
+	tumblr: #35465c,
+	xing: #cfdc00,
+	soundcloud: #f80,
+	dribbble: #ea4c89,
+	youtube: #e52d27,
+	spotify: #7ab800,
+	behance: #1769ff,
+	deviantart: #4e6252,
+	vimeo: #1ab7ea,
+	flickr: #0063dc,
+	rss: #f26522,
+	twitch: #6441a5,
+	fivehundred: #0099e5,
+	whatsapp: #25d366,
+	medium: #00ab6c
+);

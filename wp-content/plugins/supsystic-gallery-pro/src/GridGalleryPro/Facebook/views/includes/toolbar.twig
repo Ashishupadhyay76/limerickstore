@@ -1,0 +1,40 @@
+{# Toolbar #}
+<section id="photo-toolbar" class="supsystic-bar" data-intro="{{ manual.intro }}" data-step="1">
+    <ul class="supsystic-bar-controls">
+        <li title="{{ translate('Return to the gallery') }}">
+            <a class="button button-primary" href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">
+                <i class="fa fa-angle-left"></i>
+                {{ translate('Return to the gallery') }}
+            </a>
+        </li>
+        <li title="{{ translate('Upload new images') }}">
+            <button id="add_images" class="button button-primary" data-gallery-id="{{ id }}">
+                <i class="fa fa-download"></i>
+                {{ translate('Import images') }}
+            </button>
+        </li>
+        <li title="{{ translate('Logout') }}">
+            <a class="button button-primary" href="{{ environment.generateUrl('facebook', 'logout', { 'id': id, '_wpnonce': _wpnonce }) }}">
+                <i class="fa fa-sign-out"></i>
+                {{ translate('Logout') }}
+            </a>
+        </li>
+        <li class="separator">
+            |
+        </li>
+
+        <li title="{{ translate('Select/unselect all photos') }}">
+            <button id="button-select" class="button" data-value="select" data-toolbar-button>
+                <i class="fa fa-check-square-o fa-fw"></i>
+            </button>
+        </li>
+
+    </ul>
+    <form method="POST" action="{{ environment.generateUrl('facebook', 'savePages', {'_wpnonce': _wpnonce }) }}" style="float:right;position:relative; top:-10px;">
+        <label>Pages <i class="fa fa-question supsystic-tooltip" title="{{ translate('Here you can specify your business pages and images will load from those pages. You can set several pages, just separate ID of pages by ",". To get the ID of your page you need to switch to the wanted page, then click on "About" link right below page cover, and at the bottom of "About" page you will find Facebook Page ID.') }}"></i></label>
+        <input type="text" name="id" value="{{ pages }}">
+        <button id="button-select" class="button" data-value="select" data-toolbar-button>
+            {{ translate('Save') }}</button>
+    </form>
+</section>
+{# End of toolbar #}

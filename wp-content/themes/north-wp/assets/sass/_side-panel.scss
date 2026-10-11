@@ -1,0 +1,55 @@
+.side-panel {
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	top: 0;
+	height: 100%;
+	z-index: 600;
+	padding: 0;
+	width: 300px;
+	background: #fff;
+	right: 0;
+	will-change: transform;
+	@extend .quick-transition;
+	@extend .admin-style;
+
+	@include min-break($break-small) {
+		width: 320px;
+	}
+	@include min-break($break-medium) {
+		width: 400px;
+	}
+	@include min-break($break-large) {
+		width: 480px;
+	}
+
+	.rtl & {
+		right: auto;
+		left: 0;
+	}
+	header {
+		background: #f4f4f4;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: $color1;
+		height: 45px;
+		padding: 0 15px;
+		flex-shrink: 0;
+		@include min-break($break-small) {
+			height: 60px;
+			padding: 0 30px;
+		}
+
+		h6 {
+			margin: 0;
+		}
+	}
+	.side-panel-content {
+		padding: 15px;
+		flex: 1;
+		@include min-break($break-small) {
+			padding: 30px;
+		}
+	}
+}

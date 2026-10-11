@@ -1,0 +1,296 @@
+.comments-container {
+	padding: 10vh 0;
+	.comments-title {
+		display: block;
+	}
+}
+.respond-container {
+	border-top: 1px solid #efefef;
+	padding: 10vh 0;
+	#respond {
+		padding: 0;
+	}
+}
+.comment-reply-title {
+	display: block;
+	line-height: 1;
+	margin-bottom: 20px;
+	@extend .h4;
+
+	small {
+		display: inline-flex;
+		text-transform: uppercase;
+		font-weight: 500;
+		margin-left: 10px;
+		font-size: 11px;
+	}
+}
+.commentlist {
+	list-style: none;
+	margin: 0;
+	display: block;
+	padding: 0;
+
+	&>.comment {
+		&:last-child {
+			.comment-body,
+			.comment-text {
+				margin-bottom: 0;
+				border-bottom: 0;
+			}
+		}
+	}
+	#respond {
+		padding: 5vh 0;
+	}
+	.pingback {
+		.comment-body {
+			display: inline;
+
+			.url {
+				font-weight: 700;
+			}
+		}
+	}
+	.comment_container {
+		position: relative;
+	}
+	.comment-body,
+	.comment-text {
+		position: relative;
+		padding-left: 58px;
+		padding-bottom: 20px;
+		padding-top: 20px;
+		border-bottom: 1px solid $color2;
+		@include min-break($break-small) {
+			padding-left: 103px;
+			padding-bottom: 35px;
+			padding-top: 35px;
+		}
+
+		.star-rating {
+			float: right;
+
+			.rtl & {
+				float: left;
+			}
+		}
+		p.meta {
+			margin-bottom: 10px;
+		}
+	}
+	.comment,
+	.review {
+		margin: 0;
+		&:before {
+			display: none !important;
+		}
+
+
+		.comment-meta {
+			display: block;
+			line-height: 1;
+			font-size: 12px;
+			color: #848484;
+			margin-bottom: 15px;
+			a {
+				color: #848484;
+			}
+		}
+		.vcard {
+			display: inline-block;
+			border: 0;
+			padding: 0;
+			margin: 0 0 10px;
+			line-height: 12px;
+
+			.fn {
+				font-style: normal;
+				font-weight: 500;
+				color: $color1;
+				font-size: 16px;
+				text-transform: capitalize;
+				.url {
+					color: $color1;
+				}
+				&:before {
+					display: none;
+				}
+			}
+			.says {
+				display: none;
+			}
+
+		}
+		.avatar {
+			width: 40px;
+			height: 40px;
+			position: absolute;
+			top: 20px;
+			left: 0;
+			border-radius: 50%;
+
+			@include min-break($break-small) {
+				width: 70px;
+				height: 70px;
+				top: 35px;
+			}
+		}
+		.comment-awaiting-moderation {
+			font-size: 10px;
+		}
+		p {
+			font-size: 14px;
+			word-break: break-word;
+			color: #505050;
+		}
+		.reply {
+
+			display: inline-block;
+			font-size: 13px;
+			font-weight: 500;
+			a {
+				display: inline-flex;
+				align-items: center;
+				color: $color1;
+
+				svg {
+					margin-right: 4px;
+
+					.rtl & {
+						margin-right: 0;
+						margin-left: 4px;
+					}
+				}
+			}
+		}
+
+		.children {
+			list-style: none;
+			margin-left: 10px;
+			margin-bottom: 20px;
+
+			@include min-break($break-small) {
+				margin-left: 109px;
+			}
+		}
+	}
+}
+.comment-form {
+	p:not(.comment-form-comment) {
+		font-size: 12px;
+		margin-bottom: 35px;
+	}
+	textarea {
+		height: 160px;
+		width: 100%;
+		min-height: 160px;
+	}
+	textarea,
+	input {
+		margin-bottom: 10px;
+		&:not(.submit) {
+			width: 100%;
+		}
+	}
+	.row {
+		margin: 0 -5px;
+		line-height: 1;
+		.columns {
+			padding: 0 5px;
+			line-height: 0;
+		}
+	}
+	.form-submit {
+		margin-top: 15px;
+	}
+}
+
+/* old */
+.star-rating {
+	display: inline-block;
+	position: relative;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: 0.2em;
+	font-family: FontAwesome;
+	color: #dcdcdc;
+	&:before {
+		font-family: FontAwesome;
+		content: "\f005 \f005 \f005 \f005 \f005";
+	}
+	&>span {
+		display: block;
+		top: 0;
+		left: 0;
+		position: absolute;
+		height: 18px;
+		line-height: 18px;
+		overflow: hidden;
+		&:before {
+			color: #ffc200;
+			content: "\f005 \f005 \f005 \f005 \f005";
+		}
+		strong {
+			display: none;
+		}
+	}
+	& + .write_first {
+		display: inline-block;
+		font-size: 13px;
+		font-weight: 300;
+		color: $color1;
+		margin-left: 20px;
+		line-height: 18px;
+		vertical-align: text-top;
+	}
+}
+.comment-form-rating {
+	.stars {
+		display: block;
+		@extend .star-rating;
+
+		&:before {
+			content: none;
+		}
+		&>span {
+			left: auto;
+			right: 0;
+			width: 75px;
+			&:before {
+				content: none;
+			}
+
+		}
+		a {
+			position: relative;
+			color: #dcdcdc;
+			display: inline-block;
+			text-indent: -999em;
+			width: 10px;
+
+			.rtl & {
+				text-indent: 999em;
+			}
+			&:before {
+				position: absolute;
+				display: block;
+				width: 10px;
+				text-indent: 0;
+				content: "\f005"
+			}
+			&:hover {
+				& ~ a {
+					color: #dcdcdc;
+				}
+			}
+			&.active ~ a {
+				color: #dcdcdc;
+			}
+		}
+		&:hover a,
+		&.selected a {
+			color: #ffc200;
+		}
+	}
+}

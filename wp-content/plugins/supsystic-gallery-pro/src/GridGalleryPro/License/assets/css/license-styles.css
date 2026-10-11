@@ -1,0 +1,18 @@
+.supsystic-license {
+  width: 100%;
+  margin-top: 20px;
+  float: left;
+}
+
+.supsystic-license .line {
+  min-height: 80px;
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(164, 170, 172, 0.28);
+}
+
+.supsystic-license .line-title {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 2;
+}

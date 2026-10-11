@@ -1,0 +1,2158 @@
+.gg-galleries-grid {
+  margin-top: 10px;
+}
+
+/* Posts tab content used to render visible for an instant before settings.js's
+   init() (Controller.prototype.hideTabs + fadeIn the current tab, which reads
+   a lastTab cookie) ran on document-ready, causing a flash of the Posts jqGrid
+   table on every load of this page. Starting it hidden at first paint is safe
+   in every case: whichever tab ends up "current" (Settings by default, or
+   Posts if the cookie says so) still gets shown via the same .fadeIn() call. */
+[data-tab="posts"] {
+  display: none;
+}
+
+/* Marks the boundary between the old Layout/Appearance/Viewing/Advanced
+   tab groups now that they're flowed into one continuous Settings page -
+   plain, no label, just a stronger break than the .separator already
+   used between individual option blocks. */
+.gg-settings-group-divider {
+  height: 0;
+  margin: 0;
+  margin-top:1%;
+  border: none;
+  border-top: 2px solid #dcdcdc;
+}
+
+/* Per-option collapse/expand chevron (only on sections that have a real
+   Enable/Disable toggle - see initCollapsibleSections). Absolutely
+   positioned against the h3 (position:relative, padding-right reserved in
+   supsystic-ui.css) so it always sits pinned to the right edge regardless
+   of label length, instead of flowing inline after the text. Hides every
+   row except the header row while collapsed; !important is needed to beat
+   the inline display the option's own enable/disable JS may have set. */
+.gg-section-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.gg-section-toggle:hover {
+  opacity: 1;
+}
+
+.gg-section-collapsed tr:not(.gg-section-header-row) {
+  display: none !important;
+}
+
+/* Detail fields that live in a headerless sibling table/element rather
+   than inside the toggle's own table (e.g. EXIF's #ggExifParametersTbl). */
+.gg-section-collapsed-extra {
+  display: none !important;
+}
+
+/* Captions, Icons and Caption Builder (plus Caption Builder's own
+   Background/Caption/Description/Icons sub-toggles) are one interlocking
+   system - only one of "Captions + Icons" vs "Caption Builder" is ever
+   actually active at a time (the "Use Caption Builder" switch), and Caption
+   Builder's 4 sub-sections only mean anything while it's on. A distinct h3
+   color (overriding supsystic-ui.css's shared #263546 default via id
+   specificity, no !important needed) ties them together visually instead of
+   reading as unrelated options scattered down the page. Targeted via each
+   row's own <tr id> rather than the h3's own id: form.row's h3 id only
+   matches the row id when the row's 3rd and 5th arguments happen to be the
+   same string (true for the 4 Caption Builder sub-rows and Icons, but NOT
+   Captions - "sgg-ci-caption-enable" vs "useCaptions"), and Free's
+   upsell-panel h3 (getProPanelRow) has no id of its own at all - the <tr>
+   id is the one thing every variant reliably has. */
+#useCaptions h3,
+#photo-icon h3,
+#useCaptionBuilder h3,
+#captionBuilderBackgroundEnableRow h3,
+#captionBuilderTitleEnableRow h3,
+#captionBuilderDescriptionEnableRow h3,
+#iconsEnable h3 {
+  background: #2b4d73;
+}
+
+/* Caption Builder's own "Polaroid Style" toggle (Background sub-section) and
+   its 4 dependent rows (Always Show Caption / Animation / Scattering / Frame
+   Padding) - .gg-caption-table (Builder's own markup) has no real CSS/JS
+   support for polaroid's short-strip-below-the-photo layout, only the
+   legacy .grid-gallery-figcaption-wrap structure does. Enabling it here used
+   to look like it worked (confirm dialog, checkbox flips to Enable) but
+   silently never persisted: polaroidEffectSettings() (Pro settings.js) sets
+   the real effect field by clicking the "polaroid" figure inside the
+   #effectsPreview picker, which the Caption-Builder-mode effect whitelist
+   (helpers.twig / settings.twig's effectsToShow) no longer renders at all -
+   0 elements to click, so the effect field never actually changes. Hiding
+   the toggle avoids offering a control that can't work rather than trying
+   to half-fix a feature with no real backing. The separate legacy-Captions
+   "Polaroid Style" toggle (gallery-by-supsystic's own settings.twig, no id,
+   just the shared .polaroid-effect-class) is untouched by this - different
+   element entirely. */
+#captionBuilderPolaroidEffectRow,
+#captionBuilderPolaroidAlwaysShowCaptionRow,
+#captionBuilderPolaroidAnimationRow,
+#captionBuilderPolaroidScatteringRow,
+#captionBuilderPolaroidFrameWidthRow {
+  display: none !important;
+}
+
+.gg-gallery {
+  /*width: 350px;*/
+  /*float: left;*/
+  margin-right: 10px;
+}
+
+.gg-gallery > .gg-counter {
+  position: absolute;
+  top: 140px;
+  left: 15px;
+  color: #ecf0f1;
+  text-shadow: 1px 1px 0px #34495e;
+}
+
+.gg-gallery > .image img {
+  /*filter: blur(3px);*/
+  /*-webkit-filter: blur(3px);*/
+  /*-moz-filter: blur(3px);*/
+  /*-o-filter: blur(3px);*/
+  /*-ms-filter: blur(3px);*/
+  /*filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='3');*/
+}
+
+.gg-gallery-panel {
+  margin: 10px 10px 0 0;
+}
+
+.gg-rename-gallery {
+  color: #777;
+  text-decoration: none;
+  font-size: 0.6em;
+}
+
+.gg-delete-wrapper {
+  float: right;
+  font-size: 0.6em;
+}
+
+.gg-delete-wrapper > .gg-delete-link {
+  color: #e74c3c;
+}
+
+.gg-delete-wrapper > .gg-delete-link:hover {
+  color: #c0392b;
+}
+
+.date {
+  text-align: center;
+}
+
+#gg-create-gallery-text {
+  margin: 40px auto !important;
+  width: 90%;
+}
+
+/* Tabs */
+
+/* Tabs navigation */
+.grid-gallery-tabs-nav {
+  display: block;
+  border-bottom: 2px solid #ecf0f1;
+}
+
+/* Unsorted list inside navigation */
+.grid-gallery-tabs-nav > ul {
+  padding: 0;
+  margin: 0 0 0 3px;
+}
+
+/* List items inside navigation */
+.grid-gallery-tabs-nav > ul > li {
+  list-style-type: none;
+  display: inline-block;
+  text-align: center;
+  background-color: #ecf0f1;
+  padding: 10px 15px;
+  border-radius: 10px 10px 0 0;
+  margin-left: -3px;
+}
+
+.grid-gallery-tabs-nav > ul > li > a {
+  text-decoration: none;
+  color: #34495e;
+  position: relative;
+  top: 2px;
+}
+
+/* Tabs content wrapper & first tab content */
+.grid-gallery-tabs-content,
+.grid-gallery-tab-content:first-child {
+  display: block;
+}
+
+/* Tabs container */
+.grid-gallery-tabs-content {
+  padding: 10px;
+  margin-top: -2px;
+  border: 2px solid #ecf0f1;
+}
+
+/* Hide all other tabs */
+.grid-gallery-tab-content {
+  display: none;
+}
+
+.add-new-h2.active {
+  background: #2ea2cc !important;
+  color: #fff;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 270px;
+  height: 1px !important;
+  background-color: #ccc;
+}
+
+input[type='range']:focus {
+  outline: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background-color: #3498db;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+}
+
+.gg-control-btn {
+  position: relative;
+  width: 140px;
+
+  margin: 0;
+  padding: 0 20px;
+
+  list-style-type: none;
+  display: inline-block;
+}
+
+.gg-control-btn > li {
+  display: inline;
+}
+
+.gg-control-btn .button {
+  width: 140px;
+  text-align: center;
+  margin-bottom: 13px;
+}
+
+.image {
+  position: relative;
+  float: left;
+}
+
+.image:hover > .gg-control-btn {
+  display: block;
+}
+
+.form-tabs {
+  display: inline-block;
+  float: left;
+  min-width: 543px;
+  /*overflow: hidden;*/
+}
+
+.gg-settings-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  /* padding: 5px 0; */
+  margin-left: 68px;
+  clear: both;
+}
+
+.gg-settings-header-row .form-tabs {
+  float: none;
+}
+
+.gg-header-toolbar ul.supsystic-bar-controls {
+  margin: 0;
+}
+
+.gg-code-switcher {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gg-code-switcher select {
+  height: 26px;
+  font-size: 12px;
+}
+
+.gg-code-switcher .gg-code-value {
+  min-width: 260px;
+}
+
+.gg-detailed-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 10px;
+  padding-top:0px;
+  margin: 0;
+  margin-left:75px;
+  background: #fbfbfb;
+  border: 1px solid #eaeaea;
+  border-left: 3px solid #4ae8ea;
+}
+
+.gg-detailed-info-preview {
+  display: flex;
+  position: relative;
+  padding-top:5px;
+  height: 165px;
+  width: 165px;
+  flex-shrink: 0;
+  object-fit: cover;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.gg-detailed-info-preview img {
+  display:block;
+  width: 100%;
+  height: 100%;
+  object-fit:cover;
+  border-radius: 3px;
+}
+
+.gg-detailed-info-preview .gg-no-images-placeholder {
+  max-width: 165px;
+  text-align: center;
+  color: #7f8c8d;
+}
+
+.gg-detailed-info-text {
+  flex: 1 1 auto;
+}
+
+.gg-detailed-info-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin: 0 0 5px;
+  padding-bottom: 0px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.gg-info-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 28px;
+}
+
+.gg-info-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.gg-info-item-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.gg-info-item-link:hover .gg-info-label,
+.gg-info-item-link:hover .gg-info-value {
+  text-decoration: underline;
+}
+
+.gg-info-label {
+  color: #7f8c8d;
+  font-size: 12px;
+}
+
+.gg-info-value {
+  font-weight: 600;
+  color: #23282d;
+}
+
+.gg-info-edit-link {
+  cursor: pointer;
+  color: #b0b0b0;
+  font-size: 11px;
+}
+
+.gg-info-edit-link:hover {
+  color: #2bc4c6;
+}
+
+.gg-info-value-inline {
+  align-items: center;
+  display: inline-flex;
+  gap: 5px;
+  max-width: 180px;
+}
+
+.gg-info-summary-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gg-info-open-link,
+.gg-info-chip-link {
+  color: #7f8c8d;
+  text-decoration: none;
+}
+
+.gg-info-open-link {
+  font-size: 11px;
+}
+
+.gg-info-open-link:hover,
+.gg-info-chip-link:hover {
+  color: #2bc4c6;
+}
+
+.gg-info-chip-link {
+  background: #eef2f5;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 11px;
+  line-height: 1;
+  max-width: 56px;
+  overflow: hidden;
+  padding: 4px 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gg-info-empty-icon {
+  color: #d63638;
+  font-size: 13px;
+}
+
+.gg-info-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.gg-info-dates .gg-info-item {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 2px 14px;
+  background: #f2fdfd;
+  border: 1px solid #d3f4f4;
+  border-radius: 6px;
+  min-width: 132px;
+}
+
+.gg-info-dates .gg-info-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #7fb8b9;
+}
+
+.gg-info-dates .gg-info-label:before {
+  font-family: 'FontAwesome';
+  font-size: 12px;
+  color: #2bc4c6;
+}
+
+.gg-info-dates .gg-info-item:first-child .gg-info-label:before {
+  content: '\f073';
+}
+
+.gg-info-dates .gg-info-item:last-child .gg-info-label:before {
+  content: '\f040';
+}
+
+.gg-info-dates .gg-info-value {
+  font-size: 12px;
+  color: #339f9f;
+}
+
+.gg-feature-status-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+  padding-top: 10px;
+  border-top: 1px solid #eaeaea;
+}
+
+.gg-feature-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  border: 1px groove #e1e1e1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.gg-feature-status-link {
+  font-family: inherit;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.gg-feature-status-link:hover .gg-feature-label {
+  text-decoration: underline;
+}
+
+.gg-feature-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gg-feature-label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gg-feature-status-on {
+  background: #eafaf1;
+}
+
+.gg-feature-status-on .gg-feature-dot {
+  background: #27ae60;
+  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+}
+
+.gg-feature-status-on .gg-feature-label {
+  color: #1e8449;
+}
+
+.gg-feature-status-off {
+  background: #f2f2f2;
+}
+
+.gg-feature-status-off .gg-feature-dot {
+  background: #b0b0b0;
+}
+
+.gg-feature-status-off .gg-feature-label {
+  color: #7f8c8d;
+}
+
+.gg-feature-status-pro {
+  background: #f2fdfd;
+  border-color: #d3f4f4;
+  cursor: pointer;
+}
+
+.gg-feature-status-pro .gg-feature-dot {
+  background: #2bc4c6;
+  box-shadow: 0 0 0 2px rgba(43, 196, 198, 0.2);
+}
+
+.gg-feature-status-pro .gg-feature-label {
+  color: #339f9f;
+}
+
+.gg-feature-status-pro:hover {
+  background: #e4f9f9;
+}
+
+.gg-feature-status-pro:hover .gg-feature-label {
+  color: #339f9f;
+}
+
+.gg-feature-status-pro-badge {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: #2bc4c6;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  vertical-align: middle;
+}
+
+.gg-pro-read-more {
+  color: #339f9f;
+  background: #f2fdfd;
+  border-color: #d3f4f4;
+}
+
+.gg-pro-read-more:hover {
+  background: #e4f9f9;
+}
+
+.gg-pro-read-more-q {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  border-radius: 50%;
+  background: #2bc4c6;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.gg-pro-readmore-dialog {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.gg-pro-readmore-dialog img {
+  max-width: 100%;
+  height: auto;
+}
+
+.gg-pro-readmore-dialog a {
+  color: #2bc4c6;
+}
+
+.gg-pro-readmore-dialog a:hover {
+  color: #23a2a4;
+}
+
+.gg-pro-get-btn-wrap {
+  text-align: center;
+  margin-top: 18px !important;
+  margin-bottom: 4px !important;
+}
+
+/* Overrides WP core's plain .button.button-primary look (and the generic
+   ".gg-pro-readmore-dialog a" link color above) - this is the whole point
+   of the upsell dialog, it should look worth clicking. */
+.gg-pro-readmore-dialog a.gg-pro-get-button,
+.gg-pro-readmore-dialog a.gg-pro-get-button:visited {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  height: auto !important;
+  padding: 13px 30px !important;
+  line-height: normal !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  background: linear-gradient(135deg, #4ae8ea 0%, #2bc4c6 55%, #1a9fa1 100%) !important;
+  border: none !important;
+  border-radius: 999px !important;
+  box-shadow: 0 6px 16px rgba(43, 196, 198, 0.4), 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+  text-shadow: none !important;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.gg-pro-get-button-star {
+  font-size: 13px;
+  transform: translateY(-1px);
+}
+
+.gg-pro-readmore-dialog a.gg-pro-get-button:hover {
+  color: #fff !important;
+  background: linear-gradient(135deg, #5cf0f2 0%, #2bc4c6 45%, #1a9fa1 100%) !important;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 26px rgba(43, 196, 198, 0.5), 0 3px 6px rgba(0, 0, 0, 0.12) !important;
+}
+
+.gg-pro-readmore-dialog a.gg-pro-get-button:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow: 0 4px 10px rgba(43, 196, 198, 0.4) !important;
+}
+
+.gg-pro-readmore-dialog a.gg-pro-get-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(43, 196, 198, 0.3), 0 6px 16px rgba(43, 196, 198, 0.4) !important;
+}
+
+.gg-pro-readmore-dialog-wrap.ui-dialog {
+  border-radius: 6px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  max-height: 90vh !important;
+}
+
+/* Content scrolls on its own instead of pushing the dialog (and its
+   recentering) past the viewport - longer descriptions/taller preview
+   images shouldn't be able to grow this past the screen. */
+.gg-pro-readmore-dialog-wrap .ui-dialog-content {
+  max-height: calc(90vh - 50px) !important;
+  overflow-y: auto !important;
+  box-sizing: border-box;
+}
+
+.gg-pro-readmore-dialog-wrap .ui-dialog-titlebar {
+  background: #263546;
+  color: #fff;
+  border: none;
+  border-radius: 6px 6px 0 0;
+}
+
+.gg-pro-readmore-dialog-wrap .ui-dialog-title {
+  font-weight: 600;
+}
+
+.gg-pro-readmore-dialog-wrap .ui-dialog-titlebar-close {
+  background: transparent;
+  border: none;
+  color: #fff;
+}
+
+.gg-pro-wipe-warning-dialog {
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 2px 2px 2px 14px;
+  border-left: 3px solid #e74c3c;
+}
+
+
+.supsystic-plugin .form-table .gg-anchor-highlight h3 {
+  position: relative !important;
+  z-index: 1 !important;
+  animation: ggAnchorGlow 2s ease-out !important;
+}
+
+.supsystic-plugin .form-table .gg-anchor-highlight label {
+  position: relative !important;
+  z-index: 1 !important;
+  animation: ggAnchorGlowLight 2s ease-out !important;
+  border-radius: 2px;
+}
+
+@keyframes ggAnchorGlow {
+  0% {
+    background: #4ae8ea;
+  }
+  100% {
+    background: #263546;
+  }
+}
+
+@keyframes ggAnchorGlowLight {
+  0% {
+    background: #b2f1f2;
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+.form-gall-settings select {
+  height: 26px;
+  padding: 2px 24px 2px 6px;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.form-gall-settings select option {
+  font-size: 12px;
+}
+
+/* The loader-icon preview was floated right (Pro's backend.css sets
+   "float: right; margin-right: 50px"), which sends it to the far right of
+   the now-wide settings column instead of sitting next to the button -
+   cancel the float and pin it inline right next to the button instead. */
+#gg-anl-preloader .gallery-loading {
+  display: inline-block;
+  float: none;
+  vertical-align: middle;
+  width: 48px;
+  height: 48px;
+  margin: 0 0 0 10px;
+}
+
+#form-settings {
+  /*margin: 0 10px 0 10px;*/
+  /* height: 600px; */
+  /*overflow: scroll;*/
+  /*min-height: 380px;*/
+  border-left: 1px solid rgb(234, 234, 234);
+}
+
+
+.properties {
+  width: 200px !important;
+}
+
+.switch {
+  display: inline-block;
+  margin-top: 2px;
+}
+
+.switch-label {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.cmn-toggle + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+input.cmn-toggle-round + label {
+  padding: 2px;
+  width: 40px;
+  height: 20px;
+  background-color: #dddddd;
+  border: solid 1px;
+  border-color: #c7c7c7;
+  border-radius: 60px;
+}
+input.cmn-toggle-round + label:before,
+input.cmn-toggle-round + label:after {
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  content: '';
+}
+input.cmn-toggle-round + label:before {
+  right: 1px;
+  background-color: #f1f1f1;
+  border-radius: 60px;
+  transition: background 0.1s;
+}
+input.cmn-toggle-round + label:after {
+  width: 20px;
+  background-color: #fff;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: margin 0.4s;
+}
+input.cmn-toggle-round:checked + label:before {
+  background-color: #1e8cbe;
+}
+input.cmn-toggle-round:checked + label:after {
+  margin-left: 22px;
+}
+
+.gallery-shortcode {
+  /*display: block;*/
+  font-size: 13px;
+  font-weight: 200;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1em 0px;
+  cursor: pointer;
+  width: 185px;
+}
+
+.delete-gallery {
+  color: #ffffff !important;
+  position: absolute;
+  top: 50px;
+  left: 180px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.delete-gallery:hover {
+  color: #000000 !important;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.image:hover > .delete-gallery {
+  opacity: 1;
+  -webkit-transition: 800ms;
+  -o-transition: 800ms;
+  transition: 800ms;
+}
+
+.gallery-cover {
+  border: 5px solid #eee;
+  -webkit-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
+}
+
+.gallery-cover:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.covers img {
+  width: 75px;
+  height: 75px;
+  cursor: pointer;
+}
+
+.covers li {
+  float: left;
+  margin-left: 10px;
+  margin-bottom: 0;
+}
+
+.covers li:first {
+  margin: 0;
+}
+
+.covers li.selected img {
+  outline: 4px solid #2ea2cc;
+}
+
+#effectsPreview figure {
+  cursor: pointer;
+  margin: 10px;
+  display: inline-block;
+}
+
+#effectsPreview figure.selected,
+#effectsPreview figure:hover {
+  outline: solid 4px #4ae8ea;
+}
+
+#shadowDialog .shadow-preset.selected,
+#shadowDialog .shadow-preset:hover {
+  outline: solid 4px #4ae8ea;
+}
+
+.select-element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.49);
+  border: 1px solid #000000;
+  padding: 4px 10px;
+  z-index: 999;
+  opacity: 0;
+  -webkit-transition: opacity 800ms;
+  -moz-transition: opacity 800ms;
+  -ms-transition: opacity 800ms;
+  -o-transition: opacity 800ms;
+  transition: opacity 800ms;
+  margin-top: 5px;
+}
+.select-element h3 {
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 1.1em;
+  margin: 0;
+  font-weight: normal;
+}
+
+.grid-gallery-caption.gg-active .select-element {
+  margin-left: 5px;
+}
+
+.grid-gallery-caption:hover .select-element {
+  opacity: 1;
+  -webkit-transition: opacity 800ms;
+  -moz-transition: opacity 800ms;
+  -ms-transition: opacity 800ms;
+  -o-transition: opacity 800ms;
+  transition: opacity 800ms;
+}
+.grid-gallery-caption.gg-active:hover .select-element {
+  opacity: 0;
+}
+
+#preview.gallery-preview {
+  opacity: 0;
+  float: left;
+  background-color: white;
+  position: relative;
+  right: 10px;
+  width: 325px;
+  min-height: 390px;
+  display: inline-block;
+  /*box-shadow: 1px 1px 5px #aaa;*/
+  text-align: center;
+  z-index: 50;
+}
+
+#preview.gallery-preview .grid-gallery-caption[data-caption-buider='1'][data-grid-gallery-type='none'] figcaption,
+#preview.gallery-preview .grid-gallery-caption[data-caption-buider='1'][data-grid-gallery-type='center'] figcaption,
+#preview.gallery-preview .grid-gallery-caption[data-caption-buider='1'][data-grid-gallery-type='quarter-appear'] figcaption,
+#preview.gallery-preview .grid-gallery-caption[data-caption-buider='1'][data-grid-gallery-type='quarter-slide-up'] figcaption,
+#preview.gallery-preview .grid-gallery-caption[data-caption-buider='1'][data-grid-gallery-type='quarter-slide-side'] figcaption,
+#preview.gallery-preview .grid-gallery-caption[data-caption-buider='1'][data-grid-gallery-type='quarter-fall-in'] figcaption,
+#preview.gallery-preview .grid-gallery-caption[data-caption-buider='1'][data-grid-gallery-type='quarter-two-step'] figcaption,
+#preview.gallery-preview .grid-gallery-caption[data-caption-buider='1'][data-grid-gallery-type='quarter-zoom'] figcaption {
+  top: 0;
+  bottom: 0;
+}
+
+.gallery-preview-title {
+  background-color: rgb(207, 207, 207);
+  max-height: 300px;
+  position: absolute;
+  right: 36px;
+  top: 190px;
+  width: 300px;
+  z-index: 1000;
+  opacity: 1;
+  box-shadow: 1px 1px 5px #aaa;
+  -webkit-transition: opacity 500ms;
+  -moz-transition: opacity 500ms;
+  -ms-transition: opacity 500ms;
+  -o-transition: opacity 500ms;
+  transition: opacity 500ms;
+  text-align: center;
+}
+
+.gallery-preview h4 {
+  border-bottom: 1px solid #bdc3c7;
+  padding-bottom: 20px;
+}
+
+div .image img {
+  max-width: 450px;
+}
+
+.gallery-preview:hover {
+  /*opacity: 0.3;*/
+}
+
+.gallery-preview.overlay:hover {
+  opacity: 1;
+}
+
+.gallery-preview figure {
+  margin: 20px;
+}
+
+.gallery-preview .hidePreview {
+  position: absolute;
+  font-size: 19px;
+  text-decoration: none;
+  background: #000;
+  padding: 5px 9px;
+  color: #fff;
+  border-radius: 100%;
+  font-weight: bold;
+  right: -10px;
+  top: -10px;
+  box-shadow: 1px 1px 5px #aaa;
+}
+div.shortcode {
+  display: inline-block;
+  line-height: 4;
+  /*background-color: rgba(239, 255, 0, 0.17);*/
+  padding: 0 10px;
+  font-weight: 800;
+  text-align: left;
+}
+#preview .shortcode-wrap {
+  text-align: left;
+  padding-left: 10px;
+}
+
+label.shortcode {
+  display: inline-block;
+  line-height: 4;
+  background-color: rgba(239, 255, 0, 0.17);
+  padding: 0 10px;
+}
+
+div.gg-shortcode {
+  display: inline-block;
+  padding-left: 20px;
+  font-weight: 800;
+  position: relative;
+}
+/*shortcode text*/
+.sup-shortcode {
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  color: #333333;
+  font-size: 13px;
+  line-height: 3.42857;
+  margin: 0 0 10px;
+  padding: 9.5px;
+  word-break: break-all;
+  word-wrap: break-word;
+  font-family: monospace;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.supsystic-plugin .ggCopyTextCode {
+  background-color: #f6f7f7;
+  color: #252728;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  border-top: 1px solid #dfe4e4;
+  padding: 7px 5px;
+  font-weight: normal;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
+  color: #32373c;
+  outline: 0;
+  -webkit-transition: 0.05s border-color ease-in-out;
+  transition: 0.05s border-color ease-in-out;
+  font-weight: 200;
+  font-size: 12px;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.supsystic-plugin .ggCopyTextCode:focus {
+  box-shadow: none;
+  border-color: #4ae8ea;
+}
+
+.supsystic-plugin .ggCopyTextCode.shortcode {
+  width: 185px;
+}
+.supsystic-plugin .ggCopyTextCode.phpcode {
+  width: 185px;
+}
+.sggActionButtons {
+  margin-bottom: 5px !important;
+}
+
+.preset {
+  position: relative;
+  float: left;
+  margin: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 320px;
+  height: 222px;
+}
+
+.preset .preset-overlay {
+  width: 100%;
+  height: 30%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  text-align: center;
+  background-color: #ffffff;
+  opacity: 0;
+  -moz-transition: all 500ms;
+  -ms-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
+}
+
+.preset:hover .preset-overlay {
+  opacity: 1;
+}
+
+.preset img {
+  width: 320px;
+  height: 222px;
+  cursor: pointer;
+}
+
+.preset.active .preset-overlay {
+  opacity: 1;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.54);
+}
+
+.selected-preset {
+  display: none;
+  background-color: #4ae8ea;
+  padding: 5px 10px;
+}
+
+.preset.active .selected-preset {
+  display: inline;
+}
+
+.preset.active .button-select {
+  display: none;
+}
+
+.preset:hover img {
+  box-shadow: inset 0 0 10px #bdc3c7;
+}
+
+.preset.disabled:hover img {
+  outline: none;
+  opacity: 0.2;
+}
+
+.preset.disabled:hover .inPro {
+  opacity: 1;
+}
+
+.inPro {
+  position: relative;
+  top: -115px;
+  left: 50px;
+  opacity: 0;
+  -webkit-transition: opacity 300ms;
+  -moz-transition: opacity 300ms;
+  -ms-transition: opacity 300ms;
+  -o-transition: opacity 300ms;
+  transition: opacity 300ms;
+}
+
+.preset-border {
+  cursor: pointer;
+  border-bottom: 1px solid gray;
+}
+
+.preset-border:hover,
+.preset-selected {
+  border-bottom: 1px solid aqua;
+}
+
+.load-more-button-preview {
+  margin: 10px 0;
+}
+
+/* Pinning every dialog 40px from the top works fine for the big ones
+   (Effect/Theme pickers etc. are tall enough that centering wouldn't look
+   much different), but it also caught the small Pro-upsell popup
+   (.gg-pro-readmore-dialog-wrap), pinning it near the top of the screen
+   instead of centered - excluded so it can use its own centered position. */
+.ui-dialog:not(.gg-pro-readmore-dialog-wrap) {
+  top: 40px !important;
+  margin-bottom: 40px !important;
+}
+
+.settings-wrap,
+#iconsPreview,
+.buttons-edit-preset-dialog {
+  display: none;
+}
+
+#linkedImagesDialog .linked-images-action-buttons {
+  margin: 0.7em 0 1em;
+}
+
+#linkedImagesDialog .linked-images-action-buttons .button {
+  margin-right: 0.7em;
+}
+
+#linkedImagesDialog .attachments {
+  margin: 0 -1%;
+}
+
+#linkedImagesDialog .sc-attachment {
+  width: 18%;
+  height: 130px;
+  margin: 1% 1%;
+  box-shadow:
+    inset 0 0 15px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  background: #eee;
+  vertical-align: middle;
+  display: inline-table;
+  position: relative;
+}
+
+.linked-attachments-list .attachments .sc-attachment:first-child {
+  margin-left: 0;
+}
+
+#linkedImagesDialog .thumbnail {
+  vertical-align: middle;
+  text-align: center;
+  display: table-cell;
+}
+
+#linkedImagesDialog .sc-attachment img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+#linkedImagesDialog .sc-attachment.selected:before {
+  content: '';
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#linkedImagesDialog .sc-attachment.selected:before {
+  content: '';
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#linkedImagesDialog .loading-container {
+  text-align: center;
+  width: 100%;
+  padding: 100px 0;
+  display: none;
+}
+
+#linkedImagesDialog.loading .loading-container {
+  display: block;
+}
+
+/* Capped like every jQuery UI dialog (.ui-dialog rule below), but pinned
+   again directly on the dialog content too - these two dialogs re-measure
+   their own height against their (previously unbounded) grid of preview
+   images on open, so a more specific rule here keeps that from winning. */
+#themeDialog,
+#effectDialog {
+  max-height: calc(90vh - 110px) !important;
+  overflow-y: auto !important;
+  box-sizing: border-box;
+}
+
+/* =================================================================
+   Popup style picker (#themeDialog)
+   The base Colorbox theme is Free; the rest are PRO-locked cards that
+   are rendered as links straight to pricing (see settings.twig).
+   ================================================================= */
+
+/* jQuery UI chrome - scoped by the dialogClass set in settings.js so the
+   other dialogs keep the stock look. */
+.gg-pth-dialog.ui-dialog {
+  padding: 0;
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(20, 35, 50, 0.28);
+}
+
+.gg-pth-dialog .ui-dialog-titlebar {
+  background: #263546;
+  border: none;
+  border-radius: 0;
+  padding: 14px 18px;
+  margin: 0;
+}
+
+.gg-pth-dialog .ui-dialog-title {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.gg-pth-dialog .ui-dialog-titlebar-close {
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  right: 14px;
+  margin-top: -13px;
+  transition: background 0.15s;
+}
+
+.gg-pth-dialog .ui-dialog-titlebar-close:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.gg-pth-dialog .ui-dialog-content {
+  padding: 0 !important;
+}
+
+.gg-pth-dialog .ui-dialog-buttonpane {
+  margin: 0;
+  padding: 12px 18px;
+  background: #fff;
+  border-top: 1px solid #eef1f4;
+}
+
+.gg-pth-dialog .ui-dialog-buttonpane .ui-button {
+  background: #2bc4c6;
+  border: 1px solid #2bc4c6;
+  color: #fff;
+  border-radius: 6px;
+  padding: 7px 22px;
+  font-weight: 600;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.gg-pth-dialog .ui-dialog-buttonpane .ui-button:hover {
+  background: #239a9c;
+  border-color: #239a9c;
+}
+
+/* ---- body ---- */
+.gg-pth {
+  padding: 20px 22px 24px;
+}
+
+.gg-pth-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.gg-pth-head-copy h2 {
+  margin: 0 0 4px;
+  padding: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: #263546;
+}
+
+.gg-pth-head-copy p {
+  margin: 0;
+  font-size: 13px;
+  color: #7f8c8d;
+}
+
+.gg-pth-head-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(135deg, #2bc4c6, #1c8b9c);
+  color: #fff;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(28, 139, 156, 0.28);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.gg-pth-head-cta:hover {
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 7px 18px rgba(28, 139, 156, 0.36);
+}
+
+/* ---- cards ---- */
+.gg-pth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  gap: 14px;
+}
+
+.gg-pth-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e3e9ef;
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: none;
+  transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+}
+
+.gg-pth-card:hover {
+  border-color: #2bc4c6;
+  box-shadow: 0 8px 20px rgba(43, 196, 198, 0.16);
+  transform: translateY(-2px);
+}
+
+.gg-pth-card:focus {
+  outline: none;
+}
+
+.gg-pth-card:focus-visible {
+  outline: 2px solid #2bc4c6;
+  outline-offset: 2px;
+}
+
+.gg-pth-card.is-active {
+  border-color: #2bc4c6;
+  box-shadow: 0 0 0 2px rgba(43, 196, 198, 0.35);
+}
+
+.gg-pth-shot {
+  position: relative;
+  display: block;
+  height: 140px;
+  background: #f2f5f8;
+  overflow: hidden;
+}
+
+/* contain, not cover: these are UI screenshots, so cropping them loses the
+   very controls the card is meant to show. box-sizing is set explicitly so
+   the inset comes out of the 140px box instead of growing it. */
+.gg-pth-shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+  object-fit: contain;
+  transition: transform 0.3s, filter 0.2s;
+}
+
+.gg-pth-card:hover .gg-pth-shot img {
+  transform: scale(1.04);
+}
+
+.gg-pth-veil {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(38, 53, 70, 0.72);
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+
+.gg-pth-card:hover .gg-pth-veil {
+  opacity: 1;
+}
+
+.gg-pth-veil-txt {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.gg-pth-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #2bc4c6;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+.gg-pth-card.is-active .gg-pth-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gg-pth-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px 5px;
+}
+
+.gg-pth-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #263546;
+  line-height: 1.3;
+}
+
+/* Own full-width row rather than sharing the name's column: at the card
+   widths this grid produces, a description next to the FREE/PRO tag wraps
+   to three cramped lines. */
+.gg-pth-note {
+  display: block;
+  padding: 0 12px 11px;
+  font-size: 11px;
+  color: #8fa0b0;
+  line-height: 1.35;
+}
+
+.gg-pth-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.gg-pth-tag.is-free {
+  background: #e8f6ee;
+  color: #1a7a49;
+}
+
+.gg-pth-tag.is-pro {
+  background: linear-gradient(135deg, #2bc4c6, #1c8b9c);
+  color: #fff;
+}
+
+.gg-pth-card.is-locked:hover {
+  border-color: #1c8b9c;
+  box-shadow: 0 8px 20px rgba(28, 139, 156, 0.18);
+}
+
+.gg-pth-card.is-locked .gg-pth-veil {
+  background: rgba(23, 48, 60, 0.78);
+  display:none;
+}
+
+@keyframes ggPthNudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+.gg-pth-card.gg-pth-nudge {
+  animation: ggPthNudge 0.45s ease;
+}
+
+/* ---- image fit ---- */
+.gg-pth-fit {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border: 1px solid #e3e9ef;
+  border-radius: 10px;
+  background: #fafcfd;
+}
+
+.gg-pth-fit-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.gg-pth-fit-head h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #263546;
+}
+
+.gg-pth-fit-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+.gg-pth-fit-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gg-pth-fit-opt label {
+  margin: 0;
+  font-size: 13px;
+  color: #5b6b7c;
+}
+
+.gg-pth-fit.is-locked {
+  opacity: 0.75;
+}
+
+.gg-pth-fit.is-locked .gg-pth-fit-opt label {
+  color: #93a2b1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gg-pth-card,
+  .gg-pth-shot img,
+  .gg-pth-veil,
+  .gg-pth-check,
+  .gg-pth-head-cta {
+    transition: none;
+  }
+  .gg-pth-card.gg-pth-nudge {
+    animation: none;
+  }
+  .gg-pth-card:hover {
+    transform: none;
+  }
+  .gg-pth-card:hover .gg-pth-shot img {
+    transform: none;
+  }
+}
+/* Native scroll (replaces the slimScroll plugin) - same fixed height/
+   fits-in-viewport behavior, styled to match Supsystic's teal accent. */
+.settings-wrap {
+  height: calc(100vh - 360px) !important;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2bc4c6 #f1f1f1;
+}
+.settings-wrap::-webkit-scrollbar {
+  width: 8px;
+}
+.settings-wrap::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+.settings-wrap::-webkit-scrollbar-thumb {
+  background: #2bc4c6;
+  border-radius: 4px;
+}
+.settings-wrap::-webkit-scrollbar-thumb:hover {
+  background: #239a9c;
+}
+.settings-wrap .form-gall-settings {
+  border: none !important;
+}
+.gg-attribute-rename {
+  padding: 5px 10px 0 10px;
+}
+.gg-attribute-enable-wrapper {
+  display: inline-block;
+  float: right;
+}
+
+.gg-hidden-entity {
+  display: none;
+}
+.gg-category {
+  width: 100%;
+  border: 1px solid #000;
+  margin: 0 0 10px -5px;
+}
+.gg-category .gg-sort-entities {
+  margin: 0;
+  height: 220px;
+  width: 100%;
+  overflow-y: scroll;
+}
+.gg-category .gg-category-caption {
+  width: 100%;
+  background: #e5e5e5;
+}
+.gg-category-caption .gg-rename-category {
+  text-decoration: none;
+  color: #777;
+  font-weight: 500;
+}
+.gg-wraper-option-links {
+  position: relative;
+  padding-right: 20px;
+  text-align: left;
+}
+.gg-wraper-option-links .gg-option-links {
+  text-decoration: none;
+  color: #777;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+}
+.gg-wraper-anchor-nav-links {
+  position: relative;
+  margin-top: 20px;
+  text-align: right;
+  padding-right: 20px;
+  z-index: 0;
+}
+.gg-wraper-anchor-nav-links .gg-anchor-nav-links {
+  text-decoration: none;
+  color: #777;
+  display: inline-block;
+  font-size: 14px;
+  padding: 0 5px 3px;
+  font-weight: 500;
+}
+.gg-wraper-anchor-nav-links .gg-anchor-nav-links:not(:last-child) {
+  border-right: 1px solid #aaa;
+}
+.gg-wraper-anchor-nav-links .gg-anchor-nav-links.active,
+.gg-wraper-anchor-nav-links .gg-anchor-nav-links:hover,
+.gg-wraper-option-links .gg-option-links.active,
+.gg-wraper-option-links .gg-option-links:hover,
+.gg-rename-category:hover {
+  color: #000;
+  text-decoration: underline;
+}
+#gg-anl-main {
+  margin-top: 0px;
+}
+
+@media screen and (max-width: 1250px) {
+  .nav-tab-item-span {
+    display: none;
+  }
+  .form-tabs {
+    min-width: 225px;
+  }
+  .sgg-setting-page .gg-sps-sticky-link {
+    display: none;
+  }
+  .sgg-setting-page .supsystic-content .supsystic-navigation {
+    width: 35px;
+  }
+  .sgg-setting-page .supsystic-content .supsystic-container {
+    margin-left: 35px;
+    padding-left: 10px;
+  }
+}
+#single-gallery-toolbar ul.supsystic-bar-controls > li {
+  float: none;
+  display: inline-block;
+}
+#single-gallery-toolbar .button {
+  padding: 0 10px;
+}
+
+.gg-preview-bottom-bar .button {
+  margin-left: 5px;
+  padding: 0 10px;
+  display: inline-block;
+}
+.gg-sett-plugin-member-lbl {
+  font-weight: 800;
+}
+.gg-membership-plug-info {
+  margin: 5px 0px;
+}
+.gg-sett-preview-other-plugin {
+  padding-left: 10px;
+}
+#iconsPreview .icon-fullscreen:before {
+  content: '\e801';
+  font-family: 'gridgallerypro';
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+}
+
+/* Pro overrides icon_wrap_item_class with real FontAwesome classes (fa
+   fa-...) instead of the .icon-fullscreen custom-font class above -
+   icons-effects.css's own ".hi-icon::before { font-weight: normal }" (a
+   third-party hover-effects library, loaded only in wp-admin) has equal
+   selector specificity and loads after font-awesome.min.css, so it wins
+   the cascade and silently breaks FontAwesome 6's own font-weight:900
+   default - most Free-tier FA6 icons only exist in the solid (900) weight,
+   so this makes their glyph disappear entirely (empty :before content). */
+.hi-icon.fa::before,
+.hi-icon.fa:before {
+  font-weight: 900 !important;
+}
+.available-in-pro .get-in-pro-element {
+  position: absolute;
+  top: 20%;
+  left: 20px;
+  color: #000;
+  border: 1px solid #000;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 5px 10px;
+  z-index: 9999;
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close.ui-button::before {
+  content: "\00d7" !important;
+  display: block;
+  color: #263546;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 24px;
+  text-indent: 0;
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close.ui-button:hover::before,
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close.ui-button:focus::before {
+  color: #047471;
+}
+#settingsImportDialog .import select.list {
+  max-width: 100%;
+}
+#importDialog .media-wrapr button .fa,
+#importDialog .media-wrapr a .fa {
+  vertical-align: middle;
+}
+.supsystic-plugin .settings-list .settings {
+  padding-top: 0px;
+}
+.gg-sett-pagination-wrapper {
+  text-align: left;
+  position: relative;
+}
+.gg-sett-pagination-wrapper .gg-links-list {
+  display: inline-block;
+}
+.gg-sett-pagination-link.active {
+  background: #4ae8ea !important;
+  border-color: #4ae8ea !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.gg-sett-pagination-wrapper .gg-sett-pagination-link {
+  margin: 0px 1px 0px;
+}
+.gg-pagination-per-page-lbl {
+  margin: 3px 5px 3px 10px;
+  float: left;
+}
+
+.gg-settings-row {
+  font-size: 0;
+  line-height: 0;
+  text-align: justify;
+  padding: 0 0 0 25px;
+}
+.gg-settings-row:after {
+  content: '';
+  width: 100%;
+  display: inline-block;
+}
+.gg-settings-block {
+  font-size: 14px;
+  line-height: normal;
+  display: inline-block;
+  padding: 0;
+}
+.gg-sort-entities .selected {
+  background: rgb(204, 204, 204);
+}
+.gg-sort-entities li {
+  margin: 0;
+}
+.button-invisible {
+  border: 0 !important;
+  padding: 0 !important;
+}
+div.image-meta-list {
+  height: 400px;
+  width: 520px;
+  overflow-y: scroll;
+}
+.ggSettingsDisplNone {
+  display: none !important;
+}
+#sggMosaicPreviewSizeRow,
+#sggMosaicResponsiveColumnsRow {
+  display: none;
+}
+.ggSettingsTop0 {
+  top: 0 !important;
+}
+.gg-tab-links.gg-image-params {
+  border-bottom: 1px solid #ccc;
+}
+.gg-tab-links.gg-image-params .gg-tab-link {
+  color: #000;
+  background: #e5e5e5;
+  border: 1px solid rgb(204, 204, 204);
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px -6px -1px 1px;
+  padding: 10px;
+}
+
+.gg-tab-links.gg-image-params .gg-tab-link.active,
+.gg-tab-links.gg-image-params .gg-tab-link:hover {
+  border-bottom: 1px solid #ffffff;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+}
+.gg-tab-links.gg-image-params .replace-image {
+  margin: 5px 9px 0 6px;
+}
+#ui-jqgrid-htable-img .gg-image-upload-date.description {
+  font-size: 11px;
+}
+#ui-jqgrid-htable-img .ggImgInfoRow .ggImgVerticalMove {
+  margin-left: -23px;
+}
+#ui-jqgrid-htable-img .ui-th-column .icheckbox_minimal {
+  margin-bottom: 0;
+}
+#ui-jqgrid-htable-img thead th:first-child,
+#ui-jqgrid-htable-img tfoot th:first-child {
+  border-left: 1px solid rgba(132, 132, 132, 0.419608) !important;
+}
+.popupPlacementTypeWrapper h4 {
+  margin-bottom: 5px;
+}
+
+.mp-icon-preview {
+  margin-left: 5%;
+}
+.ggRtlClass {
+  direction: rtl;
+}
+.supsystic-container .icheckbox_minimal input[type='checkbox'] {
+  margin: 0;
+}
+.grid-gallery-caption {
+  transition: all 0.4s linear;
+}
+.sggAdminCollapseElement {
+  display: inline-block;
+  margin-left: 20px;
+}
+.sggCaptionAddSettLbl {
+  font-weight: normal;
+  font-size: 12px;
+  color: #ff0000;
+  display: block;
+  text-align: center;
+}
+.sggInpNumberForCes {
+  vertical-align: middle;
+  margin-left: 10px;
+}
+label[for='captionEffSettGrowShrinkVal'] {
+  margin-left: 15px;
+}
+label[for='captEffGrowType'],
+label[for='captEffShrinkType'] {
+  font-weight: bold;
+}
+
+label.sggCheckboxLabelInOneRow {
+  margin-right: 10px;
+}
+.sggFigCaptionIconsEntry {
+  font-size: 0.8em;
+}
+
+
+.edit-image {
+  cursor: pointer;
+  color: green !important;
+  font-weight: bold !important;
+}
+
+.tui-image-editor-container .tui-image-editor-controls-logo > img,
+.tui-image-editor-container .tui-image-editor-header-logo > img {
+  width: 100% !important;
+  max-width: 150px !important;
+  height: auto !important;
+}
+
+#sggToastClose {
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+
+/* =================================================================
+   Per-gallery CDN + optimization sections
+   ================================================================= */
+.gg-svc-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #5b6b7c;
+}
+
+.gg-svc-stats b {
+  color: #263546;
+}
+
+.gg-svc-stats.is-empty {
+  color: #8fa0b0;
+  font-style: italic;
+}
+
+.gg-svc-run {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+}
+
+.gg-svc-progress {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 12.5px;
+  color: #5b6b7c;
+  font-variant-numeric: tabular-nums;
+}
+
+.gg-svc-progress.is-error {
+  color: #b23b2f;
+}
+
+.gg-svc-hint {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #8fa0b0;
+  max-width: 60ch;
+}
+
+.supsystic-item .gg-svc-hint,
+.supsystic-item .gg-ecommerce-delivery-warning {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.gg-svc-hint a {
+  color: #239a9c;
+}

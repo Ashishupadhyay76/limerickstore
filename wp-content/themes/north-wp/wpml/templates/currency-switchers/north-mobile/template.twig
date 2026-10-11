@@ -1,0 +1,7 @@
+<select class="{{ css_classes }} thb-currency-switcher-select">
+  {% for currency in currencies %}
+    <option rel="{{ currency }}" value="{{ currency }}" {% if ( currency == selected_currency) %}selected{% endif %}>
+      {{ get_formatted_price( currency, format )|raw }}
+    </option>
+  {% endfor %}
+</select>

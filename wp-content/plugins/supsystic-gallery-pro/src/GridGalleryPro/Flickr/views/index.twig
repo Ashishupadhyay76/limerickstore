@@ -1,0 +1,234 @@
+{% extends 'grid-gallery.twig' %}
+
+{% block header %}
+
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs">
+        {#<a href="{{ environment.generateUrl('galleries') }}">{{ translate('Gallery by Supsystic') }}</a>#}
+        {#<i class="fa fa-angle-right"></i>#}
+        <a href="{{ environment.generateUrl('galleries') }}">{{ translate('Galleries') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ galleryName|capitalize }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ translate('Import images') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('flickr', 'index', { 'id': id }) }}">{{ translate('Flickr') }}</a>
+    </nav>
+
+    {% include '@flickr/includes/toolbar.twig' %}
+
+{% endblock %}
+
+{% block content %}
+
+    {% if images.photos is iterable and images.photos|length > 0 %}
+        <h2>{{ translate('Images not in albums') }}</h2>
+        <hr>
+        <div style="border: 1px solid #ccc; margin-bottom:20px" class="album">
+        <div class="album-title" style="padding-left:10px;">
+            <h3><span class="toggle"><i class="fa fa-plus"></i></span>  <button class="button select-album" ><i class="fa fa-check-square-o fa-fw"></i></button>
+            </h3>
+        </div>
+            <ul class="sg-photos hidden gg-loaded" data-container="block">
+                {% for image in images.photos %}
+                    <li class="gg-list-item" data-entity data-entity-type="photo"
+                        data-entity-info="{{ image|json_encode|e }}">
+                        <div style="position: absolute; top: 14px; left: 14px;">
+                            <input type="checkbox" value="{{ image.original }}" class="gg-checkbox" data-observable>
+                        </div>
+                        {% set sizes = { 'width': 60, 'height': 80 } %}
+                        <img src="{{ image.thumbnail }}" width="150"
+                             style="min-height:150px;max-height:150px;"/>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if images.albums is iterable and images.albums|length > 0 %}
+        <h2>{{ translate('Albums') }}</h2>
+        <hr>
+        {% for album in images.albums %}
+            <div style="border: 1px solid #ccc; margin-bottom:20px" class="album">
+                <div class="album-title" style="padding-left:10px;">
+                    <h3><span class="toggle"><i class="fa fa-plus"></i></span> {{ album.title }} ({{album.photosCount }})  <button class="button select-album" ><i class="fa fa-check-square-o fa-fw"></i></button>
+                    </h3>
+                </div>
+                <ul class="sg-photos hidden" {# data-sortable #} data-container="block" data-album-id="{{ album.id }}">
+                   
+                    {% for image in album.photos %}
+                        <li class="gg-list-item" data-entity data-entity-type="photo"
+                            data-entity-info="{{ image|json_encode|e }}">
+                            <div style="position: absolute; top: 14px; left: 14px;">
+                                <input type="checkbox" value="{{ image.original }}" class="gg-checkbox" data-observable>
+                            </div>
+                            {% set sizes = { 'width': 60, 'height': 80 } %}
+                            <img src="{{ image.thumbnail }}" width="150"
+                                 style="min-height:150px;max-height:150px;"/>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    {% elseif not images.photos %}
+        <p>Sorry, but you have no images on your flickr account</p>
+    {% endif %}
+
+    <script>
+        /*global jQuery*/
+        (function ($) {
+            jQuery(document).ready(function () {
+                var isAlbumLoaded = function($album){
+                    return $album.children('.sg-photos').hasClass('gg-loaded');
+                };
+                var loadAlbum = function($album, callback){
+                    if(isAlbumLoaded($album)){
+                        if(typeof callback != 'undefined'){
+                            callback($album);
+                        }
+                        return true;
+                    }
+                    var $container = $album.children('.sg-photos'),
+                        $albumId = $container.data('album-id');
+                    if(SupsysticGallery && SupsysticGallery.Loader && SupsysticGallery.Loader.show) {
+                        SupsysticGallery.Loader.show('Please, wait until album will be loaded.');
+                    }
+
+                    var request = SupsysticGallery.Ajax.Post({
+                        module: 'flickr',
+                        action: 'getAlbum'
+                    });
+
+                    request.add('albumId', $albumId);
+                    request.send(function (response) {
+                        $container.html(response.photos_html);
+                        $container.addClass('gg-loaded');
+                        if(SupsysticGallery && SupsysticGallery.Loader && SupsysticGallery.Loader.hide) {
+                            SupsysticGallery.Loader.hide();
+                        }
+                        $.jGrowl('Album loaded');
+                        if(typeof callback != 'undefined'){
+                            callback($album);
+                        }
+                    });
+                    return true;
+                };
+
+                $('.album').on('click', '.toggle', function(event) {
+                    event.preventDefault();
+                    var $toggleIcon = $(this).find('.fa');
+                    var $album = $toggleIcon.closest('.album');
+                    loadAlbum($album);
+                    if ($toggleIcon.hasClass('fa-plus')) {
+                        $toggleIcon.removeClass('fa-plus').addClass('fa-minus');
+                    } else {
+                        $toggleIcon.removeClass('fa-minus').addClass('fa-plus');
+                    }
+                    $album.find('.sg-photos').toggle(400);
+                });
+
+                $('.album').on('click', '.select-album', function(event) {
+                    event.preventDefault();
+                    var $album = $(this).closest('.album'),
+                        $self = $(this);
+                    loadAlbum($album,function($album){
+                        if ($self.hasClass('checked')) {
+                            $album.find('input:checkbox').attr("checked", false).iCheck('update');
+                            $self.removeClass('checked');
+                        } else {
+                            $album.find('input:checkbox').attr("checked", true).iCheck('update');
+                            $self.addClass('checked');
+                        }
+                    });
+                });
+
+                $('.album:first .toggle').click();
+
+                jQuery('#add_images').click(function () {
+                    getResourcesList("{{ id }}");
+                });
+
+                var button_select = jQuery('#button-select').click(function () {
+
+                    jQuery('input:checkbox').each(function () {
+                        if (button_select.data('value') == 'select') {
+                            $(this).attr('checked', 'checked').iCheck('update');
+                        } else {
+                            $(this).removeAttr('checked').iCheck('update');
+                        }
+                    });
+                    if ($(this).data('value') == 'select') {
+                        $(this).data('value', 'remove');
+                    } else {
+                        $(this).data('value', 'select');
+                    }
+                });
+
+            });
+
+            function getResourcesList(galleryId) {
+                var url = [],
+                        elements = jQuery('.gg-checkbox:checked').each(function () {
+                            url.push(jQuery(this).val());
+                        }),
+                        resources = [],
+                        limit = 10,
+                        offset = 0;
+
+                function savePhotos(){
+                    if(offset < url.length){
+                        var url_to_save = [];
+                        for(var i = 0; i < limit; i++){
+                            url_to_save.push(url[i+offset]);
+                        }
+                        offset = offset + limit;
+
+                        var request = SupsysticGallery.Ajax.Post({
+                            module: 'galleries',
+                            action: 'sideloadSave'
+                        });
+
+                        request.add('urls', url_to_save);
+
+                        request.send(function (response) {
+
+                            for (var i = 0; i < response.ids.length; ++i) {
+                                resources.push({type: 'photo', id: response.ids[i]});
+                            }
+
+                            savePhotos();
+
+                        });
+                    }else{
+                        $.jGrowl('Done');
+                        attachPhotos();
+                    }
+                }
+
+                function attachPhotos(){
+                    if (resources.length) {
+                        $.post(wp.ajax.settings.url, {
+                            action: 'grid-gallery',
+                            _wpnonce: SupsysticGallery.nonce,
+                            route: {module: 'galleries', action: 'attach'},
+                            gallery_id: galleryId,
+                            resources: resources
+                        }, function (response) {
+                            $.jGrowl(response.message);
+                            window.location = response.redirectUrl.replace(/\\"/g, '"');
+                        });
+                    }
+                }
+
+                if (elements.length) {
+                    if(SupsysticGallery && SupsysticGallery.Loader && SupsysticGallery.Loader.show) {
+                        SupsysticGallery.Loader.show('Please, wait until images will be imported.');
+                    }
+                    savePhotos();
+                } else {
+                    $.jGrowl('Please select images for import');
+                }
+            }
+
+        })(jQuery)
+    </script>
+{% endblock %}

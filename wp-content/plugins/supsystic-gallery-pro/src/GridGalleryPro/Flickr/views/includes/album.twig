@@ -1,0 +1,11 @@
+{% for image in images %}
+    <li class="gg-list-item" data-entity data-entity-type="photo"
+        data-entity-info="{{ image|json_encode|e }}">
+        <div style="position: absolute; top: 14px; left: 14px;">
+            <input type="checkbox" value="{{ image.original }}" class="gg-checkbox" data-observable>
+        </div>
+        {% set sizes = { 'width': 60, 'height': 80 } %}
+        <img src="{{ image.thumbnail }}" width="150"
+             style="min-height:150px;max-height:150px;"/>
+    </li>
+{% endfor %}

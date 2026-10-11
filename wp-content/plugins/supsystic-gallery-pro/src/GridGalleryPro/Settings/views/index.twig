@@ -1,0 +1,10 @@
+{% embed '@settings/index.twig' %}
+	
+	{% block beforeSettingsList %}
+		<button class="button">
+			<i class="fa fa-fw fa-save"></i>
+			{{ environment.translate('Save') }}
+		</button>
+	{% endblock %}
+
+{% endembed %}

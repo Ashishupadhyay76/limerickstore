@@ -1,0 +1,24 @@
+.error404 {
+	#wrapper [role="main"] {
+		display: flex;
+		align-items: center;
+		padding: 22vh 0;
+	}
+}
+.content404 {
+	width: 100%;
+	svg {
+		margin-bottom: 40px;
+	}
+	h2 {
+		margin-bottom: 25px;
+	}
+	p {
+		font-size: 20px;
+		margin-bottom: 40px;
+	}
+	.searchform {
+		max-width: 340px;
+		margin: 0 auto 35px;
+	}
+}

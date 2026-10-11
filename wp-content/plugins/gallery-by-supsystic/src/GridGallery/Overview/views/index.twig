@@ -1,0 +1,266 @@
+{% extends 'grid-gallery.twig' %}
+
+{% block header %}
+
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs">
+        <a href="{{ environment.generateUrl('galleries') }}">{{ translate('Galleries') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('overview') }}">{{ translate('Overview') }}</a>
+    </nav>
+
+{% endblock %}
+
+{% block content %}
+    {% set isPro = environment.isPro() %}
+    {% set proUrl = getProUrl('?utm_source=plugin&utm_medium=overview&utm_campaign=gallery') %}
+
+    <div class="sgg-overview">
+        <section class="sgg-overview-hero">
+            <div class="sgg-overview-hero-copy">
+                <div class="sgg-overview-kicker">
+                    <img src="{{ SGG_PLUGIN_URL }}/src/GridGallery/Overview/assets/img/plugin-icon.png" alt="">
+                    <span>{{ isPro ? 'Photo Gallery PRO by Supsystic' : 'Photo Gallery by Supsystic' }}</span>
+                </div>
+                <h1>Create galleries that look sharp before visitors click the first photo.</h1>
+                <p>
+                    Build responsive photo galleries, tune every visual detail, add image data, preview the result, and publish it inside WordPress without leaving the admin flow.
+                </p>
+                <div class="sgg-overview-actions">
+                    <a class="button button-primary button-hero" href="{{ environment.generateUrl('galleries', 'showPresets') }}">
+                        <i class="fa fa-plus"></i>
+                        Create Gallery
+                    </a>
+                    <a id="sgg-start-welcome-tour" class="button button-secondary button-hero sgg-start-welcome-tour" href="#">
+                        <i class="fa fa-compass"></i>
+                        Quick Start
+                    </a>
+                    {% if not isPro %}
+                        <a class="button button-secondary button-hero sgg-overview-pro-button" href="{{ proUrl }}" target="_blank">
+                            <i class="fa fa-star"></i>
+                            Get PRO
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="sgg-overview-hero-media" aria-hidden="true">
+                <div class="sgg-overview-browser">
+                    <div class="sgg-overview-browser-bar">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="sgg-overview-browser-preview">
+                        <img src="{{ SGG_PLUGIN_URL }}/src/GridGallery/Overview/assets/img/gallery_popup.webp" alt="Photo gallery popup preview">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {% if isPro %}
+            <section class="sgg-overview-license-banner">
+                <div class="sgg-overview-license-banner-aside" aria-hidden="true">
+                    <strong>20%</strong>
+                    <span>upgrade saving</span>
+                    <small>Personal, Developer or Enterprise licenses</small>
+                </div>
+                <div class="sgg-overview-license-banner-content">
+                    <span class="sgg-overview-pill">PRO license offer</span>
+                    <h2>Need more sites on your license?</h2>
+                    <p>Send us your current license details and we will help apply the upgrade offer to the right plan.</p>
+                    <a class="button button-primary" href="https://supsystic.com/contact-us/" target="_blank">
+                        <i class="fa fa-envelope"></i>
+                        Contact us
+                    </a>
+                </div>
+            </section>
+        {% endif %}
+
+        <section class="sgg-overview-layout">
+            <div class="sgg-overview-main">
+                <div class="sgg-overview-section-heading">
+                    <span class="sgg-overview-pill">What you can build</span>
+                    <h2>Gallery essentials, from simple grids to polished PRO showcases.</h2>
+                </div>
+
+                <div class="sgg-overview-feature-grid">
+                    <article class="sgg-overview-feature-card">
+                        <i class="fa fa-th-large"></i>
+                        <h3>Responsive layouts</h3>
+                        <p>Start with classic grid presets and tune image size, spacing, border, radius, shadow, loader and horizontal scroll.</p>
+                        <span class="sgg-overview-tag sgg-overview-tag-free">FREE</span>
+                    </article>
+                    <article class="sgg-overview-feature-card">
+                        <i class="fa fa-upload"></i>
+                        <h3>Fast image import</h3>
+                        <p>Add many photos from WordPress Media Library, reorder them, edit image data, and prepare a clean gallery list.</p>
+                        <span class="sgg-overview-tag sgg-overview-tag-free">FREE</span>
+                    </article>
+                    <article class="sgg-overview-feature-card">
+                        <i class="fa fa-search-plus"></i>
+                        <h3>Full-screen lightbox</h3>
+                        <p>Let visitors click any image, focus on it larger, browse the gallery, and keep captions visible in the popup.</p>
+                        <span class="sgg-overview-tag sgg-overview-tag-pro">PRO</span>
+                    </article>
+                    <article class="sgg-overview-feature-card">
+                        <i class="fa fa-magic"></i>
+                        <h3>Advanced gallery storytelling</h3>
+                        <p>Use videos, Mosaic layout, categories, pagination, Load More, Caption Builder, watermark, EXIF, Custom Attributes, social sharing and post-feed galleries.</p>
+                        <span class="sgg-overview-tag sgg-overview-tag-pro">PRO</span>
+                    </article>
+                    <article class="sgg-overview-feature-card">
+                        <i class="fa fa-compress"></i>
+                        <h3>Image optimization</h3>
+                        <p>Resize originals, optimize gallery files, generate WebP or AVIF versions, and serve lighter images when the visitor browser supports them.</p>
+                        <span class="sgg-overview-tag sgg-overview-tag-pro">PRO</span>
+                    </article>
+                    <article class="sgg-overview-feature-card">
+                        <i class="fa fa-shopping-cart"></i>
+                        <h3>Ecommerce licensing</h3>
+                        <p>Sell access to galleries, groups or selected images with checkout, private access, protected downloads, resolution lists and watermark-aware delivery.</p>
+                        <span class="sgg-overview-tag sgg-overview-tag-pro">PRO</span>
+                    </article>
+                </div>
+
+                <section class="sgg-overview-pro-panel">
+                    <div>
+                        <span class="sgg-overview-pill">{{ isPro ? 'PRO enabled' : 'Upgrade path' }}</span>
+                        <h2>{{ isPro ? 'Your PRO toolkit is active.' : 'Turn a simple gallery into a richer visual experience.' }}</h2>
+                        <p>
+                            {{ isPro ? 'Use the advanced imports, captions, filters, watermark, social sharing and post galleries directly in the gallery editor.' : 'PRO adds the features clients usually ask for after the first gallery is live: stronger presentation, faster navigation, better metadata, more control and more ways to sell the image story.' }}
+                        </p>
+                    </div>
+                    <div class="sgg-overview-pro-list">
+                        <span><i class="fa fa-check"></i> Full-screen popup</span>
+                        <span><i class="fa fa-check"></i> Bulk upload workflow</span>
+                        <span><i class="fa fa-check"></i> Mosaic and pagination</span>
+                        <span><i class="fa fa-check"></i> Captions, EXIF and attributes</span>
+                    </div>
+                    {% if not isPro %}
+                        <a class="button button-primary button-hero sgg-overview-upgrade-cta" href="{{ proUrl }}" target="_blank">
+                            <i class="fa fa-star"></i>
+                            Compare and upgrade
+                        </a>
+                    {% endif %}
+                </section>
+
+                {% if not isPro %}
+                    <section class="sgg-overview-license-art">
+                        <div>
+                            <span class="sgg-overview-pill">License options</span>
+                            <h2>Choose the PRO license that matches the number of sites you manage.</h2>
+                        </div>
+                        <a href="https://supsystic.com/plugins/photo-gallery#pricing" target="_blank">
+                            <img src="{{ SGG_PLUGIN_URL }}/src/GridGallery/Overview/assets/img/overview-01.png" alt="Photo Gallery PRO license types">
+                        </a>
+                    </section>
+                {% endif %}
+
+                <section id="sgg-overview-faq" class="sgg-overview-card sgg-overview-faq">
+                    <div class="sgg-overview-card-head">
+                        <div>
+                            <span class="sgg-overview-pill">Help center</span>
+                            <h2>FAQ and Documentation</h2>
+                        </div>
+                    </div>
+                    <div class="sgg-overview-help-actions">
+                        <a class="button button-primary button-hero" target="_blank" href="//supsystic.com/docs/gallery/?utm_source=plugin&utm_medium=faq&utm_campaign=gallery">
+                            <i class="fa fa-book"></i>
+                            Check all FAQs
+                        </a>
+                        <a id="sgg-start-welcome-tour-help" class="button button-secondary button-hero sgg-start-welcome-tour" href="#">
+                            <i class="fa fa-compass"></i>
+                            Quick Start!
+                        </a>
+                    </div>
+                </section>
+
+                <section id="sgg-overview-videos" class="sgg-overview-video-grid">
+                    <article class="sgg-overview-card">
+                        <div class="sgg-overview-card-head">
+                            <div>
+                                <span class="sgg-overview-pill">Learn</span>
+                                <h2>Video tutorial</h2>
+                            </div>
+                        </div>
+                        <div class="sgg-overview-video-frame">
+                            <iframe type="text/html" src="//www.youtube.com/embed/Tjr5j5grHlg" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </article>
+
+                    <article class="sgg-overview-card">
+                        <div class="sgg-overview-card-head">
+                            <div>
+                                <span class="sgg-overview-pill">Inspiration</span>
+                                <h2>Our promo video</h2>
+                            </div>
+                        </div>
+                        <div class="sgg-overview-video-frame">
+                            <iframe type="text/html" src="//www.youtube.com/embed/dKd_9g6JzfU" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </article>
+                </section>
+
+                <section id="sgg-overview-server" class="sgg-overview-card">
+                    <div class="sgg-overview-card-head">
+                        <div>
+                            <span class="sgg-overview-pill">Diagnostics</span>
+                            <h2>Server Settings</h2>
+                        </div>
+                    </div>
+                    <div class="sgg-overview-server-grid">
+                        {% for title, element in serverSettings %}
+                            <div class="sgg-overview-server-item {{ element.error|default(false) ? 'is-error' : '' }}">
+                                <span>{{ title|trim }}</span>
+                                <strong>{{ element.value|trim }}</strong>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+
+            <aside class="sgg-overview-sidebar">
+                <section class="sgg-overview-card sgg-overview-resource-card">
+                    <span class="sgg-overview-pill">Resources</span>
+                    <h2>Useful links</h2>
+                    <a class="sgg-overview-resource-link" href="#sgg-overview-faq">
+                        <i class="fa fa-book"></i>
+                        FAQ and Documentation
+                    </a>
+                    <a class="sgg-overview-resource-link" href="#sgg-overview-videos">
+                        <i class="fa fa-play"></i>
+                        Video tutorial
+                    </a>
+                    <a class="sgg-overview-resource-link" href="#sgg-overview-server">
+                        <i class="fa fa-cog"></i>
+                        Server Settings
+                    </a>
+                    <a class="sgg-overview-resource-link" href="#sgg-overview-support">
+                        <i class="fa fa-life-ring"></i>
+                        Support
+                    </a>
+                    <a class="sgg-overview-resource-link" href="https://supsystic.com/plugins/photo-gallery/?utm_source=plugin&utm_campaign=gallery" target="_blank">
+                        <i class="fa fa-external-link"></i>
+                        Plugin page on supsystic.com
+                    </a>
+                    <a class="sgg-overview-resource-link" href="{{ proUrl }}" target="_blank">
+                        <i class="fa fa-balance-scale"></i>
+                        Compare FREE and PRO features
+                    </a>
+                    <a class="sgg-overview-resource-link" href="https://supsystic.com/wordpress-plugins/?utm_source=plugin&utm_campaign=gallery" target="_blank">
+                        <i class="fa fa-th"></i>
+                        Check other Supsystic FREE plugins
+                    </a>
+                </section>
+
+                <section id="sgg-overview-support" class="sgg-overview-card sgg-overview-support-card">
+                    <span class="sgg-overview-pill">Support</span>
+                    <h2>Need help with a gallery?</h2>
+                    <p>Send us the issue, feature request or question and the support team will help you move forward.</p>
+                    <a class="button button-primary" href="https://supsystic.com/contact-us/" target="_blank">
+                        <i class="fa fa-life-ring"></i>
+                        Contact support
+                    </a>
+                </section>
+            </aside>
+        </section>
+    </div>
+{% endblock %}

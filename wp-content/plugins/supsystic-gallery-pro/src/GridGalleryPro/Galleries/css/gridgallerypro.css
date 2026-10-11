@@ -1,0 +1,109 @@
+@font-face {
+  font-family: 'gridgallerypro';
+  src: url('../font/gridgallerypro.eot?38642263');
+  src:
+    url('../font/gridgallerypro.eot?38642263#iefix') format('embedded-opentype'),
+    url('../font/gridgallerypro.woff?38642263') format('woff'),
+    url('../font/gridgallerypro.ttf?38642263') format('truetype'),
+    url('../font/gridgallerypro.svg?38642263#gridgallerypro') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'gridgallerypro';
+    src: url('../font/gridgallerypro.svg?38642263#gridgallerypro') format('svg');
+  }
+}
+*/
+
+.grid-gallery [class^='icon-']:before,
+.grid-gallery [class*=' icon-']:before {
+  font-family: 'gridgallerypro';
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+
+  display: inline;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: 0.42em;
+  text-align: center;
+  /* opacity: .8; */
+
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: 0.42em;
+
+  /* you can be more comfortable with increased icons size */
+  /*font-size: 120%; */
+
+  /* Uncomment for 3D effect */
+  /*text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-link:before {
+  content: '\e800';
+  margin-top: 0.1em;
+} /* '' */
+.icon-fullscreen:before {
+  content: '\e801';
+} /* '' */
+.icon-youtube:before {
+  content: '\e802';
+} /* '' */
+.icon-vimeo:before {
+  content: '\e803';
+} /* '' */
+.icon-left-1:before {
+  content: '\e804';
+} /* '' */
+.icon-right-1:before {
+  content: '\e805';
+} /* '' */
+.icon-left-5:before {
+  content: '\e806';
+} /* '' */
+.icon-right-5:before {
+  content: '\e807';
+} /* '' */
+.icon-left-2:before {
+  content: '\e808';
+} /* '' */
+.icon-right-2:before {
+  content: '\e809';
+} /* '' */
+.icon-left-6:before {
+  content: '\e80a';
+} /* '' */
+.icon-right-6:before {
+  content: '\e80b';
+} /* '' */
+.icon-left-3:before {
+  content: '\e80c';
+} /* '' */
+.icon-right-3:before {
+  content: '\e80d';
+} /* '' */
+.icon-left-7:before {
+  content: '\e80e';
+} /* '' */
+.icon-right-7:before {
+  content: '\e80f';
+} /* '' */
+.icon-left-4:before {
+  content: '\e810';
+} /* '' */
+.icon-right-4:before {
+  content: '\e811';
+} /* '' */

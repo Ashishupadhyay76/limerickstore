@@ -1,0 +1,47 @@
+/* Cookie Bar */
+.thb-cookie-bar {
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #000;
+  padding: 15px;
+  z-index: 40;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  color: #fff;
+  @include translateY(100%);
+  @include min-break($break-small) {
+  	padding: 15px 25px;
+  	flex-direction: row;
+  	justify-content: center;
+  }
+  p {
+    font-size: 12px;
+    line-height: 1.2;
+
+    @include min-break($break-small) {
+    	line-height: 1;
+    	margin: 0;
+    }
+  }
+  .button-accept {
+    font-size: 12px;
+    margin: 0;
+    font-weight: 600;
+    text-decoration: underline;
+    color: #fff;
+    @include min-break($break-small) {
+    	margin: 0 0 0 20px;
+    }
+  }
+  .thb-cookie-text {
+    a {
+      font-weight: 400;
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+}

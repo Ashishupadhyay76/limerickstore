@@ -1,0 +1,179 @@
+{% extends 'grid-gallery.twig' %}
+
+{% block header %}
+
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs">
+        {#<a href="{{ environment.generateUrl('galleries') }}">{{ translate('Gallery by Supsystic') }}</a>#}
+        {#<i class="fa fa-angle-right"></i>#}
+        <a href="{{ environment.generateUrl('galleries') }}">{{ translate('Galleries') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ galleryName|capitalize }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ translate('Import images') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('googledrive', 'index', { 'id': id }) }}">{{ translate('Google Drive') }}</a>
+    </nav>
+
+    {% include '@googledrive/includes/toolbar.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% import _self as self %}
+
+    {% if parentFolder is not null %}
+        {#<div class="googledrive-folder" style="margin: 5px; width: 80px; height: 30px;">#}
+            {#<a href="#" class="link-googledrive-folder" data-id="{{ parentFolder }}" style="color: grey; text-decoration: none;">#}
+                {#<i class="fa fa-folder-open" style="color: grey; display: block; font-size: 50px;"></i>#}
+                {#<span style="-ms-word-break: break-all;word-break: break-all;word-break: break-word;text-align: center">...</span>#}
+            {#</a>#}
+        {#</div>#}
+
+        <div class="googledrive-folder link-googledrive-folder" data-id="{{ parentFolder }}" style="margin: 5px 5px 0px 5px; width: 130px; height: 30px; cursor: pointer;">
+            <div class=""  style="color: grey; float:left; margin-right: 5px;">
+                <i class="fa fa-folder-open" style="color: grey; display: block; font-size: 20px;"></i>
+
+            </div>
+            <div style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis; width:100px; color: grey;">...</div>
+        </div>
+    {% endif %}
+    <div style="display: inline-block;">
+    {% for folder in folders %}
+        {#<div class="googledrive-folder" style="float:left; margin: 5px; width: 80px; height: 80px;">#}
+            {#<a href="#" class="link-googledrive-folder" data-id="{{ folder.id }}" style="color: {{ folder.color }}; text-decoration: none;">#}
+                {#<i class="fa fa-folder" style="color: {{ folder.color }}; font-size: 20px;"></i>#}
+                {#<span style="-ms-word-break: break-all;word-break: break-all;word-break: break-word;">{{ folder.name }}</span>#}
+            {#</a>#}
+        {#</div>#}
+        <div class="googledrive-folder link-googledrive-folder" data-id="{{  folder.id }}" style="margin: 5px; height: 30px; cursor: pointer;">
+            <div class=""  style=" float:left; margin-right: 5px;">
+                <i class="fa fa-folder  " style="color: {{ folder.color }}; display: block; font-size: 20px;"></i>
+
+            </div>
+            <div style="white-space: nowrap; color: {{ folder.color }};">{{ folder.name }}</div>
+        </div>
+    {% endfor %}
+    </div>
+    <ul class="sg-photos" {# data-sortable #} data-container="block">
+        {% for image in images %}
+            <li class="gg-list-item" data-entity data-entity-type="photo" id="{{ image.id }}">
+                <div style="position: absolute; top: 14px; left: 14px;">
+                    <input type="checkbox" value="{{ image.webContentLink }}" data-id="{{ image.id }}" data-name="{{ image.name }}" class="gg-checkbox" data-observable>
+                </div>
+                <img src="{{ image.thumbnailLink }}" style="min-height:150px;max-height:150px;width:auto;"/>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+
+        /*global jQuery*/
+        (function ($) {
+            jQuery(document).ready(function () {
+                var gg_changeFolder = function(folderId){
+                    SupsysticGallery.Loader.show('');
+                    window.location.href = window.location.href + '&folder=' + folderId;
+                };
+
+                $('.link-googledrive-folder').on('click',function(){
+                   gg_changeFolder($(this).data('id'));
+                });
+
+                jQuery('#add_images').click(function () {
+                    getResourcesList("{{ id }}");
+                });
+
+                jQuery('#save_links').click(function () {
+                    getResourcesList("{{ id }}", true);
+                });
+
+                var button_select = jQuery('#button-select').click(function () {
+
+                    jQuery('input:checkbox').each(function () {
+                        if (button_select.data('value') == 'select') {
+                            $(this).attr('checked', 'checked').iCheck('update');
+                        } else {
+                            $(this).removeAttr('checked').iCheck('update');
+                        }
+                    });
+                    if ($(this).data('value') == 'select') {
+                        $(this).data('value', 'remove');
+                    } else {
+                        $(this).data('value', 'select');
+                    }
+                });
+
+                button_select.click();
+
+            });
+
+            function getResourcesList(galleryId, onlyLinks) {
+                if(typeof onlyLinks == 'undefined') onlyLinks = false;
+                var url = [],
+                        elements = jQuery('.gg-checkbox:checked').each(function () {
+                            url.push({
+                                'id': jQuery(this).data('id'),
+                                'name': jQuery(this).data('name'),
+                            });
+                        }),
+                        resources = [],
+                        limit = 1,
+                        offset = 0;
+
+                function savePhotos(){
+                    if(offset < url.length){
+                        var url_to_save = [];
+                        for(var i = 0; i < limit; i++){
+                            url_to_save.push(url[i+offset]);
+                        }
+                        offset = offset + limit;
+
+                        var request = SupsysticGallery.Ajax.Post({
+                            module: 'googledrive',
+                            action: 'sideloadSave'
+                        });
+
+                        request.add('urls', url_to_save);
+                        request.add('onlyLinks', onlyLinks ? 1 : 0);
+
+                        request.send(function (response) {
+
+                            for (var i = 0; i < response.ids.length; ++i) {
+                                resources.push({type: 'photo', id: response.ids[i]});
+                            }
+
+                            savePhotos();
+
+                        });
+                    }else{
+                        $.jGrowl('Done');
+                        attachPhotos();
+                    }
+                }
+
+                function attachPhotos(){
+                    if (resources.length) {
+                        $.post(wp.ajax.settings.url, {
+                            action: 'grid-gallery',
+                            _wpnonce: SupsysticGallery.nonce,
+                            route: {module: 'galleries', action: 'attach'},
+                            gallery_id: galleryId,
+                            resources: resources
+                        }, function (response) {
+                            $.jGrowl(response.message);
+                            window.location = response.redirectUrl.replace(/\\"/g, '"');
+                        });
+                    }
+                }
+
+                if (elements.length) {
+                    SupsysticGallery.Loader.show(onlyLinks ? 'Please, wait until links will be saved.' : 'Please, wait until images will be imported.');
+                    savePhotos();
+                } else {
+                    $.jGrowl('Please select images for import');
+                }
+            }
+
+        })(jQuery)
+    </script>
+
+{% endblock %}

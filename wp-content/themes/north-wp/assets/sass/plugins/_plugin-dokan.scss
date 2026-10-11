@@ -1,0 +1,21 @@
+.dokan-single-store.dokan-w8,
+.dokan-w3 {
+	width: 100% !important;
+}
+.dokan-store-sidebar {
+	@include min-break($break-small) {
+		padding-right: 30px;
+	}
+}
+.dokan-single-store {
+	.dokan-store-tabs ul li {
+		margin-bottom: 0;
+	}
+	.profile-frame .profile-info-box .profile-info-summery-wrapper .profile-info-summery {
+		padding: 15px;
+
+		@include min-break($break-small) {
+			padding: 30px;
+		}
+	}
+}

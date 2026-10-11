@@ -1,0 +1,24 @@
+{% extends 'grid-gallery.twig' %}
+
+{#{% block breadcrumbs %}#}
+
+    {#<nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs" xmlns="http://www.w3.org/1999/html">#}
+        {#<a href="{{ environment.generateUrl('slider') }}">{{ translate('Slider by Supsystic') }}</a>#}
+        {#<i class="fa fa-angle-right"></i>#}
+        {#<a href="{{ environment.generateUrl('license') }}">{{ translate('License') }}</a>#}
+    {#</nav>#}
+
+{#{% endblock %}#}
+
+{#{% block toolbar_wrap %}{% endblock %}#}
+
+{% block content %}
+
+    <div class="supsystic-license">
+        <div class="updated notice supsystic-admin-notice" style="text-align: center;">
+  			<h3>Congratulations! PRO version of "{{ environment.getMenu().getMenuTitle() }}" plugin has been activated and is working fine.</h3>
+        <p>{{ environment.translate('PRO functionality - with all features, options, updates and premium support is expired in %s days at %s')|format(days, dateLeft) }}</p>
+  			</div>
+
+    </div>
+{% endblock %}

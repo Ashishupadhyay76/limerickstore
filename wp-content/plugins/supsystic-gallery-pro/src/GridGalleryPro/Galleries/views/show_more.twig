@@ -1,0 +1,48 @@
+{% if settings.watermark is defined %}
+	{# Gallery Id setting in controller, because this twig-cache-file not deleting #}
+    {{ set_attachment_settings('watermark', settings.watermark) }}
+{% endif %}
+{% spaceless %}
+	{% for photo in photos %}
+		{% include '@galleries_pro/shortcode/helpers.twig' with {'photo': photo, 'settings': settings, 'gallery':gallery} only %}
+	{% endfor %}
+	{% if settings.posts.enable == '1' %}
+		{% import '@galleries_pro/shortcode/post_helpers.twig' as post_helper %}
+
+		{% for post in posts %}
+			{% if settings.posts.style > '3' %}
+				{{ post_helper.sodiumStyles(post, settings, settings.posts.style) }}
+			{% endif %}
+			{% if settings.posts.style == '3' %}
+				{{ post_helper.captionRight(post, settings) }}
+			{% endif %}
+			{% if settings.posts.style == '2' %}
+				{{ post_helper.imageSlide(post, settings) }}
+			{% endif %}
+			{% if settings.posts.style == '1' %}
+				{{ post_helper.imageCaption(post, settings) }}
+			{% endif %}
+			{% if settings.posts.style == '0' %}
+				{{ post_helper.image(post, settings) }}
+			{% endif %}
+		{% endfor %}
+
+		{% for page in pages %}
+			{% if settings.posts.style > '3' %}
+				{{ post_helper.sodiumStyles(page, settings, settings.posts.style) }}
+			{% endif %}
+			{% if settings.posts.style == '3' %}
+				{{ post_helper.captionRight(page, settings) }}
+			{% endif %}
+			{% if settings.posts.style == '2' %}
+				{{ post_helper.imageSlide(page, settings) }}
+			{% endif %}
+			{% if settings.posts.style == '1' %}
+				{{ post_helper.imageCaption(page, settings) }}
+			{% endif %}
+			{% if settings.posts.style == '0' %}
+				{{ post_helper.image(page, settings) }}
+			{% endif %}
+		{% endfor %}
+	{% endif %} 
+{% endspaceless %}

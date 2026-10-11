@@ -1,0 +1,56 @@
+.pagination,
+.woocommerce-pagination {
+	padding: 5vh 0;
+	.screen-reader-text {
+		display: none;
+	}
+	ul,
+	.nav-links {
+		list-style: none;
+		display: block;
+		text-align: center;
+		margin: 0;
+		li {
+			display: inline-block;
+			text-align: center;
+		}
+	}
+	.page-numbers {
+		display: block;
+		color: #848485;
+		font-weight: 400;
+		padding: 0 5px;
+		@include min-break($break-small) {
+			padding: 0 10px;
+		}
+		&:hover {
+			color: $color1;
+		}
+		&.next {
+			margin-left: 15px;
+
+			@include min-break($break-small) {
+				margin-left: 30px;
+			}
+		}
+		&.prev {
+			margin-right: 15px;
+
+			@include min-break($break-small) {
+				margin-right: 30px;
+			}
+		}
+
+		&.current {
+			color: $color1;
+			text-decoration: underline;
+		}
+
+	}
+	.nav-links .page-numbers {
+		display: inline-block;
+	}
+}
+.pagination-space {
+	margin: 5vh auto 10vh;
+}

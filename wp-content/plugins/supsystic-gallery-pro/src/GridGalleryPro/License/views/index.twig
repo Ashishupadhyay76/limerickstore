@@ -1,0 +1,63 @@
+{% extends 'grid-gallery.twig' %}
+
+{% block breadcrumbs %}
+
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs" xmlns="http://www.w3.org/1999/html" style="margin-left: 0;">
+        <a href="{{ environment.generateUrl('galleries') }}">{{ translate('Galleries') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('license') }}">{{ environment.translate('License') }}</a>
+    </nav>
+
+{% endblock %}
+
+{% block toolbar_wrap %}{% endblock %}
+
+{% block content %}
+    {#{% import '@core/form.twig' as form %}#}
+
+    <div class="supsystic-license">
+
+      <div class="updated notice supsystic-admin-notice">
+			<p>Your license for PRO version of "{{ environment.getMenu().getMenuTitle() }}" plugin has (expired/suspended/deactivated/not activated).</p>
+			<p>It means that your PRO version and PRO features will not work - according to Supsystic's <a href="https://supsystic.com/terms-and-conditions/" style="text-decoration:none;">Terms and Conditions</a>.</p>
+			<p>Just activate the current license or <a href="https://supsystic.com/plugins/photo-gallery/" style="text-decoration:none;     color: #4ae8ea !important;" target="_blank" title="After purchasing the key, enter your email and key in the appropriate fields on this page."><span class="dashicons dashicons-warning"></span> BUY NEW license</a> or <a href="{{ environment.getModule('License').getExtendUrl() }}" style="text-decoration:none; color: #4ae8ea !important;" target="_blank" title="In this case fields 'email' and 'license key' must be allready filled and 'Activated'"><span class="dashicons dashicons-warning"></span> EXTEND your old license</a>, then click on "Activate".</p>
+			</div>
+
+        <hr/>
+        <form class="license-form">
+            <table class="form-table" style="margin-left:20px; width:auto;">
+            <tr>
+                <th class="line-title" style="width:auto;">
+                    <label for="license-email">Email</label>
+                    {#{{ form.tooltip('license-email') }}#}
+                </th>
+                <td>
+                    <input id="license-email" type="text" name="license[email]" value="{{ licenseEmail }}" style="width:400px;">
+                </td>
+            </tr>
+            <tr>
+                <th class="line-title" style="width:auto;">
+                    <label for="license-key">License Key</label>
+                    {#{{ form.tooltip('license-key') }}#}
+                </th>
+                <td>
+                    <input id="license-key" type="text" name="license[key]" value="{{ licenseKey }}" style="width:400px;">
+                </td>
+            </tr>
+            {# <tr> #}
+                {# <th class="line-title" style="width:auto;">
+                    <label for="license-use-trial">Trial License</label> #}
+                    {#{{ form.tooltip('activation-gateway') }}#}
+                {# </th>
+                <td> #}
+                    {# <input id="license-use-trial" type="checkbox" {% if useTrial is not empty %}checked{% endif %} name="license[usetrial]" style="width:400px;"> #}
+                {# </td> #}
+            {# </tr> #}
+            </table>
+        </form>
+        <button id="send-license" class="button button-primary button-hero" style="margin: 20px;">
+            {{ environment.translate('Activate') }}
+            <i class="fa fa-check"></i>
+        </button>
+    </div>
+{% endblock %}

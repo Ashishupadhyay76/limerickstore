@@ -1,0 +1,3553 @@
+{% extends '@galleries/settings.twig' %}
+{% import '@galleries/settings.twig' as parentSett %}
+
+{% block galleryTypeSelectorItems %}
+
+	{% set galleryTypeObj = [
+		{'value':'0', 'title':'Fixed'},
+		{'value':'1', 'title':'Vertical'},
+		{'value':'2', 'title':'Horizontal'},
+		{'value':'3', 'title':'Fixed Columns'},
+		{'value':'4', 'title':'Mosaic'},
+	] %}
+
+	{{ form.row(translate('Gallery Type'),
+		form.selectWithElem(
+			'area[grid]',
+			galleryTypeObj,
+			settings.area.grid,
+			{ 'style': 'width: auto;' }
+		),
+		'grid-type', 'gallery-types', 'columns'
+	)}}
+
+	{% set mosaicLayouts = [
+		{'value':'0', 'title':'default (2+3)'},
+		{'value':'1', 'title':'multi-column'},
+		{'value':'2', 'title':'one row (1+2)'},
+		{'value':'3', 'title':'one row (1+4)'},
+	] %}
+
+	{{ form.row(translate('Mosaic layout'),
+		form.selectWithElem(
+			'mosaic[use2Layout]',
+			mosaicLayouts,
+			settings.mosaic.use2Layout,
+			{ 'id': 'sggMosaicLayout', 'style': 'width: auto;' }
+		),
+		'mosaic-layout',
+		null, 'sggMosaicLayoutRow'
+	)}}
+	{{ form.row(translate('Number of columns'),
+		form.input(
+			'number',
+			'mosaic[countColumns]',
+			settings.mosaic.countColumns >=3 ? settings.mosaic.countColumns : 4,
+			{ 'style': { 'width': '70px'}, 'id' : 'sggMosaicCountColumns', 'pattern':'[3-12]'}
+		),
+		'mosaic-count-columns',
+		null,
+		'sggMosaicCountColumnsRow'
+	)}}
+{% endblock %}
+
+{% set settings = gallery.settings %}
+{% set id = gallery.settings_id %}
+{% set tagsThatCanUseInCaptionBuilder = "<b><i><p><span><strong><em><del><h1><h2><h3><h4><h5><h6><ul><li><ol><dt><dl><dd><hr><br><img><table><td><tr><thead><tbody><th><tfoot><var><u><tt><title><sup><summary><sub><small><strike><samp><s><link><q><pre><param><menu><map><legend><label><kbd><ins><dfn><colgroup><col><code><cite><blockquote><caption><big><bdo><base><address><abbr><wbr><video><track><time><source><rp><progress><keygen><output>main><mark><meter><menuitem><header><footer><figure><figcaption><embed><dialog><details><canvas><bdi>" %}
+
+{% block mosaicImagesCount %}
+
+    <div id="gg-mosaic-image-count-wrapper">
+        <table class="form-table" name="area" id="gg-mosaic-image-count">
+            <thead>
+			{{ form.row(translate('Images count to display'), '', 'img-count-header', 1) }}
+            </thead>
+            <tbody>
+
+            {{ form.row(
+				translate('Display all images'),
+				form.checkbox(
+					'mosaic[images][allimages]',
+					1,
+					{'id' : 'mosaicDisplayAllImg',} | merge(settings.mosaic.images.allimages == 1 ? {'checked':'checked'} : {})
+				),
+				'mosaic-display-all-images',
+				null,
+				'mosaic-display-all-images-row'
+            ) }}
+
+            {# form.row(
+            translate('Images count'),
+            form.input('number', 'mosaic[images][count]', settings.mosaic.images.count | default(5), {'min' : 5}),
+            'mosaic-images-count',
+            '',
+            'mosaic-images-count-row'
+            ) #}
+
+            {{ form.row(
+				translate('Show hidden images by click'),
+            	form.checkbox(
+					'mosaic[images][showHiddenImageByClick]',
+					1,
+					{'id': 'mosaicShowHiddenImages'} | merge(settings.mosaic.images.showHiddenImageByClick == 1 ? {'checked':'checked'} : {})
+				),
+				'mosaic-show-hidden-images',
+				null,
+				'mosaic-show-hidden-images-row'
+            ) }}
+
+            </tbody>
+        </table>
+        <div class="separator"></div>
+    </div>
+
+
+
+
+
+
+{% endblock %}
+
+{% if settings.captionBuilder.icons.enable == '1' %}
+	{% set tagsThatCanUseInCaptionBuilder = tagsThatCanUseInCaptionBuilder ~ '<a>' %}
+{% endif %}
+
+{% block icon_wrap_item_class %}
+	fa {{' '}} {{ settings.captionBuilder.icons.popupFontAwesomeClass | default('fa-expand') }}
+{% endblock %}
+
+{% if settings.captionBuilder.background.enable != 1
+	and settings.captionBuilder.title.enable != 1
+    and settings.captionBuilder.description.enable != 1
+    and settings.captionBuilder.icons.enable != '1'
+%}
+    {% set saveNewPlugin = 0 %}
+{% else %}
+    {% set saveNewPlugin = 1 %}
+	{% if settings.captionBuilder.enabled is empty %}
+		{% set settings = settings | merge({
+			'captionBuilder': (settings.captionBuilder | merge({'enabled' : 1}))
+		}) %}
+	{% endif %}
+{% endif %}
+
+{% if settings.captionBuilder.icons.enable == '1' and settings.captionBuilder.icons.enableOldCompatibility == 1 %}
+	{% set useFreePluginView = 'true' %}
+	{% set settings = settings|merge({
+		'icons': (settings.icons|merge({'enabled': 'true'})),
+		'thumbnail': (settings.thumbnail|merge({'overlay': (settings.thumbnail.overlay|merge({'enabled': 'true'}))}))
+	}) %}
+{% else %}
+	{% set useFreePluginView = 'false' %}
+{% endif %}
+
+{% set iconsRowEntryVal %}
+	<div class="sggCbEntrySpan hi-icon-wrap {{' '}}  {{ settings.icons.effect[0:length-1] }} {{' '}}  {{ settings.icons.effect }}">
+		{% if settings.captionBuilder.icons.videoFontAwesomeClass is not empty %}
+			{% set videoIcon = settings.captionBuilder.icons.videoFontAwesomeClass %}
+		{% else %}
+			{% set videoIcon = 'youtu' in gallery.photos[0].attachment.video ? 'fa-youtube-play' : 'fa-vimeo' %}
+		{% endif %}
+		{% set iconStyle %}
+			{% if settings.icons.margin is not empty %}
+				margin-left:{{ settings.icons.margin }}px;
+				margin-right:{{ settings.icons.margin }}px;
+			{% endif %}
+		{% endset %}
+
+		<a href="#" class="hi-icon gg-icon-video fa {{' '}} {{ videoIcon }}"
+			style="{{ iconStyle|trim }}"></a>
+
+		{% if settings.captionBuilder.icons.linkFontAwesomeClass is not empty %}
+			{% set externalLinkIcon = settings.captionBuilder.icons.linkFontAwesomeClass %}
+		{% else %}
+			{% set externalLinkIcon = 'fa-link' %}
+		{% endif %}
+
+		<a href="#" class="hi-icon gg-icon-link fa {{' '}} {{ externalLinkIcon }}"
+			style="{{ iconStyle|trim }}">
+		</a>
+
+		<a href="#" class="hi-icon gg-icon-popup fa {{' '}} {{ settings.captionBuilder.icons.popupFontAwesomeClass | default('fa-expand') }}"
+			style="{{ iconStyle|trim }}">
+		</a>
+
+		<a href="#" class="hi-icon gg-icon-download fa {{' '}} {{ settings.captionBuilder.icons.downloadFontAwesomeClass | default('fa-download') }}"
+			style="{{ iconStyle|trim }}">
+		</a>
+	</div>
+{% endset %}
+
+{% macro selected(actual, expected) %}
+    {% if actual == expected %}selected="selected"{% endif %}
+{% endmacro %}
+
+{% macro label(label, for) %}
+    <label for="{{ for }}">{{ label }}</label>
+{% endmacro %}
+
+{% macro addRow(post, index) %}
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+
+            var row = {
+                id: '{{ post.id }}',
+                image: '{{ post.photo }}',
+                author: '{{ post.author }}',
+                title: '{{ post.title }}',
+                comments: '{{ post.comments }}',
+                type: '{{ post.type }}',
+                date: '{{ post.date }}'
+            };
+
+            jQuery("#ui-jqgrid-htable").jqGrid('addRowData', {{ post.id }}, row);
+        });
+    </script>
+{% endmacro %}
+
+{% block proHiddenSettings %}
+	{{ form.hidden('captionBuilder[isOnceUsed]', settings.captionBuilder.isOnceUsed == 1 ? 1 : saveNewPlugin, {'id': 'captionBuilderOnceUsed'}) }}
+{% endblock %}
+
+{% block captionSettingsType %}
+
+	<table class="form-table" name="captionSettingsType">
+		<tbody>
+			{{ form.row(translate('Use Caption Builder'),
+				form.radio(
+					'captionBuilder[enabled]',
+					1,
+					{'id':'ggShowUserCaptionBuilder', 'class': 'ggUserCaptionBuilderCl'} | merge(settings.captionBuilder.enabled == 1 ? {'checked':'checked'} : {})
+				) ~
+				f.label(
+					translate('Enable'),
+					'ggShowUserCaptionBuilder'
+				) ~
+				form.radio(
+					'captionBuilder[enabled]',
+					0,
+					{'id':'ggHideUserCaptionBuilder', 'class': 'ggUserCaptionBuilderCl'} | merge(settings.captionBuilder.enabled != 1 ? {'checked':'checked'} : {})
+				) ~
+				f.label(
+					translate('Disable'),
+					'ggHideUserCaptionBuilder'
+				),
+				'useCaptionBuilder',
+				true
+			)}}
+		</tbody>
+	</table>
+	{{ form.hidden(
+		'thumbnail[overlay][imageOnHover]',
+		settings.thumbnail.overlay.imageOnHover,
+		{'id': 'ggImageOnHoverPath'}
+	)}}
+{% endblock %}
+
+{% block proCaptionAndIconSettings %}
+	{# caption builder Title position compatibility #}
+	{% if settings.captionBuilder.title.position is defined %}
+		{% set titleTablePosition = settings.captionBuilder.title.position %}
+	{% else %}
+		{% if settings.thumbnail.overlay.position == 'top' %}
+			{% set titleFreePosition = 'top' %}
+		{% elseif settings.thumbnail.overlay.position == 'bottom' %}
+			{% set titleFreePosition = 'bottom' %}
+		{% else %}
+			{% set titleFreePosition = 'center' %}
+		{% endif %}
+
+		{% if settings.thumbnail.overlay.text_align == 'left' %}
+			{% set titleFreeTextAlign = 'left' %}
+		{% elseif settings.thumbnail.overlay.text_align == 'right' %}
+			{% set titleFreeTextAlign = 'right' %}
+		{% else %}
+			{% set titleFreeTextAlign = 'center' %}
+		{% endif %}
+
+		{% set titleTablePosition = titleFreeTextAlign ~ '_' ~ titleFreePosition %}
+	{% endif %}
+
+	{% set iconsTablePosition = settings.captionBuilder.icons.position %}
+	{% set descriptionTablePosition = settings.captionBuilder.description.position %}
+
+	{# OLD HIDDEN PARAMS #}
+	{{ form.hidden('thumbnail[overlay][text_align]', settings.thumbnail.overlay.text_align) }}
+	{{ form.hidden('thumbnail[overlay][position]', settings.thumbnail.overlay.position) }}
+    {{ form.hidden('icons[enabled]', settings.icons.enabled|default('false')) }}
+	{{ form.hidden('thumbnail[overlay][enabled]', settings.thumbnail.overlay.enabled) }}
+	{{ form.hidden('icons[overlay_color]', settings.captionBuilder.icons.bgColor | default(settings.icons.overlay_color)) }}
+
+	{% if settings.captionBuilder.icons.bgColor is defined and settings.captionBuilder.icons.bgColor != '' %}
+		{{ form.hidden('icons[overlay_enabled]', 'true') }}
+	{% elseif settings.icons.overlay_enabled == 'true' %}
+		{{ form.hidden('icons[overlay_enabled]', 'true') }}
+	{% endif %}
+
+	{% set ggPreviewTitleRowHtml %}
+		{% if gallery.photos[0].attachment.caption is not empty %}
+			{{ gallery.photos[0].attachment.caption | striptags(tagsThatCanUseInCaptionBuilder) | raw }}
+		{% else %}
+			{{ gallery.photos[0].attachment.title }}
+		{% endif %}
+	{% endset %}
+	{% set ggPreviewDescriptionRowHtml %}
+		{% if gallery.photos[0].attachment.captionDescription is not empty %}
+			{{ gallery.photos[0].attachment.captionDescription | striptags(tagsThatCanUseInCaptionBuilder) | raw }}
+		{% endif %}
+	{% endset %}
+
+	{{ form.hidden('captionBuilder[title][entry]', ggPreviewTitleRowHtml, {'id': 'ggPreviewTitleRowHtmlInp'}) }}
+	{{ form.hidden('captionBuilder[description][entry]', ggPreviewDescriptionRowHtml, {'id': 'ggPreviewDescrRowHtmlInp'}) }}
+
+	{# Caption builder Background #}
+    <table class="form-table sgg-caption-builder sggSettDisplNone" name="captions-builder-background">
+        <thead>
+
+		{{ form.row(translate('Background'),
+			form.checkbox(
+				'captionBuilder[background][enable]',
+				1,
+				{'id': 'captionBuilderBackgroundEnable'} | merge(settings.captionBuilder.background.enable == 1 ? {'checked':'checked'} : {})
+			),
+			'captionBuilderBackgroundEnableRow',
+			true
+		) }}
+
+		{# Background color #}
+		{{ form.row(translate('Color'),
+            form.text(
+		        'thumbnail[overlay][background]',
+				settings.thumbnail.overlay.background | default('#000'),
+                {'class':'gg-color-picker', 'id': 'overlayBackground'}
+            ),
+            'overlayBackgroundRow'
+        )}}
+
+		{# Background transparency #}
+		{{ form.row(translate('Transparency'),
+            form.select(
+		        'thumbnail[overlay][transparency]',
+                ['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+		        settings.thumbnail.overlay.transparency | default(9),
+                { 'style': 'width: auto;', 'id' : 'overlayTransparency'}
+			),
+			'captb-bg-transparency'
+        )}}
+
+		{# Choose effect #}
+		{{ form.row(translate('Animation Effect'),
+            form.button(
+                'captBuildChooseEffect',
+                translate('Choose effect'),
+                {'id': 'captionBuilderChooseEffect', 'class': 'button bordered'}
+            ),
+			'captionBuilderChooseEffectRow'
+        )}}
+
+		{# Image on Hover Effect Background #}
+		{% block backgroundImageForHoverEffect %}
+			{{ form.row(translate('Image on hover'),
+				form.select(
+					'thumbnail[overlay][imageOnHoverEnable]',
+					{
+						'0':translate('Disable'),
+						'1':translate('Enable'),
+					},
+					settings.thumbnail.overlay.imageOnHoverEnable,
+					{'class': 'ggOverlayEnableImageOnHover'}
+				),
+				'overlay-effect-image-on-hover-enable',
+				'h4'
+			) }}
+			{% set ggOverlayImgOnHoverHtml = '<img src="' ~ settings.thumbnail.overlay.imageOnHover ~ '" alt=" " class="ggOverlayImgOnHoverImg"/>' %}
+
+			<tr class="ggOverlayEnableOnHoverRow">
+				<th scope="row">
+					<label class="label-overlay-effect-image-on-hover">
+						{{ translate('Select image on hover') }}
+						{{ form.show_tooltip('overlay-effect-image-on-hover') }}
+					</label>
+				</th>
+				<td class="overlay-effect-image-on-hover">
+					{{
+						(ggOverlayImgOnHoverHtml ~
+						form.button(
+							'thumbnail[overlay][imageOnHoverBtn]',
+							translate('Upload Image'),
+							{'class': 'button button-primary ggImageOnHoverBtn',}
+						)) | raw
+					}}
+				</td>
+			</tr>
+		{% endblock %}
+
+		{# Background color for "Show on hover" #}
+		{% block backgroundColorForShowOnHover %}
+			{{ form.row(translate('Background color for "Show on hover"'),
+				form.text(
+					'thumbnail[overlay][backgroundForShowOnHover]',
+					settings.thumbnail.overlay.backgroundForShowOnHover | default("#000000"),
+					{ 'class':'gg-color-picker' }
+				),
+				'backgroundForShowOnHover',
+				null,
+				'showOnHoverBgColorRow'
+			)}}
+		{% endblock %}
+
+		{# Show personal caption #}
+		{{ form.row(translate('Personal image captions'),
+			form.select(
+				'thumbnail[overlay][personal]',
+				{'true': translate('Enable'), 'false': translate('Disable')},
+				settings.thumbnail.overlay.personal|default('false'),
+				{ 'style': 'width: auto;' }
+			),
+			'overlay-personal'
+		)}}
+
+		{# Enable/Disable polaroid effect #}
+		{{ form.row(translate('Polaroid Style'),
+			form.select(
+				'',
+				{'true': translate('Enable'), 'false': translate('Disable')},
+				polaroidIsEnable,
+				{'style': 'width: auto;', 'id' : 'captionBuilderPolaroidEffect', 'class' : 'polaroid-effect-class'}
+			),
+			'captionBuilderPolaroidEffectRow',
+			'h4'
+		)}}
+
+		{# Enable/Disable polaroid animation #}
+		{{ form.row(translate('Polaroid Image Animation'),
+			form.select(
+				'thumbnail[overlay][polaroidAnimation]',
+				{'true': translate('Enable'), 'false': translate('Disable')},
+				settings.thumbnail.overlay.polaroidAnimation | default('true'),
+				{ 'style': 'width: auto;', 'id': 'captionBuilderPolaroidAnimation' }
+			),
+			'captionBuilderPolaroidAnimationRow'
+		)}}
+
+		{# Enable/Disable polaroid scattering #}
+		{{ form.row(translate('Polaroid Image Scattering '),
+			form.select(
+				'thumbnail[overlay][polaroidScattering]',
+				{'true': translate('Enable'), 'false': translate('Disable')},
+				settings.thumbnail.overlay.polaroidScattering | default('true'),
+				{ 'style': 'width: auto;', 'id': 'captionBuilderPolaroidScattering' }
+			),
+			'captionBuilderPolaroidScatteringRow'
+		)}}
+
+		{# Polaroid frame width #}
+		{{ form.row(translate('Polaroid Frame Padding'),
+			form.input(
+				'number',
+				'thumbnail[overlay][polaroidFrameWidth]',
+				settings.thumbnail.overlay.polaroidFrameWidth|default(20),
+				{ 'style': { 'width': '140px'}, 'pattern':'[0-9]', 'id' : 'captionBuilderPolaroidFrameWidth' }
+			),
+			'captionBuilderPolaroidFrameWidthRow',
+			null,
+			'polaroid-fram-width-row'
+		)}}
+
+		{# Hide image tooltip(browser default tooltip) #}
+		{{ form.row(translate('Hide image title'),
+			form.select(
+				'thumbnail[tooltip]',
+				{'false': translate('No'), 'true': translate('Yes')},
+				settings.thumbnail.tooltip,
+				{ 'style': 'width: auto;' }
+			),
+			'tooltip'
+		)}}
+
+		{# Mobile - show always caption(show none effect in mobile devices) #}
+		{{ form.row(translate('Always show captions on mobile'),
+			form.select(
+				'thumbnail[isMobile]',
+				{'false': translate('No'), 'true': translate('Yes')},
+				settings.thumbnail.isMobile|default('false')
+			),
+			'ismobile'
+		)}}
+
+		{# Check if you want to disable captions on mobile devices #}
+		{{ form.row(translate('Disable captions on mobile'),
+			form.select(
+				'thumbnail[isDisableMobileCaption]',
+				{'false': translate('No'), 'true': translate('Yes')},
+				settings.thumbnail.isDisableMobileCaption|default('false')
+			),
+			'isDisableMobileCaption'
+		)}}
+		</thead>
+	</table>
+
+	{# TITLE #}
+	<table class="form-table sgg-caption-builder sggSettDisplNone" name="captions-builder-title">
+		<thead>
+
+			{{ form.row(translate('Caption'),
+				form.checkbox(
+					'captionBuilder[title][enable]',
+					1,
+					{'id' : 'captionBuilderTitleEnable'}|merge(settings.captionBuilder.title.enable == 1 ? {'checked':'checked'} : {})
+				),
+				'captionBuilderTitleEnableRow',
+				true
+			) }}
+
+            {# Title Height #}
+            {{ form.row(translate('Height'),
+                form.input(
+                'text',
+                'captionBuilder[title][height]',
+                settings.captionBuilder.title.height|default('33%'),
+                {'id' : 'captionBuilderTitleHeight'}
+                ),
+                'captb-title-height'
+            )}}
+
+			{# Title Position #}
+			{{ form.row(translate('Position'),
+				form.radio(
+					'captionBuilder[title][position]',
+					'left_top',
+					{'id':'captBuilderTitlePositionLeftTop', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'left_top' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Top Left'),
+					'captBuilderTitlePositionLeftTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[title][position]',
+					'center_top',
+					{'id':'captBuilderTitlePositionCenterTop', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'center_top' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Top Center'),
+					'captBuilderTitlePositionCenterTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[title][position]',
+					'right_top',
+					{'id':'captBuilderTitlePositionRightTop', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'right_top' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Top Right'),
+					'captBuilderTitlePositionRightTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[title][position]',
+					'left_center',
+					{'id':'captBuilderTitlePositionLeftCenter', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'left_center' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Left'),
+					'captBuilderTitlePositionLeftCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[title][position]',
+					'center_center',
+					{'id':'captBuilderTitlePositionCenterCenter', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'center_center' or titleTablePosition is empty ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Center'),
+					'captBuilderTitlePositionCenterCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[title][position]',
+					'right_center',
+					{'id':'captBuilderTitlePositionRightCenter', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'right_center' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Right'),
+					'captBuilderTitlePositionRightCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[title][position]',
+					'left_bottom',
+					{'id':'captBuilderTitlePositionLeftBottom', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'left_bottom' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bottom Left'),
+					'captBuilderTitlePositionLeftBottom'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[title][position]',
+					'center_bottom',
+					{'id':'captBuilderTitlePositionCenterBottom', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'center_bottom' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bottom Center'),
+					'captBuilderTitlePositionCenterBottom'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[title][position]',
+					'right_bottom',
+					{'id':'captBuilderTitlePositionRightBottom', 'class':'captionBuilderPosRadio'}|merge(titleTablePosition == 'right_bottom' ? {'checked':'checked'} : {})
+					) ~
+				form.label(
+					translate('Bottom Right'),
+					'captBuilderTitlePositionRightBottom'
+				),
+				'captb-title-position', null, 'captionBuilderTitlePosition'
+			) }}
+
+			{# Title Paddings #}
+			{{ form.row(translate('Paddings'),
+				'<div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Left'),
+					'thumbnailOverlayPaddingsLeft'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[title][paddings][left]',
+			        settings.captionBuilder.title.paddings.left|default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Left', 'id': 'thumbnailOverlayPaddingsLeft', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Right'),
+					'thumbnailOverlayPaddingsRight'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[title][paddings][right]',
+			        settings.captionBuilder.title.paddings.right|default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Right', 'id': 'thumbnailOverlayPaddingsRight', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Top'),
+					'thumbnailOverlayPaddingsTop'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[title][paddings][top]',
+			        settings.captionBuilder.title.paddings.top|default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Top', 'id': 'thumbnailOverlayPaddingsTop', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Bottom'),
+					'thumbnailOverlayPaddingsBottom'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[title][paddings][bottom]',
+			        settings.captionBuilder.title.paddings.bottom|default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Bottom', 'id': 'thumbnailOverlayPaddingsBottom', 'pattern':'[0-9]' }
+				) ~
+				'</div>',
+				'captb-title-padding'
+			)}}
+
+			{# Title font family #}
+			{{ form.row(translate('Font'),
+				form.selectv(
+					'thumbnail[overlay][font_family]',
+					fontList,
+					settings.thumbnail.overlay.font_family,
+					{ 'style': 'width: auto;', 'id': 'thumbnailOverlayFontFamily' }
+				),
+				'thumbnailOverlayFontFamilyRow'
+			)}}
+
+			{# Title font size #}
+			{{ form.row(translate('Font size'),
+				form.input(
+					'number',
+					'thumbnail[overlay][text_size]',
+					settings.thumbnail.overlay.text_size,
+					{ 'style': { 'width': '70px'}, 'id' : 'thumbnailOverlayTextSize', 'pattern':'[0-9]' }
+				)
+				~ form.select(
+					'thumbnail[overlay][text_size_unit]',
+					['pixels', 'percents', 'ems'],
+					settings.thumbnail.overlay.text_size_unit,
+					{ 'style': 'height: 27px;', 'id': 'thumbnailOverlayTextSizeUnit' }
+				),
+				'catpb-title-font-size'
+			)}}
+
+			{# Title font color #}
+			{{ form.row(translate('Text color'),
+				form.text(
+					'thumbnail[overlay][foreground]',
+					settings.thumbnail.overlay.foreground | default('#fff'),
+					{'class':'gg-color-picker', 'id': 'thumbnailOverlayFontColor'}
+				),
+				'thumbnailOverlayFontColorRow'
+			)}}
+
+			{# Title font style #}
+			{{ form.row(translate('Font style'),
+				form.checkbox(
+					'thumbnail[overlay][fontStyle][]',
+					'bold',
+					{'id': 'thumbnailOverlayFontStyleBold', 'class': 'font-style-checkbox'} | merge('bold' in settings.thumbnail.overlay.fontStyle  ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bold'),
+					'thumbnailOverlayFontStyleBold'
+				) ~
+				form.checkbox(
+					'thumbnail[overlay][fontStyle][]',
+					'italic',
+					{'id': 'thumbnailOverlayFontStyleItalic', 'class': 'font-style-checkbox'} | merge('italic' in settings.thumbnail.overlay.fontStyle ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Italic'),
+					'thumbnailOverlayFontStyleItalic'
+				) ~
+				form.checkbox(
+					'thumbnail[overlay][fontStyle][]',
+					'line',
+					{'id': 'thumbnailOverlayFontStyleLine', 'class': 'font-style-checkbox'} | merge('line' in settings.thumbnail.overlay.fontStyle ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Line'),
+					'thumbnailOverlayFontStyleLine'
+				),
+				'captb-title-font-style',
+				null,
+				'thumbnailOverlayFontStyleRow'
+			)}}
+
+			{# Title Text highlight color #}
+			{{ form.row(translate('Text Highlight Color'),
+				form.text(
+					'captionBuilder[title][bgColor]',
+					settings.captionBuilder.title.bgColor | default('#000'),
+					{'class':'gg-color-picker', 'id' : 'captionBuilderTitleBgColor'}
+				),
+				'captionBuilderTitleBgColorRow'
+			)}}
+
+			{# Title bg transparency #}
+			{{ form.row(translate('Text Highlight Color Transparency'),
+				form.select(
+					'captionBuilder[title][bgColorTransparency]',
+					['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+					settings.captionBuilder.title.bgColorTransparency,
+					{ 'style': 'width: auto;', 'id': 'captionBuilderTitleBgColorTransparency' }
+				),
+				'captionBuilderTitleBgColorTransparencyRow'
+			) }}
+
+			{{ form.row(translate('Allow all html tag in caption'),
+				form.checkbox(
+					'captionBuilder[captionhtml][enable]',
+					1,
+					{'id' : 'captionBuilderCaptionhtmlEnable'}|merge(settings.captionBuilder.captionhtml.enable == 1 ? {'checked':'checked'} : {})
+				),
+				'captionBuilderCaptionhtmlEnableRow'
+			) }}
+
+
+			{# Title Animation start #}
+			{#{{ form.row(translate('Animation start'),#}
+				{#form.checkbox(#}
+					{#'thumbnail[overlay][animationStart][]',#}
+					{#'image_load',#}
+					{#{'id': 'thumbnailOverlayAnimationStartImageLoad', 'class': 'font-style-checkbox'} | merge('image_load' in settings.thumbnail.overlay.animationStart  ? {'checked':'checked'} : {})#}
+				{#) ~#}
+				{#form.label(#}
+					{#translate('Image Load'),#}
+					{#'thumbnailOverlayAnimationStartImageLoad'#}
+				{#) ~#}
+				{#form.checkbox(#}
+					{#'thumbnail[overlay][animationStart][]',#}
+					{#'mouse_over',#}
+					{#{'id': 'thumbnailOverlayAnimationStartMouserOver', 'class': 'font-style-checkbox'} | merge('mouse_over' in settings.thumbnail.overlay.animationStart  ? {'checked':'checked'} : {})#}
+				{#) ~#}
+				{#form.label(#}
+					{#translate('Mouser Over'),#}
+					{#'thumbnailOverlayAnimationStartMouserOver'#}
+				{#),#}
+				{#'captBuildTitleAnimationStart'#}
+			{#)}}#}
+
+			{# Title Animation delay #}
+			{#{{ form.row(translate('Delay for'),#}
+				{#form.input(#}
+					{#'number',#}
+					{#'thumbnail[overlay][animationDelay]',#}
+					{#settings.thumbnail.overlay.animationDelay,#}
+					{#{ 'style': { 'width': '100px'}, 'id': 'thumbnailOverlayAnimationDelay', 'pattern':'[0-9]', 'placeholder':'ms', }#}
+				{#),#}
+				{#'thumbnailOverlayAnimationDelay'#}
+			{#)}}#}
+		</thead>
+	</table>
+
+	{# DESCRIPTION #}
+	<table class="form-table sgg-caption-builder sggSettDisplNone" name="captions-builder-description">
+		<thead>
+
+			{{ form.row(translate('Description'),
+				form.checkbox(
+					'captionBuilder[description][enable]',
+					1,
+					{'id' : 'captionBuilderDescriptionEnable'}|merge(settings.captionBuilder.description.enable == 1 ? {'checked':'checked'} : {})
+				),
+				'captionBuilderDescriptionEnableRow',
+				true
+			) }}
+
+            {# Description Height #}
+            {{ form.row(translate('Height'),
+                form.input(
+                'text',
+                'captionBuilder[description][height]',
+                settings.captionBuilder.description.height|default('33%'),
+                {'id' : 'captionBuilderDescriptionHeight'}
+                ),
+                'captb-descr-height'
+            )}}
+
+			{# Description Position #}
+			{{ form.row(translate('Position'),
+				form.radio(
+					'captionBuilder[description][position]',
+					'left_top',
+					{'id':'captBuilderDescriptionPositionLeftTop', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'left_top' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Top Left'),
+					'captBuilderDescriptionPositionLeftTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[description][position]',
+					'center_top',
+					{'id':'captBuilderDescriptionPositionCenterTop', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'center_top' ? {'checked':'checked'} : {})
+				) ~
+					form.label(
+					translate('Top Center'),
+					'captBuilderDescriptionPositionCenterTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[description][position]',
+					'right_top',
+					{'id':'captBuilderDescriptionPositionRightTop', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'right_top' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Top Right'),
+					'captBuilderDescriptionPositionRightTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[description][position]',
+					'left_center',
+					{'id':'captBuilderDescriptionPositionLeftCenter', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'left_center' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Left'),
+					'captBuilderDescriptionPositionLeftCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[description][position]',
+					'center_center',
+					{'id':'captBuilderDescriptionPositionCenterCenter', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'center_center' or descriptionTablePosition is empty ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Center'),
+					'captBuilderDescriptionPositionCenterCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[description][position]',
+					'right_center',
+					{'id':'captBuilderDescriptionPositionRightCenter', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'right_center' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Right'),
+					'captBuilderDescriptionPositionRightCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[description][position]',
+					'left_bottom',
+					{'id':'captBuilderDescriptionPositionLeftBottom', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'left_bottom' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bottom Left'),
+					'captBuilderDescriptionPositionLeftBottom'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[description][position]',
+					'center_bottom',
+					{'id':'captBuilderDescriptionPositionCenterBottom', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'center_bottom' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bottom Center'),
+					'captBuilderDescriptionPositionCenterBottom'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[description][position]',
+					'right_bottom',
+					{'id':'captBuilderDescriptionPositionRightBottom', 'class':'captionBuilderPosRadio'}|merge(descriptionTablePosition == 'right_bottom' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bottom Right'),
+					'captBuilderDescriptionPositionRightBottom'
+				),
+				'captb-descr-position', null, 'captionBuilderDescriptionPosition'
+			) }}
+
+			{# Description Paddings #}
+			{{ form.row(translate('Paddings'),
+				'<div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Left'),
+					'captionBuilderDescriptionPaddingsLeft'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[description][paddings][left]',
+					settings.captionBuilder.description.paddings.left|default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Left', 'id': 'captionBuilderDescriptionPaddingsLeft', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Right'),
+					'captionBuilderDescriptionPaddingsRight'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[description][paddings][right]',
+					settings.captionBuilder.description.paddings.right|default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Right', 'id': 'captionBuilderDescriptionPaddingsRight', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Top'),
+					'captionBuilderDescriptionPaddingsTop'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[description][paddings][top]',
+					settings.captionBuilder.description.paddings.top|default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Top', 'id': 'captionBuilderDescriptionPaddingsTop', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Bottom'),
+					'captionBuilderDescriptionPaddingsBottom'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[description][paddings][bottom]',
+					settings.captionBuilder.description.paddings.bottom|default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Bottom', 'id': 'captionBuilderDescriptionPaddingsBottom', 'pattern':'[0-9]' }
+				) ~
+				'</div>',
+				'captb-descr-paddings'
+			)}}
+
+			{# Description font family #}
+			{{ form.row(translate('Font'),
+				form.selectv(
+					'captionBuilder[description][font_family]',
+					fontList,
+					settings.captionBuilder.description.font_family | default(settings.thumbnail.overlay.font_family),
+					{ 'style': 'width: auto;', 'id': 'captionBuilderDescriptionFontFamily' }
+				),
+				'captionBuilderDescriptionFontFamilyRow'
+			)}}
+
+			{# Description font size #}
+			{{ form.row(translate('Font size'),
+				form.input(
+					'number',
+					'captionBuilder[description][font_size]',
+					settings.captionBuilder.description.font_size | default(settings.thumbnail.overlay.text_size),
+					{ 'style': { 'width': '70px'}, 'id' : 'captionBuilderDescriptionFontSize', 'pattern':'[0-9]' }
+				)
+				~ form.select(
+					'captionBuilder[description][font_size_unit]',
+					['pixels', 'percents', 'ems'],
+					settings.captionBuilder.description.font_size_unit | default(settings.thumbnail.overlay.text_size_unit),
+					{ 'style': 'height: 27px;', 'id': 'captionBuilderDescriptionFontSizeUnit' }
+				),
+				'captb-descr-font-size'
+			)}}
+
+			{# Description font color #}
+			{{ form.row(translate('Text color'),
+				form.text(
+					'captionBuilder[description][fontColor]',
+					settings.captionBuilder.description.fontColor | default('#fff'),
+					{'class':'gg-color-picker', 'id': 'captionBuilderDescriptionFontColor'}
+				),
+				'captBuildDescriptionFontColorRow'
+			)}}
+
+			{# Description font style #}
+			{{ form.row(translate('Font style'),
+				form.checkbox(
+					'captionBuilder[description][fontStyle][]',
+					'bold',
+					{'id': 'captBuildDescriptionFontStyleBold', 'class': 'font-style-checkbox'} | merge('bold' in settings.captionBuilder.description.fontStyle  ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bold'),
+					'captBuildDescriptionFontStyleBold'
+				) ~
+				form.checkbox(
+					'captionBuilder[description][fontStyle][]',
+					'italic',
+					{'id': 'captBuildDescriptionFontStyleItalic', 'class': 'font-style-checkbox'} | merge('italic' in settings.captionBuilder.description.fontStyle ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Italic'),
+					'captBuildDescriptionFontStyleItalic'
+				) ~
+				form.checkbox(
+					'captionBuilder[description][fontStyle][]',
+					'line',
+					{'id': 'captBuildDescriptionFontStyleLine', 'class': 'font-style-checkbox'} | merge('line' in settings.captionBuilder.description.fontStyle ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Line'),
+					'captBuildDescriptionFontStyleLine'
+				),
+				'captb-descr-font-style',
+				null,
+				'captBuildDescriptionFontStyleRow'
+			)}}
+
+			{# Description Text highlight color #}
+			{{ form.row(translate('Text Highlight Color'),
+				form.text(
+					'captionBuilder[description][bgColor]',
+					settings.captionBuilder.description.bgColor | default('#000'),
+					{'class':'gg-color-picker', 'id' : 'captBuildDescriptionBgColor'}
+				),
+				'captBuildDescriptionBgColorRow'
+			)}}
+
+			{# Description bg transparency #}
+			{{ form.row(translate('Text Highlight Color Transparency'),
+				form.select(
+					'captionBuilder[description][bgColorTransparency]',
+					['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+					settings.captionBuilder.description.bgColorTransparency,
+					{ 'style': 'width: auto;', 'id': 'captBuildDescriptionBgColorTransparency' }
+				),
+				'captBuildDescriptionBgColorTransparencyRow'
+			) }}
+
+			{# Description Animation start #}
+			{# Description Animation delay #}
+		</thead>
+	</table>
+
+	{# ICONS #}
+	<table class="form-table sgg-caption-builder sggSettDisplNone" name="captions-builder-icons">
+
+		<thead>
+
+			{{ form.row(translate('Icons'),
+				form.checkbox(
+					'captionBuilder[icons][enable]',
+					'1',
+					{'id' : 'captionBuilderIconsEnable'}|merge(settings.captionBuilder.icons.enable == '1' ? {'checked':'checked'} : {})
+				),
+				'iconsEnable',
+				true
+			) }}
+
+			{# Icons Entry type#}
+			{#{{ form.row(translate('Icon entry type'),#}
+				{#form.radio(#}
+					{#'captionBuilder[icons][entryType]',#}
+					{#'videoLinkLightBox',#}
+					{#{'id':'iconsEntryTypeVLL'}|merge(settings.captionBuilder.icons.entryType == 'videoLinkLightBox' or settings.icons.entryType is not defined ? {'checked':'checked'} : {})#}
+				{#) ~#}
+				{#form.label(#}
+					{#translate('Video, Link, LightBox'),#}
+					{#'iconsEntryTypeVLL'#}
+				{#) ~#}
+				{#form.radio(#}
+					{#'captionBuilder[icons][entryType]',#}
+					{#'social',#}
+					{#{'id':'iconsEntryTypeSocial'}|merge(settings.captionBuilder.icons.entryType == 'social' ? {'checked':'checked'} : {})#}
+				{#) ~#}
+				{#form.label(#}
+					{#translate('Social'),#}
+					{#'iconsEntryTypeSocial'#}
+				{#),#}
+				{#'captionBuilderIconsEntryType'#}
+			{#) }}#}
+
+            {# Icons Height #}
+            {{ form.row(translate('Height'),
+            form.input(
+            'text',
+            'captionBuilder[icons][height]',
+            settings.captionBuilder.icons.height|default('34%'),
+            {'id' : 'captionBuilderIconsHeight'}
+            ),
+            'captb-icons-height'
+            )}}
+
+			{# Icons Position #}
+			{{ form.row(translate('Position'),
+				form.radio(
+					'captionBuilder[icons][position]',
+					'left_top',
+					{'id':'captBuilderIconsPositionLeftTop', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'left_top' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Top Left'),
+					'captBuilderIconsPositionLeftTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[icons][position]',
+					'center_top',
+					{'id':'captBuilderIconsPositionCenterTop', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'center_top' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Top Center'),
+					'captBuilderIconsPositionCenterTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[icons][position]',
+					'right_top',
+					{'id':'captBuilderIconsPositionRightTop', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'right_top' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Top Right'),
+					'captBuilderIconsPositionRightTop'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[icons][position]',
+					'left_center',
+					{'id':'captBuilderIconsPositionLeftCenter', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'left_center' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Left'),
+					'captBuilderIconsPositionLeftCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[icons][position]',
+					'center_center',
+					{'id':'captBuilderIconsPositionCenterCenter', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'center_center' or iconsTablePosition is empty ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Center'),
+					'captBuilderIconsPositionCenterCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[icons][position]',
+					'right_center',
+					{'id':'captBuilderIconsPositionRightCenter', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'right_center' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Middle Right'),
+					'captBuilderIconsPositionRightCenter'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[icons][position]',
+					'left_bottom',
+					{'id':'captBuilderIconsPositionLeftBottom', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'left_bottom' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bottom Left'),
+					'captBuilderIconsPositionLeftBottom'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[icons][position]',
+					'center_bottom',
+					{'id':'captBuilderIconsPositionCenterBottom', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'center_bottom' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bottom Center'),
+					'captBuilderIconsPositionCenterBottom'
+				) ~ '<br/>' ~
+				form.radio(
+					'captionBuilder[icons][position]',
+					'right_bottom',
+					{'id':'captBuilderIconsPositionRightBottom', 'class':'captionBuilderPosRadio'}|merge(iconsTablePosition == 'right_bottom' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Bottom Right'),
+					'captBuilderIconsPositionRightBottom'
+				),
+				'captb-icons-position', null, 'iconPosition'
+			) }}
+
+			{# Icons Paddings #}
+			{{ form.row(translate('Paddings'),
+				'<div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Left'),
+					'iconsPaddingsLeft'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[icons][paddings][left]',
+			        settings.captionBuilder.icons.paddings.left| default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Left', 'id': 'iconsPaddingsLeft', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Right'),
+					'iconsPaddingsRight'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[icons][paddings][right]',
+                    settings.captionBuilder.icons.paddings.right | default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Right', 'id': 'iconsPaddingsRight', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Top'),
+					'iconsPaddingsTop'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[icons][paddings][top]',
+			        settings.captionBuilder.icons.paddings.top | default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Top', 'id': 'iconsPaddingsTop', 'pattern':'[0-9]' }
+				) ~
+				'</div><div class="gg-sett-one-row">' ~
+				form.label(
+					translate('Bottom'),
+					'iconsPaddingsBottom'
+				) ~
+				form.input(
+					'number',
+					'captionBuilder[icons][paddings][bottom]',
+			        settings.captionBuilder.icons.paddings.bottom | default('0'),
+					{ 'class': 'caption-paddings', 'placeholder': 'Bottom', 'id': 'iconsPaddingsBottom', 'pattern':'[0-9]' }
+				) ~
+				'</div>',
+				'captb-icons-paddings'
+			)}}
+
+			{#{{ form.row(translate('Social'),#}
+				{#null,#}
+				{#'iconsSocialHeader',#}
+				{#true#}
+			{#)}}#}
+
+			{#{{ form.row(translate('Video, Link, LightBox'),#}
+				{#null,#}
+				{#'iconsVLLHeader',#}
+				{#true#}
+			{#)}}#}
+
+			{# Use Compatibility mode #}
+			{{ form.hidden('captionBuilder[icons][enableOldCompatibility]', settings.captionBuilder.icons.enableOldCompatibility) }}
+
+			{{ parentSett.showFewIconsBy(settings, form, 1) }}
+
+			{# Popup Icons Symbol #}
+			{{ form.row(translate('Popup image icon'),
+                form.button(
+					'iconsChoosePopupButton',
+					'Choose',
+					{'class': 'button button-primary icon-fa-select', 'data-icon-type' : 'popup', 'id': 'iconsChoosePopupButton'}
+				) ~
+				form.hidden(
+					'captionBuilder[icons][popupFontAwesomeClass]',
+					settings.captionBuilder.icons.popupFontAwesomeClass | default('fa-expand'),
+					{'id': 'popupIconFaClass'}
+				) ~ form.icon(settings.captionBuilder.icons.popupFontAwesomeClass, 32, 'popupFontAwesomeClass'),
+				'iconsPopupIcon'
+			)}}
+
+			{# Video Icons Symbol #}
+			{{ form.row(translate('Video icon'),
+					form.button(
+					'iconsChooseVideoButton',
+					'Choose',
+					{'class': 'button button-primary icon-fa-select', 'data-icon-type' : 'video', 'id': 'iconsChooseVideoButton'}
+				) ~
+				form.hidden(
+					'captionBuilder[icons][videoFontAwesomeClass]',
+					settings.captionBuilder.icons.videoFontAwesomeClass|default('fa-youtube'),
+					{'id': 'videoIconFaClass'}
+				) ~ form.icon(settings.captionBuilder.icons.videoFontAwesomeClass|default('fa-youtube'), 32, 'videoFontAwesomeClass'),
+				'iconsVideoIcon'
+			)}}
+
+			{# Link Icons Symbol #}
+			{{ form.row(translate('Link icon'),
+				form.button(
+					'iconsChooseLinkButton',
+					'Choose',
+					{'class': 'button button-primary icon-fa-select', 'data-icon-type' : 'link', 'id': 'iconsChooseLinkButton'}
+				) ~
+				form.hidden(
+					'captionBuilder[icons][linkFontAwesomeClass]',
+					settings.captionBuilder.icons.linkFontAwesomeClass|default('fa-link'),
+					{'id': 'linkIconFaClass'}
+				) ~ form.icon(settings.captionBuilder.icons.linkFontAwesomeClass|default('fa-link'), 32, 'linkFontAwesomeClass'),
+				'iconsLinkIcon'
+			)}}
+
+			{# Download Icons Symbol #}
+			{{ form.row(translate('Download icon'),
+				form.button(
+					'iconsChooseDownloadButton',
+					'Choose',
+					{'class': 'button button-primary icon-fa-select', 'data-icon-type' : 'download', 'id': 'iconsChooseDownloadButton'}
+				) ~
+				form.hidden(
+					'captionBuilder[icons][downloadFontAwesomeClass]',
+					settings.captionBuilder.icons.downloadFontAwesomeClass|default('fa-download'),
+					{'id': 'downloadIconFaClass'}
+				) ~ form.icon(settings.captionBuilder.icons.downloadFontAwesomeClass|default('fa-download'), 32, 'downloadFontAwesomeClass'),
+				'iconsDownloadIcon'
+			)}}
+
+			{{ form.row(translate('Download sizes'),
+				form.checkbox(
+					'captionBuilder[icons][downloadSizes][full]',
+					1,
+					{'id' : 'downloadFullSize'}|merge(settings.captionBuilder.icons.downloadSizes.full == 1 ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('full size'),
+					'downloadFullSize'
+				) ~
+				form.checkbox(
+					'captionBuilder[icons][downloadSizes][large]',
+					1,
+					{'id' : 'downloadLargeSize'}|merge(settings.captionBuilder.icons.downloadSizes.large == 1 ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('large'),
+					'downloadLargeSize'
+				) ~
+				form.checkbox(
+					'captionBuilder[icons][downloadSizes][medium]',
+					1,
+					{'id' : 'downloadMediumSize'}|merge(settings.captionBuilder.icons.downloadSizes.medium == 1 ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('medium'),
+					'downloadMediumSize'
+				)
+			)}}
+
+			{# Icons size #}
+			{{ form.row(translate('Icons size'),
+				form.input(
+					'number',
+					'icons[size]',
+					settings.icons.size | default(15),
+					{ 'style': { 'width': '70px'}, 'id' : 'iconsSize', 'pattern':'[0-9]'}
+				) ~ 'px',
+				'captb-icons-font-size'
+			)}}
+
+			{# Icons color #}
+			{{ form.row(translate('Icons color'),
+				form.text(
+					'icons[color]',
+					settings.icons.color | default('#000'),
+					{'class':'gg-color-picker', 'id': 'iconsColor'}
+				),
+				'captb-icons-color'
+			)}}
+
+			{# Icons Hover color #}
+			{{ form.row(translate('Icons hover color'),
+				form.text(
+					'icons[hover_color]',
+					settings.icons.hover_color | default('#fff'),
+					{'class':'gg-color-picker', 'id': 'iconsHoverColor'}
+				),
+				'captb-icons-hover-color'
+			)}}
+
+			{# Icons bg transparency #}
+			{{ form.row(translate('Icons Transparency'),
+				form.select(
+					'icons[overlay_transparency]',
+					['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+                    settings.icons.overlay_transparency,
+					{ 'style': 'width: auto;', 'id': 'iconsTransparency' }
+				),
+				'iconsTransparencyRow'
+			) }}
+
+			{# Icons Background color #}
+			{{ form.row(translate('Background color'),
+				form.text(
+					'icons[background]',
+					settings.icons.background | default('#fff'),
+					{'class':'gg-color-picker', 'id' : 'iconsBackgroundColor'}
+				),
+				'captb-icons-bg-color'
+			)}}
+
+			{# Icons Background hover color #}
+			{{ form.row(translate('Background hover color'),
+				form.text(
+					'icons[background_hover]',
+					settings.icons.background_hover | default('#000'),
+					{'class':'gg-color-picker', 'id' : 'iconsBackgroundHoverColor'}
+				),
+				'captb-icons-hover-bg-color'
+			)}}
+
+			{# Icons bg transparency #}
+			{{ form.row(translate('Background Transparency'),
+				form.select(
+					'icons[bgTransparency]',
+					['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+					settings.icons.bgTransparency,
+					{ 'style': 'width: auto;', 'id': 'iconsBgTransparency' }
+				),
+				'iconsBgTransparencyRow'
+			) }}
+
+			{# Icons Text highlight color #}
+			{{ form.row(translate('Highlight Color'),
+				form.text(
+					'captionBuilder[icons][bgColor]',
+					settings.captionBuilder.icons.bgColor | default('#000'),
+					{'class':'gg-color-picker', 'id' : 'captBuildIconsBgColor'}
+				),
+				'captBuildIconsBgColorRow'
+			)}}
+
+			{# Icons Highlight transparency #}
+			{{ form.row(translate('Highlight Color Transparency'),
+				form.select(
+					'captionBuilder[icons][bgColorTransparency]',
+					['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+					settings.captionBuilder.icons.bgColorTransparency,
+					{ 'style': 'width: auto;', 'id': 'captBuildIconsBgColorTransparency' }
+				),
+				'captBuildIconsBgColorTransparencyRow'
+			) }}
+			{{ form.row(translate('Distance between icons'),
+				form.input(
+					'number',
+					'icons[margin]',
+					settings.icons.margin | default(5),
+					{ 'id': 'iconsMargin', 'pattern':'[0-9]' }
+				),
+				'captb-icons-distance-between'
+			) }}
+
+			{# Icon effects #}
+			{{ form.row(translate('Animation Effects'),
+				form.button(
+					null,
+					translate('Choose'),
+					{'class': 'button bordered', 'id': 'captionBuilderSelectIconEffect'}
+				),
+				'captb-icons-animation-effects'
+			) }}
+
+			{# Icons Animation start #}
+			{# Icons Animation delay #}
+		</thead>
+	</table>
+
+    <div class="separator"></div>
+{% endblock %}
+
+{% block additionalCaptionSettings %}
+	<table class="form-table" name="captionAdditSett" id="gg-anl-caption-add-sett">
+		<thead>
+		{{ form.row(translate('Thumbnail transformations') ~
+			form.show_tooltip('captionEffSettEnableTd2') ~' <span class="sggCaptionAddSettLbl">' ~ translate('(conflict with some effects)')~ '</span>',
+			form.radio(
+				'captionEffSett[Enable]',
+				1,
+				{'id':'captEffSettEnable', 'class': 'captAdditEffectSettEnbl'}|merge(settings.captionEffSett.Enable == 1 ? {'checked':'checked'} : {})
+			) ~
+			form.label(
+				translate('Enable'),
+				'captEffSettEnable'
+			) ~
+			form.radio(
+				'captionEffSett[Enable]',
+				0,
+				{'id':'captEffDisable', 'class': 'captAdditEffectSettEnbl'}|merge(settings.captionEffSett.Enable != 1 ? {'checked':'checked'} : {})
+			) ~
+			form.label(
+				translate('Disable'),
+				'captEffDisable'
+			),
+			'captionEffSettEnableTd',
+			true
+		) }}
+
+		{{ form.row(translate('Grow/Shrink'),
+			form.checkbox(
+				'captionEffSett[growShrinkEnable]',
+				1,
+				{'id' : 'captionEffSettGrowShrinkEnable'}|merge(settings.captionEffSett.growShrinkEnable == 1 ? {'checked':'checked'} : {})
+			) ~
+			form.label(
+				translate('Enable'),
+				'captionEffSettGrowShrinkEnable'
+			) ~
+			'<div class="sggAdminCollapseElement" data-enbl-id="captionEffSettGrowShrinkEnable">' ~
+				form.radio(
+					'captionEffSett[growShrinkType]',
+					'grow',
+					{'id':'captEffGrowType', 'class':'sggCasGrowSrinkRad'}|merge(settings.captionEffSett.growShrinkType != 'shrink' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Grow'),
+					'captEffGrowType'
+				) ~
+				form.radio(
+					'captionEffSett[growShrinkType]',
+					'shrink',
+					{'id':'captEffShrinkType', 'class':'sggCasGrowSrinkRad'}|merge(settings.captionEffSett.growShrinkType == 'shrink' ? {'checked':'checked'} : {})
+				) ~
+				form.label(
+					translate('Shrink'),
+					'captEffShrinkType'
+				) ~
+				form.label(
+					translate('Value at end:'),
+					'captionEffSettGrowShrinkVal'
+				) ~
+				form.input(
+					'number',
+					'captionEffSett[growShrinkVal]',
+					settings.captionEffSett.growShrinkVal|default('50'),
+					{ 'class': 'sggInpNumberForCes', 'id': 'captionEffSettGrowShrinkVal', 'min': '0', 'max':'100',}
+				) ~ '%' ~
+			'</div>',
+			'sgg-ttt-grow-srink',
+			null,
+			'growShrinkEnableRow'
+		)}}
+
+		{{ form.row(translate('Opacity Fade'),
+			form.checkbox(
+				'captionEffSett[opacityFadeEnabled]',
+				1,
+				{'id' : 'captionEffSettOpacityFadeEnabled'}|merge(settings.captionEffSett.opacityFadeEnabled == 1 ? {'checked':'checked'} : {})
+			) ~
+			form.label(
+				translate('Enable'),
+				'captionEffSettOpacityFadeEnabled'
+			) ~
+			'<div class="sggAdminCollapseElement" data-enbl-id="captionEffSettOpacityFadeEnabled">' ~
+				form.label(
+					translate('Value at start:'),
+					'captionEffSettOpacityFade'
+				) ~
+				form.input(
+					'number',
+					'captionEffSett[opacityFade]',
+					settings.captionEffSett.opacityFade|default('50'),
+					{ 'class': 'sggInpNumberForCes', 'id': 'captionEffSettOpacityFade', 'min': '0', 'max':'100',}
+				) ~ '%' ~
+			'</div>',
+			'sgg-ttt-opacity-fade',
+			null,
+			'opacityFadeEnabledRow'
+		)}}
+
+		{{ form.row(translate('Square to circle'),
+			form.checkbox(
+				'captionEffSett[squareToCircleEnabled]',
+				1,
+				{'id' : 'captionEffSettSquareToCircleEnabled'}|merge(settings.captionEffSett.squareToCircleEnabled == 1 ? {'checked':'checked'} : {})
+			) ~
+			form.label(
+				translate('Enable'),
+				'captionEffSettSquareToCircleEnabled'
+			) ~
+			'<div class="sggAdminCollapseElement" data-enbl-id="captionEffSettSquareToCircleEnabled">' ~
+				form.label(
+					translate('Value at end:'),
+					'captionEffSettSquareToCircle'
+				) ~
+				form.input(
+					'number',
+					'captionEffSett[squareToCircle]',
+					settings.captionEffSett.squareToCircle | default('50'),
+					{ 'class': 'sggInpNumberForCes', 'id': 'captionEffSettSquareToCircle', 'min': '0', 'max':'100',}
+				) ~ '%' ~
+			'</div>',
+			'sgg-ttt-square-to-circle',
+			null,
+			'squareToCircleEnabledRow'
+		)}}
+
+		{{ form.row(translate('Rotate'),
+			form.checkbox(
+				'captionEffSett[rotateDegreeEnabled]',
+				1,
+				{'id' : 'captionEffSettRotateDegreeEnabled'}|merge(settings.captionEffSett.rotateDegreeEnabled == 1 ? {'checked':'checked'} : {})
+			) ~
+			form.label(
+				translate('Enable'),
+				'captionEffSettRotateDegreeEnabled'
+			) ~
+			'<div class="sggAdminCollapseElement" data-enbl-id="captionEffSettRotateDegreeEnabled">' ~
+				form.label(
+					translate('Value at end:'),
+					'captionEffSettRotateDegree'
+				) ~
+				form.input(
+					'number',
+					'captionEffSett[rotateDegree]',
+					settings.captionEffSett.rotateDegree | default('50'),
+					{ 'class': 'sggInpNumberForCes', 'id': 'captionEffSettRotateDegree', 'min': '0', 'max':'360',}
+				) ~ '%' ~
+			'</div>',
+			'sgg-ttt-rotate',
+			null,
+			'rotateDegreeEnabledRow'
+		)}}
+		</thead>
+	</table>
+	<style id="additionalCaptionSettStyleElem"></style>
+{% endblock %}
+
+{% block socialSharing %}
+        {% import _self as f %}
+        {{ parent() }}
+        {# Not completed option #}
+        {#
+            <table class="form-table" name="fullscreen">
+                <thead>
+                    {% set fullscreenOption = settings.fullscreen.enabled == 'true' ? 'true' : 'false' %}
+                    {{ form.row(translate('Fullscreen'),
+                       form.checkbox('fullscreen[enabled]', fullscreenOption, fullscreenOption == 'true' ? {'checked':'checked'} : {}), 'fullscreen', true) }}
+                </thead>
+            </table>
+            <div class="separator"></div>
+        #}
+		<table class="form-table" name="show-more" id="gg-anl-load-more">
+            <thead>
+                {% set showMoreEnabled = settings.showMore.enabled == 'true' %}
+                {{ form.row(translate('Load More Button'),
+                    form.radio('showMore[enabled]', 'true', {'id':'show-more-enable'}|merge(showMoreEnabled ? {'checked':'checked'} : {})) ~
+                    f.label(translate('Enable'), 'show-more-enable') ~
+                    form.radio('showMore[enabled]', 'false', {'id':'show-more-disable'}|merge(showMoreEnabled ? {} : {'checked':'checked'})) ~
+                    f.label(translate('Disable'), 'show-more-disable'), 'show-more', true) }}
+            </thead>
+            <tbody>
+                {{ form.row(translate('Load with scroll'),
+                    form.select('showMore[loadOnScroll]', {'false':translate('No'), 'true':translate('Yes')}, settings.showMore.loadOnScroll), 'load-with-scroll') }}
+
+                {{ form.row(translate('Load more button text'),
+                    form.text('showMore[buttonText]', settings.showMore.buttonText|default(translate('Load More')), { 'style': { 'width': '140px'} })) }}
+
+                {{ form.row(translate('Loading text'),
+                form.text('showMore[loadingText]', settings.showMore.loadingText|default(translate('Loading...')), { 'style': { 'width': '140px'} }), 'loading-text') }}
+
+
+				{{ form.row(translate('Images quantity'),
+                    form.text('showMore[imagesAmount]', settings.showMore.imagesAmount|default(20), { 'style': { 'width': '140px'} }), 'images-amount') }}
+
+				{{ form.row(translate('Load more images'),
+                    form.text('showMore[showMoreAmount]', settings.showMore.showMoreAmount|default(10), { 'style': { 'width': '140px'} }), 'load-more-amount') }}
+            </tbody>
+        </table>
+        <div class="separator"></div>
+
+		<table class="form-table" name="buttons" id="gg-anl-cust-button">
+            <thead>
+            {{ form.row(translate('Custom Buttons'),
+                form.button('buttons-presets-editor', 'Show preset Editor', {'class': 'button button-primary'}), 'custom-buttons', true) }}
+            </thead>
+        </table>
+        <div class="separator"></div>
+{% endblock %}
+
+{% block preload %}
+	<table class="form-table" name="preload" id="gg-anl-preloader">
+        <thead>
+            {% set preloadEnabled = settings.preload.enabled|default('true') == 'true' %}
+            {{ form.row(translate('Gallery Loader'),
+                form.radio('preload[enabled]', 'true', {'id':'preload-enable'}|merge(preloadEnabled ? {'checked':'checked'} : {})) ~
+                f.label(translate('Enable'), 'preload-enable') ~
+                form.radio('preload[enabled]', 'false', {'id':'preload-disable'}|merge(preloadEnabled ? {} : {'checked':'checked'})) ~
+                f.label(translate('Disable'), 'preload-disable'), 'preload', true) }}
+        </thead>
+
+        <tbody>
+            {% set preloadColor = settings.preload.background|default("#0073AA") %}
+            {{ form.row(translate('Background color'),
+                form.text('preload[background]', preloadColor, {'class':'gg-color-picker', 'id': 'preloadColor'}), 'preload-background') }}
+
+            {% set plIconName = settings.preload.icon_name|default("default") %}
+            {% set pldIconItems = settings.preload.icon_items|default("0") %}
+
+            {% if plIconName == "default" %}
+                {% set piconImg %}
+                    <div class="gallery-loading">
+                        <div class="blocks">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                        </div>
+                    </div>
+                {% endset %}
+            {% else %}
+                {% set piconImg %}
+                    <div class="gallery-loading">
+                        <div class="la-{{ plIconName }}" style="color: {{ preloadColor }}">
+                        {% for i in 1..pldIconItems %}
+                            <div></div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                {% endset %}
+            {% endif %}
+
+            {{ form.row(translate('Choose Icon'),
+                form.button('buttons-preload-icon', 'Choose Icon', {'class': 'button button-primary', 'id': 'choosePreicon'})
+                ~ form.hidden('preload[icon_name]', plIconName, {'id':'plIconName'})
+                ~ form.hidden('preload[icon_items]', pldIconItems, {'id':'pldIconItems'})
+                ~ piconImg, 'preloadIconPlace') }}
+        </tbody>
+    </table>
+    <div class="separator"></div>
+{% endblock %}
+
+{% block attributes %}
+	<table class="form-table" name="attributes" id="gg-anl-attributes">
+        <thead>
+            {% set attributesEnabled = settings.attributes.enabled|default('false') == 'true' %}
+            {{ form.row(translate('Custom Attributes'),
+                form.radio('attributes[enabled]', 'true', {'id':'attributes-enable'}|merge(attributesEnabled ? {'checked':'checked'} : {})) ~
+                f.label(translate('Enable'), 'attributes-enable') ~
+                form.radio('attributes[enabled]', 'false', {'id':'attributes-disable'}|merge(attributesEnabled ? {} : {'checked':'checked'})) ~
+                f.label(translate('Disable'), 'attributes-disable'), 'attributes', true) }}
+        </thead>
+
+        <tbody>
+        	{{ form.row(translate('Attributes List'),
+                form.button('buttons-edit-attributes', 'Manage', {'class': 'button button-primary', 'id': 'editAttributes'}) ~
+                form.hidden('attributes[order]', settings.attributes.order|json_encode, {'id':'ggAttributesOrder'}) ~
+                form.hidden('attributes[enable]', settings.attributes.enable|json_encode, {'id':'ggAttributesEnable'}) ~
+                form.hidden('attributes[rename]', '', {'id':'ggAttributesRename'}), 'manageAttributes') }}
+            {{ form.row(translate('Show Attributes'),
+				form.checkbox('attributes[showAttributes]',	1, settings.attributes.showAttributes == 1 ? {'checked':'checked'} : {}), 'showAttributes') }}
+			{{ form.row(translate('Attributes Position'),
+				form.select(
+				'attributes[position]',
+				{'right': translate('Right'), 'left': translate('Left')},
+				settings.attributes.position|default('right')
+				),
+				'attributesPosition'
+			)}}
+			{{ form.row(translate('Attributes Width'),
+				form.input(
+				'number',
+				'attributes[width]',
+				settings.attributes.width|default('200')
+				),
+				'attributesWidth'
+			)}}
+			{{ form.row(translate('Show Button Link'),
+				form.checkbox('attributes[showButtonLink]',	1, settings.attributes.showButtonLink == 1 ? {'checked':'checked'} : {}), 'showButtonLink') }}
+			{{ form.row(translate('Button Title'),
+				form.input(
+				'text',
+				'attributes[buttonLinkTitle]',
+				settings.attributes.buttonLinkTitle|default('')
+				),
+				'buttonLinkTitle'
+			)}}
+			{{ form.row(translate('Button Url'),
+				form.input(
+				'text',
+				'attributes[buttonLinkUrl]',
+				settings.attributes.buttonLinkUrl|default('')
+				),
+				'buttonLinkUrl'
+			)}}
+            {{ form.row(translate('Show Filter'),
+            	form.checkbox('attributes[showFilter]',	1, settings.attributes.showFilter == 1 ? {'checked':'checked'} : {}), 'showFilter') }}
+			{{ form.row(translate('Show Search'),
+				form.checkbox('attributes[showSearch]',	1, settings.attributes.showSearch == 1 ? {'checked':'checked'} : {}), 'showSearch') }}
+        </tbody>
+    </table>
+    <div class="separator"></div>
+{% endblock %}
+
+{% block openByLink %}
+    {{ form.row(translate('Open by link in popup'),
+		form.checkbox(
+			'openByLink',
+			'on',
+			settings.openByLink == 'on' ? {'checked':'checked'} : {}
+		),
+		'open-by-link',
+		'h4'
+	) }}
+
+    {{ form.row(translate('Gallery link'), '<div id="gallery-link">#gg-open-'~gallery.id~'</div>' , 'gallery-link') }}
+
+{% endblock %}
+
+{% block browserUrlTooltipHide %}
+	{{ form.row(translate('Hide browser url tooltip on image hover'),
+		form.checkbox('browserUrlTooltipHide', 1,  settings.browserUrlTooltipHide == 1 ? {'checked':'checked'} : {}), 'browserUrlTooltipHide') }}
+{% endblock %}
+
+{% block disableRightClick %}
+    {{ form.row(translate('Disable right click'),
+    form.checkbox('disableRightClick', 'on', settings.disableRightClick == 'on' ? {'checked':'checked'} : {}), 'disable-right-click') }}
+{% endblock %}
+
+{# Popup Linked Image Text #}
+{% block popupLinkedImageText %}
+    {{ form.row(translate('Popup Linked Image Text'),
+        form.select(
+            'box[linkedImageText]',
+            {
+                'data-title': translate('Title'),
+                'alt': translate('Alt text'),
+                'data-description': translate('Description'),
+            },
+            settings.box.linkedImageText|default('data-title'),
+        {'style': 'width: 150px'}
+		), 'sgg-t-popup-linked-image-txt')
+    }}
+{% endblock %}
+
+{# Disable source image for Linked Images  #}
+{% block disableSourceImageForLi %}
+	{{ form.row(translate('Disable source image for Linked Images'),
+		form.checkbox(
+			'box[disableSourceImageForLi]',
+			'1',
+			settings.box.disableSourceImageForLi == '1' ? {'checked':'checked'} : {}
+		),
+		'disable-source-image-for-linked-images'
+	) }}
+{% endblock %}
+
+{# Enable Download Photos Button for Popup Images #}
+{% block enableDownloadPhotosButton %}
+    {{ form.row(translate('Enable Download Photos Button'),
+        form.checkbox(
+            'box[enableDownloadPhotosButton]',
+            '1',
+            settings.box.enableDownloadPhotosButton == '1' ? {'checked':'checked'} : {}
+        ),
+        'enable-download-photos-button'
+    ) }}
+{% endblock %}
+
+{% block popupAfter %}
+    {{ form.row(translate('Video size'),
+        form.text(
+            'popup[video][width]',
+            settings.popup.video.width|default('853'),
+            { 'style': { 'width': '40px'} }
+        ) ~
+        form.span('', 'x') ~
+        form.text(
+            'popup[video][height]',
+            settings.popup.video.height|default('480'),
+            { 'style': { 'width': '40px'} }
+        )  ~
+        form.span('', 'pixels'), 'video.size')
+    }}
+
+    {{ form.row(translate('Autoplay video'),
+        form.select(
+            'popup[video][autoplay]',
+            {'false':translate('No'), 'true':translate('Yes')},
+            settings.popup.video.autoplay
+        ),
+        'video.autoplay')
+    }}
+
+    {{ form.row(translate('When video ends'),
+        form.select(
+            'popup[video][onEnd]',
+            {
+                '0':translate('Do nothing'),
+                '1':translate('Open next slide'),
+                '2':translate('Close popup')
+            },
+            settings.popup.video.onEnd
+        ),
+        'video.onEnd')
+    }}
+
+	{{ form.row(translate('Show rotate button'),
+		form.checkbox(
+			'box[showRotateBtn]',
+			1,
+			{'id': 'showPopupRotateBtn'} | merge(settings.box.showRotateBtn == 1 ? {'checked':'checked'} : {})
+		),
+		'showPopupRotateBtnTd',
+		null,
+		'showPopupRotateBtnRow'
+	) }}
+
+	{{ form.row(translate('Show details button'),
+		form.checkbox(
+			'box[showLinkBtn]',
+			1,
+			{'id': 'showPopupLinkBtn'} | merge(settings.box.showLinkBtn == 1 ? {'checked':'checked'} : {})
+		),
+		'showPopupLinkBtnTd',
+		null,
+		'showPopupLinkBtnRow'
+	) }}
+
+	{{ form.row(translate('Show On hover thumbnail'),
+		form.checkbox(
+			'box[showThumbnailOnHover]',
+			1,
+			{'id': 'showPopupThumbnailOnHover'} | merge(settings.box.showThumbnailOnHover == 1 ? {'checked':'checked'} : {})
+		),
+		'showPopupThumbnailOnHoverTd',
+		null,
+		'showPopupThumbnailOnHoverRow'
+	) }}
+{% endblock %}
+
+{% block post %}
+    <div data-tab="post">
+        <table class="form-table">
+            <thead>
+			{{ form.row(translate('Posts layout'),
+				form.radio(
+					'posts[enable]',
+					1,
+					{'id':'ggShowPostsEnable', 'class': 'ggPostsEnableCl'} | merge(settings.posts.enable == 1 ? {'checked':'checked'} : {})
+				) ~
+				f.label(
+					translate('Enable'),
+					'ggShowPostsEnable'
+				) ~
+				form.radio(
+					'posts[enable]',
+					0,
+					{'id':'ggHidePostsEnable', 'class': 'ggPostsEnableCl'} | merge(settings.posts.enable != 1 ? {'checked':'checked'} : {})
+				) ~
+				f.label(
+					translate('Disable'),
+					'ggHidePostsEnable'
+				),
+				'sgg-posts-layout-enable',
+				true
+			)}}
+
+            {{ form.row(translate('Posts layout style'),
+            form.select('posts[style]', ['Fixed', 'Animated', 'Cover', 'Description', 'Expression', 'Slide Up'], settings.posts.style, { 'style': 'width: auto;' }), 'sgg-posts-layout-style') }}
+
+            {{ form.row(translate('Auto posts'),
+				form.select(
+					'posts[autoposts]',
+					['Disable', 'Enable'],
+					settings.posts.autoposts,
+					{ 'style': 'width: auto;','id' : 'autoposts',}
+				),
+				'sgg-auto-posts-enable',
+				'h4'
+			) }}
+
+            {{ form.row(translate('Number of posts'),
+            form.input('number', 'posts[autopostsNumber]',settings.posts.autopostsNumber|default(5), { 'style': 'width: auto;','id' : 'autopostsNumber', }), 'sgg-auto-posts-number') }}
+
+
+            <tr>
+                <th scope="row">
+                    <label>
+                        {{ translate('Auto Posts Categories') }}
+                        {{ form.show_tooltip('auto-posts-categories') }}
+                    </label>
+                </th>
+                <td style="padding-left:10px;">
+                    <select style="width:200px;" data-placeholder="{{ translate('Select categories') }}" multiple="multiple" id="autopostsCategories" name="posts[autopostsCategories][]">
+                        <option value="all"
+                                {% if 'all' in settings.posts.autopostsCategories %}
+                                    selected="selected"
+                                {% endif %}
+                        >{{ translate('All') }}</option>
+                        {% for category in all_categories({'posts_per_page': -1}) %}
+                            <option
+                                    {% if category.cat_ID in settings.posts.autopostsCategories %} selected="selected"
+                                    {% endif %}
+                                    value="{{ category.cat_ID }}"
+                            >{{ category.name  }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            {{ form.row(translate('Posts'),
+            form.select('posts[current]', posts, settings.posts.current, { 'style': 'width: 200px;' })
+            ~ form.button('posts[add]', 'Add post', { 'class': 'button bordered', 'style': 'width: 100px'}) , 'posts') }}
+
+            {{ form.row(translate('Pages'),
+            form.select('pages[current]', pages, settings.pages.current, { 'style': 'width: 200px;' })
+            ~ form.button('pages[add]', 'Add page', { 'class': 'button bordered', 'style': 'width: 100px'}) , 'pages') }}
+
+            {{ form.row(translate('Show author'),
+            form.select('posts[author]', ['No', 'Yes'], settings.posts.author, { 'style': 'width: auto;' }), 'post_author') }}
+
+            {{ form.row(translate('Show date'),
+            form.select('posts[date]', ['No', 'Yes'], settings.posts.date, { 'style': 'width: auto;' }), 'posts_date') }}
+
+            {{ form.row(translate('Show post content'),
+            form.select('posts[contents]', ['No', 'Yes'], settings.posts.contents, { 'style': 'width: auto;' }), 'sgg-posts-show-content') }}
+
+            {{ form.row(translate('Show categories'),
+            form.select('posts[categories]', ['No', 'Yes'], settings.posts.categories, { 'style': 'width: auto;' }), 'sgg-posts-show-category') }}
+        </table>
+    </div>
+{% endblock %}
+
+{% block categories %}
+    {% import _self as f %}
+    <div data-tab="cats">
+        <table class="form-table" name="cats">
+            <thead>
+                {#<tr>
+                    <th scope="row">
+                        <label for="showCategories">
+                            <h3 style="margin: 0 !important;">
+                                {{ environment.translate('Show categories') }}
+                            </h3>
+                        </label>
+                    </th>
+                    <td>
+                        <select id="showCategories" name="categories[enabled]" style="width:300px;">
+                            <option value="false" {{ f.selected(settings.categories.enabled, 'false') }}>
+                                {{ environment.translate('No') }}
+                            </option>
+                            <option value="true" {{ f.selected(settings.categories.enabled, 'true') }}>
+                                {{ environment.translate('Yes') }}
+                            </option>
+                        </select>
+                    </td>
+                </tr>#}
+
+                <tr id="useCats">
+                    <th scope="row">
+                        <label for="showCategories">
+                            <h3 style="margin: 0 !important;">
+								{{ translate('Categories') }}
+                                <i class="fa fa-{{ tooltips_icon.icon|default('question-circle') }} supsystic-tooltip"
+                                   title="{{ tooltips['categories-show'] }}"
+                                   style="{% for property, value in tooltips_icon.style %}{{ property|trim }}:{{ value|trim }};{% endfor %}">
+                                </i>
+                            </h3>
+                        </label>
+                    </th>
+                    <td>
+                        <input type="radio" id="showCats" name="categories[enabled]" value="true" {% if settings.categories.enabled == 'true' %}checked{% endif %}>
+                         <label for="showCats">{{ translate('Enable') }}</label>
+                        <input type="radio" id="hideCats" name="categories[enabled]" value="false" {% if settings.categories.enabled != 'true' %}checked{% endif %}>
+                        <label for="hideCats"> {{ translate('Disable') }}</label>
+                    </td>
+                </tr>
+
+                <tr id="popup-caption-row">
+                    <th scope="row">
+						<label for="hideAllCategory">
+							{{ translate('Hide "All" category') }}
+							{{ form.show_tooltip('sgg-cap-hide-all-cat') }}
+						</label>
+                    </th>
+                    <td>
+                        <input type="checkbox" id="hideAllCategory" name="categories[hide_all_category]" {% if settings.categories.hide_all_category is defined %} checked="checked" {% endif %}>
+                    </td>
+                </tr>
+
+                {# {{ form.row(translate('Enable shuffling animation'), form.select('quicksand[enabled]', ['No', 'Yes'], settings.quicksand.enabled, { 'style': 'width: auto;' }), 'enable-shuffling-animation') }} #}
+				<input type="hidden" name="quicksand[enabled]" value="no">
+
+                {# {{ form.row(translate('Animation duration'), form.text('quicksand[duration]', settings.quicksand.duration|default('1800'), { 'style': { 'width': '140px'} }), 'animation-duration') }} #}
+
+                <tr>
+                    <th scope="row">
+                        <label for="catsValign">
+                            {{ translate('Position') }}
+							{{ form.show_tooltip('sgg-cap-position') }}
+                        </label>
+                    </th>
+                    <td>
+                        <select id="catsValign" name="categories[position]" style="width: auto;">
+                            <option value="top" {{ f.selected('top', settings.categories.position) }}>
+                                {{ translate('Over the gallery') }}
+                            </option>
+                            <option value="bottom" {{ f.selected('bottom', settings.categories.position) }}>
+                                {{ translate('Under the gallery') }}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">
+                        <label for="catsHalign">
+                            {{ translate('Align') }}
+							{{ form.show_tooltip('sgg-cap-category-align') }}
+                        </label>
+                    </th>
+                    <td>
+                        <select id="catsHalign" name="categories[align]" style="width: auto;">
+                            <option value="left" {{ f.selected('left', settings.categories.align) }}>
+                                {{ translate('Left') }}
+                            </option>
+                            <option value="center" {{ f.selected('center', settings.categories.align) }}>
+                                {{ translate('Center') }}
+                            </option>
+                            <option value="right" {{ f.selected('right', settings.categories.align) }}>
+                                {{ translate('Right') }}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                {{ form.row(
+					translate('Flexible height'),
+					form.checkbox(
+						'categories[flexibleHeight]',
+						1,
+						settings.categories.flexibleHeight == 1 ? {"checked":"checked"} : {}
+					),
+					'categories-flexible-height'
+				) }}
+				{{ form.row(
+					translate('Disable title optimize'),
+					form.checkbox(
+						'categories[disableTtitleOptimize]',
+						1,
+						settings.categories.disableTtitleOptimize == 1 ? {"checked":"checked"} : {}
+					),
+					'disable-title-optimize'
+				) }}
+				<tr id="popup-caption-row">
+                    <th scope="row">
+						<label for="enableMultiselect">
+							{{ translate('Enable Multi-select') }}
+							{{ form.show_tooltip('sgg-cap-multiselect') }}
+						</label>
+                    </th>
+                    <td>
+                        <input type="checkbox" id="enableMultiselect" name="categories[multiselect]" {% if settings.categories.multiselect is defined %} checked="checked" {% endif %}>
+                    </td>
+                </tr>
+                <tr class="">
+                    <th scope="row">
+                        <label for="multiselectResults">
+                            {{ translate('Multiselect Results') }}
+                            {{ form.show_tooltip('sgg-cap-multiselect-results') }}
+                        </label>
+                    </th>
+                    <td>
+                        <select id="multiselectResults" name="categories[multiselect_results]" style="width: auto;">
+                            <option value="at_least_one" {{ f.selected('at_least_one', settings.categories.multiselect_results) }}>
+                                {{ translate('At least one selected') }}
+                            </option>
+                            <option value="all_selected" {{ f.selected('all_selected', settings.categories.multiselect_results) }}>
+                                {{ translate('Only all selected') }}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+				{% if gallery.settings.categories.order is defined %}
+					<tr class="categories-order">
+						<th scope="row">
+							<label>
+								{{ translate('Categories order') }}
+								{{ form.show_tooltip('sgg-cap-category-order') }}
+							</label>
+						</th>
+						<td>
+							<ul>
+								{% for order, category in gallery.settings.categories.order %}
+									<li>
+										{% if category == '__all__' %}
+											{{ translate('All') }}
+										{% else %}
+											{{ category|raw }}
+										{% endif %}
+										<input type="hidden" name="categories[order][]" value="{{ category }}">
+									</li>
+								{% endfor %}
+							</ul>
+						</td>
+					</tr>
+				{% endif %}
+
+                {#
+                <tr>
+                    <th scope="row">
+                        <label>
+                            {{ translate('Presets') }}
+                        </label>
+                    </th>
+                    <td>
+                #}
+                        <input id="categoriesPreset" name="categories[preset]" value="{{ settings.categories.preset }}" hidden>
+                {#
+                        <button id="select-categories-preset" class="button button-primary">
+                            <i class="fa fa-fw fa-check"></i>
+                            {{ translate('Choose preset') }}
+                        </button>
+                    </td>
+                </tr>
+                #}
+
+                {#
+                {{ form.row(translate('Preset Editor'), form.button('show-cats-editor', 'Show preset Editor', { 'class': 'button button-primary' })) }}
+                #}
+            </thead>
+        </table>
+
+        <div class="separator clear"></div>
+
+        {% block pagination %}
+            {% import _self as f %}
+            <table class="form-table" name="pages">
+                <thead>
+                    {#
+                    <tr>
+                        <th scope="row">
+                            <label for="pagEnabled">
+                                <h3 style="margin: 0 !important;">
+                                    {{ environment.translate('Enable pagination') }}
+                                </h3>
+                            </label>
+                        </th>
+                        <td>
+                            <select id="pagEnabled" name="pagination[enabled]" style="width:300px">
+                                <option value="false" {{ f.selected(settings.pagination.enabled, 'false') }}>
+                                    {{ environment.translate('No') }}
+                                </option>
+                                <option value="true" {{ f.selected(settings.pagination.enabled, 'true') }}>
+                                    {{ environment.translate('Yes') }}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    #}
+
+                    <tr id="usePages">
+                        <th scope="row">
+                            <label for="pagEnabled">
+                                <h3 style="margin: 0 !important;">
+                                    {{ translate('Pagination') }}
+                                    <i class="fa fa-{{ tooltips_icon.icon|default('question-circle') }} supsystic-tooltip"
+                                       title="{{ tooltips['pages-show'] }}"
+                                       style="{% for property, value in tooltips_icon.style %}{{ property|trim }}:{{ value|trim }};{% endfor %}">
+                                    </i>
+                                </h3>
+                            </label>
+                        </th>
+                        <td>
+                            <input type="radio" id="showPages" name="pagination[enabled]" value="true" {% if settings.pagination.enabled == 'true' %}checked{% endif %}>
+                            <label for="showPages">{{ translate('Enable') }}</label>
+
+                            <input type="radio" id="hidePages" name="pagination[enabled]" value="false" {% if settings.pagination.enabled != 'true' %}checked{% endif %}>
+                            <label for="hidePages">{{ translate('Disable') }}</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagPerPage">
+                                {{ translate('Images per page') }}
+								{{ form.show_tooltip('sgg-cap-images-per-page') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input id="pagPerPage" type="number" name="pagination[per_page]"
+                                   value="{{ settings.pagination.per_page }}"/>
+                        </td>
+                    </tr>
+
+					{{ form.row(translate('Show Previous/Next Arrows'),
+						form.select(
+							'pagination[showNextPreviousArrows]',
+							{'0': 'No', '1': 'Yes'},
+							settings.pagination.showNextPreviousArrows,
+							{ 'style': 'width: auto;', 'id': 'ggPaginationShowNextPrevArrSelect' }
+						),
+						'sgg-cap-show-prev-nex-arr'
+					) }}
+
+					{{ form.row(translate('Text for Previous Arrow'),
+						form.text(
+							'pagination[previousArrowText]',
+							settings.pagination.previousArrowText | default(translate('prev')),
+							{'style': 'width: 140px'}
+						),
+						'sgg-cap-prev-arr-text', null, 'ggPaginationArrowPrevTextRow'
+					) }}
+
+					{{ form.row(translate('Text for Next Arrow'),
+						form.text(
+							'pagination[nextArrowText]',
+							settings.pagination.nextArrowText | default(translate('next')),
+							{'style': 'width: 140px'}
+						),
+						'sgg-cap-next-arr-text', null, 'ggPaginationArrowNextTextRow'
+					) }}
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagBtnPos">
+                                {{ translate('Buttons position') }}
+								{{ form.show_tooltip('sgg-cap-btn-position') }}
+                            </label>
+                        </th>
+                        <td>
+                            <select id="pagBtnPos" name="pagination[pos]" style="width: auto;">
+                                <option value="top" {{ f.selected(settings.pagination.pos, 'top') }}>{{ translate('Top') }}</option>
+                                <option value="bottom" {{ f.selected(settings.pagination.pos, 'bottom') }}>{{ translate('Bottom') }}</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagAlign">
+                                {{ translate('Align') }}
+								{{ form.show_tooltip('sgg-cap-pagination-align') }}
+                            </label>
+                        </th>
+                        <td>
+                            <select style="width: auto" name="pagination[align]" id="pagAlign">
+                                {% for align in ['left', 'center', 'right'] %}
+                                    <option value="{{ align }}" {{ f.selected(settings.pagination.align, align) }}>
+                                        {{ translate(align|capitalize) }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+
+                    {#
+                    <tr class="hidden">
+                        <th scope="row" style="display:none">
+                            <label>
+                                {{ translate('Presets') }}
+                            </label>
+                        </th>
+                        <td>
+                    #}
+                            <input type="text" id="paginationPreset" name="pagination[preset]" value="{{ settings.pagination.preset }}" hidden/>
+                    {#
+                            <button id="select-pagination-preset" class="button button-primary">
+                                <i class="fa fa-fw fa-check"></i>
+                                {{ translate('Choose preset') }}
+                            </button>
+                        </td>
+                    </tr>
+                    #}
+
+                    {#
+                    {{ form.row(translate('Preset Editor'), form.button('show-pages-editor', 'Show preset Editor', { 'class': 'button button-primary' })) }}
+                    #}
+
+                    {#
+                    <tr>
+                        <th scope="row">
+                            <label for="pagContainerBg">
+                                {{ environment.translate('Container background') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input id="pagContainerBg" class="gg-color-picker-buttons" name="pagination[container][background]"
+                                   type="text" value="{{ settings.pagination.container.background }}"/>
+                            <br/><label for="pagHideContainerBg">
+                                <input type="checkbox"
+                                       {% if settings.pagination.container.hide_background is defined %}checked="checked"{% endif %}
+                                       name="pagination[container][hide_background]"
+                                       id="pagHideContainerBg"/>
+                                {{ environment.translate('Hide container background.') }}
+                            </label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagTextBackground">
+                                {{ environment.translate('Text background') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input id="pagTextBackground" class="gg-color-picker-buttons" name="pagination[text][background]"
+                                   type="text" value="{{ settings.pagination.text.background }}"/>
+                            <br/><label for="pagHideTextBackground">
+                                <input type="checkbox"
+                                       {% if settings.pagination.text.hide_background is defined %}checked="checked"{% endif %}
+                                       name="pagination[text][hide_background]"
+                                       id="pagHideTextBackground"/>
+                                {{ environment.translate('Hide text background.') }}
+                            </label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagTextColor">
+                                {{ environment.translate('Text color') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input id="pagTextColor" class="gg-color-picker-buttons" name="pagination[text][color]" type="text"
+                                   value="{{ settings.pagination.text.color }}"/>
+                            <br/><label for="pagHideTextColor">
+                                <input type="checkbox" name="pagination[text][hide_color]" id="pagHideTextColor"
+                                       {% if settings.pagination.text.hide_color is defined %}checked="checked"{% endif %}/>
+                                {{ environment.translate('Use color, based on my theme.') }}
+                            </label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagVertPadding">
+                                {{ environment.translate('Vertical padding') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input id="pagVertPadding" style="width:300px" type="number"
+                                   name="pagination[padding][vertical]" value="{{ settings.pagination.padding.vertical }}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagHorPadding">
+                                {{ environment.translate('Horizontal padding') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input id="pagHorPadding" style="width:300px" type="number"
+                                   name="pagination[padding][horizontal]"
+                                   value="{{ settings.pagination.padding.horizontal }}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagFontWeight">
+                                {{ environment.translate('Font weight') }}
+                            </label>
+                        </th>
+                        <td>
+                            <select name="pagination[font][weight]" id="pagFontWeight" style="width:300px">
+                                {% for weight in ['normal', 'bold'] %}
+                                    <option value="{{ weight }}" {{ f.selected(settings.pagination.font.weight, weight) }}>{{ weight|capitalize }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagFontSize">
+                                {{ environment.translate('Font size') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input id="pagFontSize" style="width:300px" type="number" name="pagination[font][size]"
+                                   value="{{ settings.pagination.font.size }}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagBorderWidth">
+                                {{ environment.translate('Border width') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input type="number" name="pagination[border][width]" id="pagBorderWidth"
+                                   value="{{ settings.pagination.border.width }}" style="width:300px"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagBorderType">
+                                {{ environment.translate('Border type') }}
+                            </label>
+                        </th>
+                        <td>
+                            <select style="width:300px" name="pagination[border][type]"
+                                    id="pagBorderType">
+                                {% for type in ['solid', 'dotted', 'dashed', 'double', 'none'] %}
+                                    <option value="{{ type }}" {{ f.selected(settings.pagination.border.type, type) }}>{{ type|capitalize }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagBorderColor">
+                                {{ environment.translate('Border color') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input id="pagBorderColor" class="gg-color-picker-buttons" type="text" name="pagination[border][color]"
+                                   value="{{ settings.pagination.border.color }}"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="pagBorderRadius">
+                                {{ environment.translate('Border radius') }}
+                            </label>
+                        </th>
+                        <td>
+                            <input type="number" id="pagBorderRadius" name="pagination[border][radius]"
+                                  ` value="{{ settings.pagination.border.radius }}">
+                            <select name="pagination[border][radius_unit]"
+                                    style="margin-top: -2px; height: 27px; width: 105px">
+                                {% for value in ['px', '%'] %}
+                                    <option value="{{ value }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    #}
+                </thead>
+            </table>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block modals %}
+    {{ parent() }}
+
+    {% set borderStyles = {
+        'none': 'None',
+        'solid': 'Solid',
+        'dotted': 'Dotted',
+        'dashed': 'Dashed',
+        'double': 'Double',
+        'groove': 'Groove',
+        'ridge': 'Ridge',
+        'inset': 'Inset',
+        'outset': 'Outset',
+    } %}
+
+    <div class="social-setup-dialog" title="{{ translate('Social setup') }}" hidden>
+        <table class="form-table" name="cats-preset-editor" data-gallery-id="{{ gallery.id }}" id="social-setup-dialog-table">
+            {% for network in networks %}
+                {{ form.row(translate(network.name),
+                    form.input('text', 'custom_network[' ~ network.class ~ ']', settings.custom_network[network.class],  {'data-property': network.class, 'style' : 'width: 100%', 'placeholder' : 'https://'}))
+                }}
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="buttons-edit-preset-dialog" title="{{ translate('Buttons preset editor for Paginations, Categories and Load More buttons') }}">
+        <div class="buttons-edit-preset-dialog__left-col">
+            <p>This is how buttons will look like</p>
+            <div class="preview-button-container">
+                <a id="preview-button">Button</a>
+            </div>
+            <div id="buttons-presets-list" data-presets-data="{{ buttonsPresets|json_encode()|e }}" data-init-preset="{{ settings.buttons|json_encode()|default([])|e }}">
+                <p>Presets list</p>
+            </div>
+        </div>
+        <div class="buttons-edit-preset-dialog__right-col">
+            <table class="form-table" name="cats-preset-editor" data-gallery-id="{{ gallery.id }}" id="buttons-preset">
+
+                {{ form.row(translate('Custom class'),
+					form.input('text', 'buttons[class]', settings.buttons.class,  {'data-property':'class'}), 'tcb-cust-class') }}
+
+                {{ form.row(translate('Text color'),
+					form.input('text', 'buttons[color]', settings.buttons.color, {'class':'gg-color-picker-buttons', 'data-property':'color'}), 'tcb-text-color') }}
+
+                {{ form.row(translate('Background color'),
+					form.input('text', 'buttons[backgroundColor]', settings.buttons.backgroundColor, {'class':'gg-color-picker-buttons', 'data-property':'backgroundColor'}), 'tcb-background-color') }}
+
+                {{ form.row(translate('Font family'),
+					form.selectv('buttons[fontFamily]', fontList, settings.buttons.fontFamily, {'data-property':'fontFamily'}), 'tcb-font-family') }}
+
+                {{ form.row(translate('Font size'),
+					form.input('number', 'buttons[fontSize]', settings.buttons.fontSize, {'data-property':'fontSize'}), 'tcb-font-size') }}
+
+                {{ form.row(translate('Font weight'),
+					form.select('buttons[fontWeight]', {'normal':'Normal', 'bold':'Bold'}, settings.buttons.fontWeight, {'data-property':'fontWeight'}), 'tcb-font-weight') }}
+
+                {{ form.row(translate('Vertical padding'),
+					form.input('number', 'buttons[paddingV]', settings.buttons.paddingV, {'data-property':'paddingV'}), 'tcb-vertical-padding') }}
+
+                {{ form.row(translate('Horizontal padding'),
+					form.input('number', 'buttons[paddingH]', settings.buttons.paddingH, {'data-property':'paddingH'}), 'tcb-horizontal-padding') }}
+
+                {{ form.row(translate('Border style'),
+					form.select('buttons[borderStyle]', borderStyles, settings.buttons.borderStyle, {'data-property':'borderStyle'}), 'tcb-border-style') }}
+
+                {{ form.row(translate('Border width'),
+					form.input('number', 'buttons[borderWidth]', settings.buttons.borderWidth, {'data-property':'borderWidth'}), 'tcb-border-width') }}
+
+                {{ form.row(translate('Border color'),
+					form.input('text', 'buttons[borderColor]', settings.buttons.borderColor, {'class':'gg-color-picker-buttons', 'data-property':'borderColor'}), 'tcb-border-color') }}
+
+                {{ form.row(translate('Border radius'),
+					form.input('number', 'buttons[borderRadius]', settings.buttons.borderRadius, {'data-property':'borderRadius'}), 'tcb-border-radius') }}
+
+            </table>
+        </div>
+    </div>
+
+
+
+    <div id="preiconDialog" title="{{ translate('Choose icon') }}" style="display: none;">
+        <div>
+            {% set preIcons = {
+                'timer': 1,
+                'ball-beat': 3,
+                'ball-circus': 5,
+                'ball-atom': 4,
+                'ball-spin-clockwise-fade-rotating': 8,
+                'line-scale': 5,
+                'ball-climbing-dot': 4,
+                'square-jelly-box': 2,
+                'ball-rotate': 1,
+                'ball-clip-rotate-multiple': 2,
+                'cube-transition': 2,
+                'square-loader': 1,
+                'ball-8bits': 16,
+                'ball-newton-cradle': 4,
+                'ball-pulse-rise': 5,
+                'triangle-skew-spin': 1,
+                'square-spin': 1,
+                'fire': 3,
+                'ball-zig-zag-deflect': 2
+            } %}
+
+            <div class="items items-list">
+                <div class="item">
+                    <div class="item-inner">
+                        <div class="item-loader-container">
+                            <div class="gallery-loading preicon_img" style="margin: 0px;" data-name="default" data-items="0">
+                                <div class="blocks">
+                                    <div class="block"></div>
+                                    <div class="block"></div>
+                                    <div class="block"></div>
+                                    <div class="block"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-title">Default</div>
+                </div>
+            {% for value, name in preIcons %}
+                <div class="item">
+                    <div class="item-inner">
+                        <div class="item-loader-container">
+                            <div class="la-{{ value }} la-2x preicon_img" data-name="{{ value }}" data-items="{{ name }}">
+                                {% for i in 1..name %}
+                                    <div></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-title">{{ value }}</div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div id="attributesDialog" class="supsystic-plugin" title="{{ translate('Manage Custom Attributes') }}" style="display: none;">
+        <div class="gg-attributes-container">
+        	<ul class="gg-sort-attributes">
+            	{% for name in settings.attributes.order %}
+                	<li class="gg-attributes-item">
+                		<i class="fa fa-trash gg-attribute-delete" aria-hidden="true"></i>
+                		<i class="fa fa-pencil-square-o gg-attribute-rename" aria-hidden="true"></i>
+                		<label class="gg-attribute-name">{{ name }}</label>
+                		<label class="gg-attribute-oldname ggSettingsDisplNone">{{ name }}</label>
+                        {% if name in settings.attributes.enable %}
+                            {% set attrEnableInFilter = 'checked' %}
+                        {% else %}
+                            {% set attrEnableInFilter = '' %}
+                        {% endif %}
+                        <div class="gg-attribute-enable-wrapper">
+                            <input type="checkbox" name="gg_enable"
+                                   value="gg_enable" {{ attrEnableInFilter }}/>
+                            <label for="gg_enable">Enable in filter</label>
+                        </div>
+                    </li>
+            	{% endfor %}
+            	<li class="gg-attributes-item ggSettingsDisplNone">
+                	<i class="fa fa-trash gg-attribute-delete" aria-hidden="true"></i>
+                	<i class="fa fa-pencil-square-o gg-attribute-rename" aria-hidden="true"></i>
+                	<label class="gg-attribute-name">{{ name }}</label>
+                    <div class="gg-attribute-enable-wrapper">
+                        <input type="checkbox" name="gg_enable"
+                               value="gg_enable" />
+                        <label for="gg_enable">Enable in filter</label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="gg-new-attribute">
+        	<span>{{ translate('New') }}</span>
+        	{{ form.input('text', 'ggNewAttribute', '', { 'style': { 'width': '200px', 'height': '35px' }, 'id': 'ggNewAttribute' }) }}
+        	{{ form.button('ggAddAttribute', 'Add', { class: 'button button-primary', 'id': 'ggAddAttribute' }) }}
+        </div>
+        <div class="gg-rename-attribute ggSettingsDisplNone">
+        	<span>{{ translate('New') }}</span>
+        	{{ form.input('text', 'ggNewNameAttribute', '', { 'style': { 'width': '200px', 'height': '35px' }, 'id': 'ggNewNameAttribute' }) }}
+        	{{ form.button('ggRenameAttribute', 'Rename', { class: 'button button-primary', 'id': 'ggRenameAttribute' }) }}
+        	{{ form.button('ggRenameCancel', 'Cancel', { class: 'button button-primary', 'id': 'ggRenameCancel' }) }}
+        </div>
+        <div id="ggAttributeEmpty" class="gg-attribute-error ggSettingsDisplNone">{{ translate('Name can\'t be empty.') }}</div>
+        <div id="ggAttributeDouble" class="gg-attribute-error ggSettingsDisplNone">{{ translate('There is already such an attribute.') }}</div>
+        <div id="ggAttributeLong" class="gg-attribute-error ggSettingsDisplNone">{{ translate('The length of the attribute name can not exceed 25 characters.') }}</div>
+    </div>
+
+	<div id="captionBuilderIconsSelect" title="{{ translate('Select one icon') }}" style="display: none;">
+		{% for awesomeClassName in awesomeIconsList %}
+			<div class="gg-set-fa-one-elem" data-fa-name="{{ awesomeClassName }}">
+				<i class="fa {{' '}} {{ awesomeClassName }}" aria-hidden="true"></i>
+				<span class="gg-sett-fa-title">{{ awesomeClassName }}</span>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}
+
+{% block table %}
+	<div class="sggPostsPreTable">
+		{% include '@galleries/includes/toolbar.twig' %}
+	</div>
+
+    <table id="ui-jqgrid-htable">
+    </table>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $("#ui-jqgrid-htable").jqGrid({
+                datatype: "local",
+                height: '100%',
+                autowidth: true,
+                shrinkToFit: true,
+                colNames:['Id','Image', 'Title', 'Comments', 'Type', 'Date'],
+                colModel:[
+                    {name:'id',index:'id', align:'center', width: '30', sortable: false},
+                    {name:'image',index:'image', align:'center', formatter: formatImage},
+                    {name:'title',index:'title', align:'center'},
+                    {name:'comments',index:'comments', align:'center', sorttype:"int"},
+                    {name:'type',index:'type', align:'center'},
+                    {name:'date',index:'date', align:'center', sorttype:"date"}
+                ],
+                multiselect: true,
+                caption: "Posts and pages selected"
+            });
+
+            function formatImage(cellvalue, options, rowObject) {
+                return '<img src="' + cellvalue + '" width="80px" height="80px">';
+            }
+        });
+    </script>
+
+    {% import _self as f %}
+    {% for post in postsRender %}
+        {{ f.addRow(post, loop.index) }}
+    {% endfor %}
+
+    {% for page in pagesRender %}
+        {{ f.addRow(page, loop.index) }}
+    {% endfor %}
+{% endblock %}
+
+{% block watermark %}
+    {% import _self as f %}
+    <div data-tab="water-m-tab">
+        {% if check_gd_function_exists() %}
+            <table class="form-table" name="water-m-tab">
+                <thead>
+                {{ form.row(
+                    translate('Show Watermark'),
+                    form.radio(
+                        'watermark[enabled]',
+                        true,
+                        {'id':'showWaterm'}|merge(settings.watermark.enabled ? {'checked':'checked'} : {})
+                    )
+                    ~form.label(translate('Enable'),'showWaterm')
+                    ~form.radio(
+                        'watermark[enabled]',
+                        false,
+                        {'id':'hideWaterm'}|merge(settings.watermark.enabled != true ? {'checked':'checked'} : {})
+                    )
+                    ~form.label(translate('Disable'), 'hideWaterm'),
+                    'watermark-show', true, 'showWatermRow'
+                ) }}
+				{{ form.show_tooltip('showWatermarkPro') }}</br>
+
+                {# "Show Watermark for" #}
+                {{ form.row(
+                    translate('Show Watermark for'),
+                    form.select(
+                        'watermark[show_for]',
+                        {
+                            '1':translate('Thumbnails'),
+                            '2':translate('Popup Images'),
+                            '3':translate('Thumbnail and Popup Images'),
+                        },
+                        settings.watermark.show_for|default('3'),
+                        { 'class': '', 'id': 'ggWmShowFor',}
+                    ),
+                    'watermark-show-for'
+                ) }}
+
+                {{ form.row(
+                    translate('Download with Watermark?'),
+                    form.checkbox(
+                        'watermark[download]',
+                        true,
+                        {'id':'ggWmDownload'}|merge(settings.watermark.download == 1 ? {'checked':'checked'} : {})
+                    ),
+                    'watermark-with-download'
+                ) }}
+
+                {# form.row(
+                    translate('Apply to all images'),
+                    form.checkbox(
+                        'watermark[all_img_sel]',
+                        true,
+                        {'id':'ggWmApplyToAllImg'}
+                    ),
+                    'wm-apply-to-all-img'
+                ) #}
+
+                {# 'Save source images' #}
+                {#{{ form.row(#}
+                    {#translate('Save source images'),#}
+                    {#form.checkbox(#}
+                        {#'watermark[save_source_images]',#}
+                        {#true,#}
+                        {#{'id':'ggWmSaveSrcImg'}|merge(settings.watermark.save_source_images == true or settings.watermark is not defined ? {"checked":"checked"} : {})#}
+                    {#),#}
+                    {#'watermark-save-source-images'#}
+                {#) }}#}
+
+                {#
+                    form.row(
+                        translate('Type'),
+                        form.radio(
+                            'watermark[type]',
+                            'img',
+                            {'id':'watermarkTypeImg'}|merge(settings.watermark.type == true or settings.watermark is not defined ? {'checked':'checked'} : {})
+                        )
+                        ~form.label(translate('Image'),'watermarkTypeImg')
+                        ~form.radio(
+                            'watermark[type]',
+                            'text',
+                            {'id':'watermarkTypeText'}|merge(settings.watermark.type == true ? {'checked':'checked'} : {})
+                        )
+                        ~form.label(translate('Text'), 'watermarkTypeText'),
+                        'watermark-type'
+                    )
+                #}
+
+                {# Watermark Type Image Params #}
+                {% set ggWmImgBlockHtml = '<img src="' ~ settings.watermark.url ~ '" alt="watermark image" class="" id="ggWmImgPreviewBlock"/>' %}
+                {{ form.row(
+                    translate('Watermark Image'),
+                    ggWmImgBlockHtml ~ form.button(
+                        'watermark[img-upl-btn]',
+                        'Upload Image',
+                        {'class': 'button button-primary', 'id': 'ggWmImgUploadBtn'}
+                    )
+                    ~ form.hidden('watermark[url]', settings.watermark.url, {'id': 'ggWmImgPath'}),
+                    'watermark-img-upload-block'
+                ) }}
+
+                {# Watermark Size for Thumbnails #}
+                {{ form.row(
+                    translate('Size for Thumbnails'),
+                    form.input('number','watermark[sizeThumbnails]',settings.watermark.sizeThumbnails|default(100),{ 'style': { 'width': '60px' }})
+                    ~ form.span('', '% from')
+                    ~ form.select('watermark[sizeThumbnailsFrom]', ['watermark', 'image'], settings.watermark.sizeThumbnailsFrom, { 'style': 'margin-top: -2px; height: 27px;' }), 'watermark-size-thumbnails')
+                }}
+
+                {# Watermark Size for Popup #}
+                {{ form.row(
+                    translate('Size for Popup'),
+                    form.input('number','watermark[sizePopup]',settings.watermark.sizePopup|default(100),{ 'style': { 'width': '60px' }})
+                    ~ form.span('', '% from')
+                    ~ form.select('watermark[sizePopupFrom]', ['watermark', 'image'], settings.watermark.sizePopupFrom, { 'style': 'margin-top: -2px; height: 27px;' }), 'watermark-size-popup')
+                }}
+
+                {# Watermark Margin #}
+                {{ form.row(
+                    translate('Margin'),
+                    form.input(
+                        'number',
+                        'watermark[margin]',
+                        settings.watermark.margin|default(0),
+                        { 'style': { 'width': '60px' }, 'id': 'ggWmMargin' }
+                    ) ~ form.span('', 'pixels'),
+                    'watermark-margin'
+                ) }}
+
+                {# Watermark Position #}
+                {{ form.row(
+                    translate('Position'),
+                    form.select(
+                        'watermark[position]',
+                        {
+                            'left_top':translate('Left Top'),
+                            'left_center':translate('Left Center'),
+                            'left_bottom':translate('Left Bottom'),
+                            'top_center':translate('Top Center'),
+                            'center_center':translate('Center Center'),
+                            'bottom_center':translate('Bottom Center'),
+                            'right_top':translate('Right Top'),
+                            'right_center':translate('Right Center'),
+                            'right_bottom':translate('Right Bottom'),
+                        },
+                        settings.watermark.position|default('center_center'),
+                        { 'class': '', 'id': 'ggWmPosition',}
+                    ),
+                    'watermark-posion'
+                ) }}
+
+                {# Watermark Rotate #}
+                {{ form.row(
+                    translate("Rotate"),
+                    '<div id="ggWmRotateSlider"></div>'
+                    ~form.input(
+                        'number',
+                        'watermark[rotate]',
+                        settings.watermark.rotate|default(0),
+                        {'id':'ggWmRotateVal' }
+                    ),
+                    'watermark-rotate'
+                ) }}
+
+                {# Watermark Transparency #}
+                {{ form.row(
+                    translate('Transparency'),
+                    form.select(
+                    'watermark[transparency]',
+                    { '0': '0%', '10': '10%', '20': '20%', '30': '30%', '40': '40%', '50': '50%', '60': '60%', '70': '70%', '80': '80%', '90': '90%', '100': '100%', },
+                    settings.watermark.transparency|default(50), {'style': 'width: auto', 'id': 'ggWmTransparency'}
+                    ),
+                    'watermark-transparency'
+                ) }}
+
+                {{ form.row(
+                    translate('Update watermark'),
+                    form.button(
+                        'watermark[reinitWatermark]',
+                        'Update',
+                        {'class': 'button button-primary', 'id': 'ggWmImgUpdateBtn'}
+                    ),
+                    'watermark-update'
+                ) }}
+
+                {# Watermark Chech changes #}
+                {{ form.hidden('watermark[check-changes]', false, {'id':'watermarkCheckChangesInput'}) }}
+
+                </thead>
+            </table>
+        {% else %}
+			<div style="margin-right: 10px;">{{ translate('To use this option, you must install <a href="http://php.net/manual/en/book.image.php" target="_blank">php-extension GD</a>. The list of functions that are used in the plugin can be seen in readme.txt file.') | raw }}
+            </div>
+        {% endif %}
+    </div>
+	{# 'Apply to all images' #}
+	{# 'Watermark type' #}
+	{{ form.hidden('watermark[type]', 'img', {'id':'ggWatermarkType'}) }}
+	{{ form.hidden('watermark[all_img_sel]', true, {'id':'ggWmApplyToAllImg', 'checked' : 'checked'}) }}
+	<input type="hidden" id="ggMsgWatermarkSavedSuccesfully" value="{{ translate('Watermark saved succesfully') }}"/>
+{% endblock %}
+
+{% block gallery_preview_figure_attributes %}
+	{{ parent() }}
+
+    {% if (saveNewPlugin == 0 or useFreePluginView == 'true') and settings.captionBuilder.isOnceUsed != 1 %}
+        {% if settings.thumbnail.overlay.enabled == 'true'
+            and settings.thumbnail.overlay.imageOnHoverEnable == '1'
+            and settings.thumbnail.overlay.personal == 'false'
+        %}
+            data-image-on-hover="{{ settings.thumbnail.overlay.imageOnHover }}"
+        {% endif %}
+		data-caption-buider="0"
+    {% else %}
+        {% if settings.captionBuilder.background.enable == 1
+            and settings.thumbnail.overlay.imageOnHoverEnable == '1'
+            and settings.thumbnail.overlay.personal == 'false'
+        %}
+            data-image-on-hover="{{ settings.thumbnail.overlay.imageOnHover }}"
+        {% endif %}
+		data-caption-buider="{% if settings.captionBuilder.enabled == 1 %}{{ 1 }}{% else %}{{ 0 }}{% endif %}"
+	{% endif %}
+
+{% endblock %}
+
+{% block gallery_preview_image_attributes %}
+	{{ parent() }}
+	{% if (settings.captionBuilder.enabled == 1 and settings.captionBuilder.background.enable == 1)
+		or (settings.captionBuilder.enabled != 1 and settings.thumbnail.overlay.enabled == 'true')
+	%}
+		{% if settings.thumbnail.overlay.imageOnHoverEnable == '1'
+			and settings.thumbnail.overlay.personal == 'true'
+			and gallery.photos[0].attachment.hoverCaptionImage is defined
+			and gallery.photos[0].attachment.hoverCaptionImage != ''
+		%}
+			data-personal-hover-on-image="{{ gallery.photos[0].attachment.hoverCaptionImage }}"
+		{% endif %}
+	{% endif %}
+{% endblock %}
+
+{% set figcaptionCaptionBuilderBlock %}
+
+		{% set ggCbTempOrderArr = {'top': null, 'center': null, 'bottom': null} %}
+		{# prepare caption builder order array #}
+		{% for ggCbIndex in ['title', 'description', 'icons'] %}
+			{% if settings.captionBuilder[ggCbIndex].enable == '1' %}
+				{% set ggCbPositionArr = settings.captionBuilder[ggCbIndex].position|split('_') %}
+				{% if ggCbPositionArr|length > 1 %}
+					{% set ggCbTempOrderArr = ggCbTempOrderArr|merge({ (ggCbPositionArr[1]) : ggCbIndex}) %}
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+
+		{% set ggCbOrderArr = {} %}
+		{#remove null values from order array #}
+		{% for ggCbKey, ggCbValue in ggCbTempOrderArr %}
+			{% if ggCbValue != null %}
+				{% set ggCbOrderArr = ggCbOrderArr| merge({(ggCbKey): ggCbValue}) %}
+			{% endif %}
+		{% endfor %}
+
+		{# create caption builder table cells #}
+		{% set ggCbTableCells %}
+
+			{% set captionBuilderTitleStyle %}
+				{% if settings.thumbnail.overlay.foreground is defined and settings.thumbnail.overlay.foreground != '' %}
+					color: {{ settings.thumbnail.overlay.foreground }};
+				{% endif %}
+				{% if settings.thumbnail.overlay.font_family != 'Default' %}
+					font-family: '{{ settings.thumbnail.overlay.font_family }}';
+				{% endif %}
+				font-size:{{ settings.thumbnail.overlay.text_size }}{{ settings.thumbnail.overlay.text_size_unit|replace(['px', '%', 'em']) }};
+				{% if 'bold' in settings.thumbnail.overlay.fontStyle %}
+					font-weight: 800;
+				{% else %}
+					font-weight: normal;
+				{% endif %}
+				{% if 'italic' in settings.thumbnail.overlay.fontStyle %}
+					font-style: italic;
+				{% else %}
+					font-style: normal;
+				{% endif %}
+				{% if 'line' in settings.thumbnail.overlay.fontStyle %}
+					text-decoration: underline;
+				{% else %}
+					text-decoration: none;
+				{% endif %}
+			{% endset %}
+
+			{% set captionBuilderDescriptionStyle %}
+				{% if settings.captionBuilder.description.fontColor is defined and settings.captionBuilder.description.fontColor != '' %}
+					color: {{ settings.captionBuilder.description.fontColor }};
+				{% endif %}
+				{% if settings.captionBuilder.description.font_family != 'Default' %}
+					font-family: '{{ settings.captionBuilder.description.font_family }}';
+				{% endif %}
+				font-size:{{ settings.captionBuilder.description.font_size }}{{ settings.captionBuilder.description.font_size_unit|replace(['px', '%', 'em']) }};
+				{% if 'bold' in settings.captionBuilder.description.fontStyle %}
+					font-weight: 800;
+				{% else %}
+					font-weight: normal;
+				{% endif %}
+				{% if 'italic' in settings.captionBuilder.description.fontStyle %}
+					font-style: italic;
+				{% else %}
+					font-style: normal;
+				{% endif %}
+				{% if 'line' in settings.captionBuilder.description.fontStyle %}
+					text-decoration: underline;
+				{% else %}
+					text-decoration: none;
+				{% endif %}
+			{% endset %}
+
+			{% for ggCbValue in ggCbTempOrderArr %}
+				{% if ggCbValue != null %}
+					{% set ggCbPositionArr = settings.captionBuilder[ggCbValue].position|split('_') %}
+					{% if ggCbPositionArr|length > 1 %}
+						<div class="gg-caption-row  {{' '}}  {{ ggCbPositionArr[1] }} sggCbr-{{ ggCbValue }}" style="
+							text-align: {{ ggCbPositionArr[0] }};
+								{% if settings.captionBuilder[ggCbValue].bgColor is defined and settings.captionBuilder[ggCbValue].bgColor != '' %}
+									{% if settings.captionBuilder[ggCbValue].bgColorTransparency is defined %}
+										background-color: {{ hex_to_rgba(settings.captionBuilder[ggCbValue].bgColor, (10 - settings.captionBuilder[ggCbValue].bgColorTransparency)/10) }};
+									{% else %}
+											background-color: {{ settings.captionBuilder[ggCbValue].bgColor }};
+									{% endif %}
+								{% endif %}
+                                {% if settings.captionBuilder[ggCbValue].height is defined and settings.captionBuilder[ggCbValue].height != '' %}
+                                    height: {{ settings.captionBuilder[ggCbValue].height }};
+                                {# for polaroid effect #}
+								{% elseif settings.thumbnail.overlay.personal == 'true'
+								    and gallery.photos[0].attachment.captionEffect == 'polaroid'
+								    or settings.thumbnail.overlay.effect  == 'polaroid'
+								%}
+								    height: 33px;
+								{% endif %}
+							">
+							{% set ggCbCellAttributes %}
+								class="gg-caption-cell
+								{#{% if ggCbPositionArr[1] == 'top' %}#}
+									{#gg-caption-top#}
+								{#{% elseif ggCbPositionArr[1] == 'center' %}#}
+									{#gg-caption-middle#}
+								{#{% else %}#}
+									{#gg-caption-bottom#}
+								{#{% endif %}#}
+								" style="
+								padding: {{ settings.captionBuilder[ggCbValue].paddings.top|default('0') }}px
+									{{ settings.captionBuilder[ggCbValue].paddings.right|default('0') }}px
+									{{ settings.captionBuilder[ggCbValue].paddings.bottom|default('0') }}px
+									{{ settings.captionBuilder[ggCbValue].paddings.left|default('0') }}px;
+								"
+							{% endset %}
+
+							<div {{ ggCbCellAttributes }}>
+								{% if ggCbValue == 'icons' %}
+									{{ iconsRowEntryVal }}
+								{% elseif ggCbValue == 'title' %}
+									<span class="sggCbEntrySpan" style="{{ captionBuilderTitleStyle }}">
+										{% if gallery.photos[0].attachment.caption is not empty %}
+											{{ gallery.photos[0].attachment.caption | striptags(tagsThatCanUseInCaptionBuilder) | raw }}
+										{% else %}
+											{{ gallery.photos[0].attachment.title }}
+										{% endif %}
+									</span>
+								{% elseif ggCbValue == 'description' %}
+									<span class="sggCbEntrySpan" style="{{ captionBuilderDescriptionStyle }}">
+										{% if gallery.photos[0].attachment.captionDescription is not empty %}
+											{{ gallery.photos[0].attachment.captionDescription | striptags(tagsThatCanUseInCaptionBuilder) | raw }}
+										{% endif %}
+									</span>
+								{% endif %}
+							</div>
+						</div>
+					{% endif %}
+				{% else %}
+					<div class="gg-caption-row disabled"
+						{#for polaroid effect#}
+						{% if settings.thumbnail.overlay.personal == 'true'
+						and gallery.photos[0].attachment.captionEffect == 'polaroid'
+						or settings.thumbnail.overlay.effect  == 'polaroid'
+						%}
+							style="height: 0px;"
+						{% endif %}
+					>
+						<div class="gg-caption-cell"></div>
+					</div>
+				{% endif %}
+			{% endfor %}
+		{% endset %}
+
+		{% set captionTableAttr %}
+			style="
+				{# for polaroid effect #}
+				{% if settings.thumbnail.overlay.personal == 'true'
+					and gallery.photos[0].attachment.captionEffect == 'polaroid'
+					or settings.thumbnail.overlay.effect  == 'polaroid'
+				%}
+					height: {{ (ggCbOrderArr|length) * 33 }}px
+				{% endif %}
+			"
+			data-gid="{{ gallery.id }}"
+		{% endset %}
+
+		<figcaption style="{{ figcaptionStyle|trim }}">
+			<div class="gg-caption-table" {{ captionTableAttr }}>{{ ggCbTableCells }}</div>
+		</figcaption>
+{% endset %}
+
+{#{% block hiddenFigcaptionBlock %}#}
+	{#{{ parent() }}#}
+	{#<input type="hidden" id="figcaptionCaptionBuilderBlock" value="{{ figcaptionCaptionBuilderBlock | replace({'"' : '\''}) }}"/>#}
+{#{% endblock %}#}
+
+{% block settginsFigCaption %}
+	{% if (saveNewPlugin == 0 or useFreePluginView == 'true') and settings.captionBuilder.isOnceUsed != 1  or settings.captionBuilder.enabled != 1 %}
+		{{ parent() }}
+	{% else %}
+		{{ figcaptionCaptionBuilderBlock }}
+	{% endif %}
+{% endblock %}
+
+{% block figcaption_after %}
+	{# prepare Background-color with transparency #}
+	{% set ggCaptAlphaVal = 1 %}
+	{% set ggCaptBgVal = '#000000' %}
+	{% if settings.thumbnail.overlay.transparency is defined  %}
+		{% set ggCaptAlphaVal = 1 - (settings.thumbnail.overlay.transparency/10) %}
+	{% endif %}
+
+	{% if settings.thumbnail.overlay.background is defined %}
+		{% set ggCaptBgVal = settings.thumbnail.overlay.background %}
+	{% endif %}
+	{% set ggCaptBgWithTransp = hex_to_rgba(ggCaptBgVal, ggCaptAlphaVal) %}
+	{% set ggCaptAfterIsShowed = 0 %}
+	{##}
+
+	{% if settings.icons is defined and settings.icons.enabled == 'true' and settings.thumbnail.overlay.enabled == 'true'
+		and settings.thumbnail.overlay.effect in ['icons-sodium-left']
+	%}
+		{% set ggCaptAfterIsShowed = 1 %}
+	{% endif %}
+
+	{% set captionStyle %}
+		color:{{ settings.thumbnail.overlay.foreground }};
+		background-color:{{ ggCaptBgWithTransp }};
+		font-size:{{ settings.thumbnail.overlay.text_size }}{{ settings.thumbnail.overlay.text_size_unit|replace(['px', '%', 'em']) }};
+		font-family:{{ settings.thumbnail.overlay.font_family }};
+		{% if settings.thumbnail.overlay.text_align != 3 %}
+			text-align:{{ settings.thumbnail.overlay.text_align|replace(['left', 'right', 'center']) }};
+		{% endif %}
+		{% if settings.thumbnail.overlay.effect == 'none' or settings.thumbnail.overlay.enabled == 'false' %}
+			bottom:0;
+		{% endif %}
+		vertical-align:{{ settings.thumbnail.overlay.position }};
+	{% endset %}
+
+	<div class="caption-with-{% if 'icons' in settings.thumbnail.overlay.effect %}{{ settings.thumbnail.overlay.effect }}{% else %}icons{% endif %}
+				sggCcBlockAfter
+				{% if ggCaptAfterIsShowed == 0 %}{{ 'ggSettingsDisplNone' }}{% endif %}"
+		 		style="{{ captionStyle }}">
+		<div style="display: table; height:100%; width:100%;">
+			{% set ggCaptionTextStyle = "padding: 10px;display:inline-block;font-size:"
+				~ settings.thumbnail.overlay.text_size ~ settings.thumbnail.overlay.text_size_unit|replace(['px', '%', 'em'])
+				~ ";vertical-align:" ~ settings.thumbnail.overlay.position ~ ";"
+				~ 'font-weight: 800;'
+			%}
+			<span style="{{ ggCaptionTextStyle }}">{{ translate('Supsystic Gallery') }}</span>
+		</div>
+	</div>
+{% endblock %}
+
+{% block captionEffectInPro %}
+	<figure class="grid-gallery-caption" data-grid-gallery-type="{{ type }}">
+		<img data-src="holder.js/150x150?theme=industrial&text={{ name }}" class="dialog-image">
+		<figcaption style="{{ figcaptionStyle|trim }}">
+			<div class="grid-gallery-figcaption-wrap" style="width:100%;height:100%;top:0;">
+				<div style="display:table;width:100%;height:100%;">
+					<span {% if settings.rtl == true %}dir="rtl" class="ggRtlClass"{% endif %} style="display:table-cell;font-size:{{ settings.thumbnail.overlay.text_size }}{{ settings.thumbnail.overlay.text_size_unit|replace(['px', '%', 'em']) }};padding:10px;vertical-align:{{ settings.thumbnail.overlay.position }};">Caption</span>
+				</div>
+			</div>
+		</figcaption>
+		<div class="select-element">
+			{{ translate('Select') }}
+		</div>
+	</figure>
+	<input type="hidden" id="captBuildIconRowEntry" value="{{ iconsRowEntryVal|json_encode }}"/>
+{% endblock %}
+
+{% block settingsOtherPro %}
+
+	<style id="showOnHoverStyle">
+	{% if settings.captionBuilder.enabled == 0 and settings.thumbnail.overlay.enabled == 'true' %}
+		{% set useBackgroundForShowOnHover = 1 %}
+	{% elseif settings.captionBuilder.enabled == 1 and settings.captionBuilder.background.enable == 1 %}
+		{% set useBackgroundForShowOnHover = 1 %}
+	{% endif %}
+	{% if useBackgroundForShowOnHover == 1 %}
+
+			.grid-gallery-caption[data-grid-gallery-type="show-on-hover"] figcaption {
+				background-color: {{ settings.thumbnail.overlay.backgroundForShowOnHover }} !important;
+			}
+			.grid-gallery-caption[data-grid-gallery-type="show-on-hover"]:hover figcaption,
+			.grid-gallery-caption[data-grid-gallery-type="show-on-hover"].hovered figcaption,
+			.grid-gallery-caption[data-grid-gallery-type="show-on-hover"]:active figcaption {
+				background-color: {{ hex_to_rgba(settings.thumbnail.overlay.background, (10 - settings.thumbnail.overlay.transparency)/10) }} !important;
+			}
+
+	{% endif %}
+	</style>
+{% endblock %}
+
+{% block mosaicGalleryImageCountText %}
+	<div id="gg-mosaic-image-count-text-wrapper">
+		<table class="form-table" name="area" id="gg-mosaic-image-count-text">
+			<thead>
+				{{ form.row(translate('Image Count Settings'), '', 'mosaic-img-count-settings', 1) }}
+			</thead>
+			<tbody>
+				{# Font family #}
+				{{ form.row(translate('Font family'),
+					form.selectv(
+						'area[ggMosaicType][fontFamily]',
+						fontList,
+						settings.area.ggMosaicType.fontFamily | default('Default'),
+						{ 'style': 'width: auto;', 'id': 'ggMosaicTypeFontFamily', }
+					),
+					'mics-font-family', null, 'ggMosaicTypeFontFamilyRow'
+				)}}
+
+				{# Font size #}
+				{{ form.row(translate('Font size'),
+					form.input(
+						'number',
+						'area[ggMosaicType][fontSize]',
+						settings.area.ggMosaicType.fontSize | default('16'),
+						{ 'style': { 'width': '70px; vertical-align: top;'}, 'id' : 'ggMosaicTypeFontSize', 'pattern':'[0-9]' }
+					)
+					~ form.select(
+						'area[ggMosaicType][fontSizeUnit]',
+						['pixels', 'percents', 'ems'],
+						settings.area.ggMosaicType.fontSizeUnit | default('0'),
+						{ 'style': 'height: 27px; vertical-align: top;', 'id': 'ggMosaicTypeFontSizeUnit' }
+					),
+					'mics-font-size', null, 'ggMosaicTypeFontSizeUnitRow'
+				)}}
+
+				{# Font color #}
+				{{ form.row(translate('Text color'),
+					form.text(
+						'area[ggMosaicType][foreground]',
+						settings.area.ggMosaicType.foreground | default('#fff'),
+						{'class':'gg-color-picker', 'id': 'ggMosaicTypeFontColor'}
+					),
+					'mics-text-color', null, 'ggMosaicTypeFontColorRow'
+				)}}
+
+				{# Font style #}
+				{{ form.row(translate('Font style'),
+					form.checkbox(
+						'area[ggMosaicType][fontStyle][]',
+						'bold',
+						{'id': 'ggMosaicTypeFontStyleBold', 'class': 'font-style-checkbox'} | merge('bold' in settings.area.ggMosaicType.fontStyle  ? {'checked':'checked'} : {})
+					) ~
+					form.label(
+						translate('Bold'),
+						'ggMosaicTypeFontStyleBold'
+					) ~
+					form.checkbox(
+						'area[ggMosaicType][fontStyle][]',
+						'italic',
+						{'id': 'ggMosaicTypeFontStyleItalic', 'class': 'font-style-checkbox'} | merge('italic' in settings.area.ggMosaicType.fontStyle ? {'checked':'checked'} : {})
+					) ~
+					form.label(
+						translate('Italic'),
+						'ggMosaicTypeFontStyleItalic'
+					) ~
+					form.checkbox(
+						'area[ggMosaicType][fontStyle][]',
+						'line',
+						{'id': 'ggMosaicTypeFontStyleLine', 'class': 'font-style-checkbox'} | merge('line' in settings.area.ggMosaicType.fontStyle ? {'checked':'checked'} : {})
+					) ~
+					form.label(
+						translate('Line'),
+						'ggMosaicTypeFontStyleLine'
+					),
+					'mics-font-style', null, 'ggMosaicTypeFontStyleRow'
+				)}}
+
+				{# Background color #}
+				{{ form.row(translate('Background'),
+					form.text(
+						'area[ggMosaicType][bgColor]',
+						settings.area.ggMosaicType.bgColor | default('#000'),
+						{'class':'gg-color-picker', 'id' : 'ggMosaicTypeBgColor'}
+					),
+					'mics-background-color', null, 'ggMosaicTypeBgColorRow'
+				)}}
+
+				{# Background color transparency #}
+				{{ form.row(translate('Background transparency'),
+					form.select(
+						'area[ggMosaicType][bgColorTransparency]',
+						['0%', '10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%'],
+						settings.area.ggMosaicType.bgColorTransparency | default(0),
+						{ 'style': 'width: auto;', 'id': 'ggMosaicTypeBgColorTransparency' }
+					),
+					'mics-background-transparency', null, 'ggMosaicTypeBgColorTransparencyRow'
+				) }}
+			</tbody>
+		</table>
+		<div class="separator"></div>
+	</div>
+{% endblock %}
+
+{% block exifCaptionSettings %}
+	<table class="form-table" name="captions" data-gallery-id="{{ gallery.id }}" id="ggExifDataTable">
+		<tbody>
+		{# Enable/Disable Exif #}
+		{{ form.row(translate('EXIF data'),
+			form.radio(
+				'exif[enabled]',
+				1,
+				{'id':'ggShowExif', 'class': 'ggExifTurnOn'} | merge(settings.exif.enabled == 1 ? {'checked':'checked'} : {})
+			) ~
+			f.label(
+				translate('Enable'),
+				'ggShowExif'
+			) ~
+			form.radio(
+				'exif[enabled]',
+				0,
+				{'id':'ggHideExif', 'class': 'ggExifTurnOn'} | merge(settings.exif.enabled != 1 ? {'checked':'checked'} : {})
+			) ~
+			f.label(
+				translate('Disable'),
+				'ggHideExif'
+			),
+			'captb-exif-enabled', true, 'ggExifEnabled'
+		)}}
+		{{ form.hidden('exif["msgStrErr1"]', translate('Error occurred!'), {'id': 'msgStr1ErrorOccurred'}) }}
+		{{ form.hidden('exif["msgStrExif1"]', translate('Please, wait while reading images info...'), {'id': 'msgStrWaitWhileReadImgInfo'}) }}
+		{{ form.hidden('exif["msgStrExif2"]', translate('Please wait until Exif data has been recollected'), {'id': 'msgStr1WaitUntillRecolect'}) }}
+		{{ form.hidden('exif["msgStrExif3"]', translate('Image reccollected successfully. Processed '), {'id': 'msgStrImageRecollectedPr'}) }}
+		{{ form.hidden('exif["msgStrExif4"]', translate(' of '), {'id': 'msgStrIrOf'}) }}
+		{{ form.hidden('exif["msgStrExif5"]', translate('Recollect image error!. Processed '), {'id': 'msgStrRecollectError2'}) }}
+		{{ form.hidden('exif["msgStrExif6"]', translate(' image '), {'id': 'msgStrRecollectError3'}) }}
+		</tbody>
+	</table>
+
+	<table class="form-table" name="captions" id="ggExifParametersTbl">
+		<tbody>
+
+			{{ form.row(translate('Recollect EXIF'),
+				form.button(
+					'buttons-recollerct-exif',
+					'Recollect EXIF',
+					{'class': 'button button-primary', 'id': 'ggExifRecollectBtn'}
+				),
+				'recollectBtnHelper',
+				null
+			)}}
+			{# Show EXIF as caption #}
+			{{ form.row(translate('Show EXIF as caption'),
+				form.checkbox(
+					'exif[showExifAsCaption]',
+					1,
+					settings.exif.showExifAsCaption == 1 ? {'checked':'checked'} : {}
+				),
+				'show-EXIF-as-caption'
+			)}}
+			{# Show EXIF as description #}
+			{{ form.row(translate('Show EXIF as description'),
+				form.checkbox(
+					'exif[showExifAsDescription]',
+					1,
+					settings.exif.showExifAsDescription == 1 ? {'checked':'checked'} : {}
+				),
+				'show-EXIF-as-description'
+			)}}
+			{# Show EXIF on Lightbox image #}
+			{{ form.row(translate('Show EXIF in the pop-up window'),
+				form.checkbox(
+					'exif[showExifOnLightoboxImage]',
+					1,
+					settings.exif.showExifOnLightoboxImage == 1 ? {'checked':'checked'} : {}
+				),
+				'show-EXIF-on-lightobox-image'
+			)}}
+
+			{{ form.row(translate('Show options'),
+				null,
+				'captb-exif-options',
+				true
+			)}}
+
+			{# Camera #}
+			{{ form.row(translate('Camera'),
+				form.checkbox(
+					'exif[cameraName]',
+					1,
+					settings.exif.cameraName == 1 ? {'checked':'checked'} : {}
+				),
+				'camera-name'
+			)}}
+			{# Camera model #}
+			{{ form.row(translate('Camera model'),
+				form.checkbox(
+					'exif[cameraModel]',
+					1,
+					settings.exif.cameraModel == 1 ? {'checked':'checked'} : {}
+				),
+				'camera-model'
+			)}}
+			{# aperture #}
+			{{ form.row(translate('Aperture'),
+				form.checkbox(
+					'exif[aperture]',
+					1,
+					settings.exif.aperture == 1 ? {'checked':'checked'} : {}
+				),
+				'aperture'
+			)}}
+			{# exposure bias #}
+			{{ form.row(translate('Exposure Bias'),
+				form.checkbox(
+					'exif[exposureBias]',
+					1,
+					settings.exif.exposureBias == 1 ? {'checked':'checked'} : {}
+				),
+				'exposure-bias'
+			)}}
+			{# flash #}
+			{{ form.row(translate('Flash'),
+				form.checkbox(
+					'exif[flash]',
+					1,
+					settings.exif.flash == 1 ? {'checked':'checked'} : {}
+				),
+				'flash'
+			)}}
+			{# Focal Length #}
+			{{ form.row(translate('Focal Length'),
+				form.checkbox(
+					'exif[focalLength]',
+					1,
+					settings.exif.focalLength == 1 ? {'checked':'checked'} : {}
+				),
+				'focal-length'
+			)}}
+			{# iso #}
+			{{ form.row(translate('ISO'),
+				form.checkbox(
+					'exif[iso]',
+					1,
+					settings.exif.iso == 1 ? {'checked':'checked'} : {}
+				),
+				'iso'
+			)}}
+			{# Shutter Speed #}
+			{{ form.row(translate('Shutter Speed'),
+				form.checkbox(
+					'exif[shutterSpeed]',
+					1,
+					settings.exif.shutterSpeed == 1 ? {'checked':'checked'} : {}
+				),
+				'shutter-speed'
+			)}}
+			{# location #}
+			{{ form.row(translate('Location'),
+				form.checkbox(
+					'exif[location]',
+					1,
+					settings.exif.location == 1 ? {'checked':'checked'} : {}
+				),
+				'location'
+			)}}
+		</tbody>
+	</table>
+{% endblock %}

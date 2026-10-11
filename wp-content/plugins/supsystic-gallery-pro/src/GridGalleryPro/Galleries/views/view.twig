@@ -1,0 +1,49 @@
+{% extends '@galleries/view.twig' %}
+
+{% block settingsCaptionsView %}
+	{% if (gallery.settings.captionBuilder.icons.enable != '1') %}
+		{% block settingsCaptionsIconsEnabledView %}
+			{{ parent() }}
+		{% endblock %}
+	{% else %}
+		{% block settingsCaptionsIconsDisabledView %}
+			{{ parent() }}
+		{% endblock %}
+	{% endif %}
+{% endblock %}
+
+{% block captionEffectInPro %}
+	<figure class="grid-gallery-caption" data-grid-gallery-type="{{ type }}">
+		<img data-src="holder.js/150x150?theme=industrial&text={{ name }}" class="dialog-image">
+		<figcaption style="{{ figcaptionStyle|trim }}">
+			<div class="grid-gallery-figcaption-wrap" style="width:100%;height:100%;top:0;">
+				<div style="display:table;width:100%;height:100%;">
+					<span {% if settings.rtl == true %}dir="rtl" class="ggRtlClass"{% endif %} style="display:table-cell;font-size:{{ settings.thumbnail.overlay.text_size }}{{ settings.thumbnail.overlay.text_size_unit|replace(['px', '%', 'em']) }};padding:10px;vertical-align:{{ settings.thumbnail.overlay.position }};">Caption</span>
+				</div>
+			</div>
+		</figcaption>
+		<div class="select-element">
+			{{ translate('Select') }}
+		</div>
+	</figure>
+{% endblock %}
+
+{% block settingsOtherPro %}
+	<style id="showOnHoverStyle">
+		{% if settings.captionBuilder.enabled == 0 and settings.thumbnail.overlay.enabled == 'true' %}
+			{% set useBackgroundForShowOnHover = 1 %}
+		{% elseif settings.captionBuilder.enabled == 1 and settings.captionBuilder.background.enable == 1 %}
+			{% set useBackgroundForShowOnHover = 1 %}
+		{% endif %}
+		{% if useBackgroundForShowOnHover == 1 %}
+			.grid-gallery-caption[data-grid-gallery-type="show-on-hover"] figcaption {
+				background-color: {{ settings.thumbnail.overlay.backgroundForShowOnHover }} !important;
+			}
+			.grid-gallery-caption[data-grid-gallery-type="show-on-hover"]:hover figcaption,
+			.grid-gallery-caption[data-grid-gallery-type="show-on-hover"].hovered figcaption,
+			.grid-gallery-caption[data-grid-gallery-type="show-on-hover"]:active figcaption {
+				background-color: {{ hex_to_rgba(settings.thumbnail.overlay.background, (10 - settings.thumbnail.overlay.transparency)/10) }} !important;
+			}
+		{% endif %}
+	</style>
+{% endblock %}

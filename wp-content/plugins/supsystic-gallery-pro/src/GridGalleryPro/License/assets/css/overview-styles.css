@@ -1,0 +1,20 @@
+.supsystic-overview {
+  width: 100%;
+  margin-top: 20px;
+  float: left;
+}
+
+.supsystic-overview .line {
+  padding-bottom: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(164, 170, 172, 0.28);
+  min-height: 40px;
+}
+
+.supsystic-overview .line-title {
+  float: left;
+  margin-left: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 2;
+}

@@ -1,0 +1,85 @@
+{% embed '@galleries/shortcode/style_for_effects.twig' with {'gallery': gallery, 'settings': settings} %}
+	{% block captionAdditionalParams %}
+
+		{% set galleryCssSelector = '.grid-gallery[data-gg-id="' ~ gallery.id ~ '"] ' %}
+		{% set sggFigureTransformScaleVal = '' %}
+		{% set sggFigureTransformRotateVal = '' %}
+
+		<style>
+		{# Caption Aditional Settings #}
+		{% if (settings.captionEffSett.Enable == '1' ) %}
+			{# Grow/Shrink #}
+			{% if settings.captionEffSett.growShrinkEnable == 1
+				and settings.captionEffSett.growShrinkVal > 0
+				and settings.captionEffSett.growShrinkType != null
+			%}
+				{% if settings.captionEffSett.growShrinkType == 'grow' %}
+					{# grow #}
+					{% set sggFigureTransformScaleVal = 'scale(' ~ (1 + (settings.captionEffSett.growShrinkVal/100)) ~ ')' %}
+				{% else %}
+					{# shrink #}
+					{% set sggFigureTransformScaleVal = 'scale(' ~ (1 - (settings.captionEffSett.growShrinkVal/100)) ~ ')' %}
+				{% endif %}
+			{% endif %}
+
+			{# Opacity Fade #}
+			{% if settings.captionEffSett.opacityFadeEnabled == 1 and settings.captionEffSett.opacityFade < 100 %}
+				{# fade-in #}
+				{% set ggEffParamOpacityFadInVal = (settings.captionEffSett.opacityFade/100) |default(0) %}
+
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type] figcaption {
+					opacity: {{ ggEffParamOpacityFadInVal }};
+				}
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type]:hover figcaption,
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type].hovered figcaption,
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type]:active figcaption {
+					opacity: 1;
+				}
+			{% endif %}
+
+			{# Square to circle #}
+			{% if settings.captionEffSett.squareToCircleEnabled == 1 and settings.captionEffSett.squareToCircle > 0 %}
+				{# square-to-circle #}
+				{% set ggEffParamSquareToCircVal = settings.captionEffSett.squareToCircle|default(0) %}
+
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type]:hover,
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type].hovered,
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type]:active {
+					-webkit-border-radius: {{ ggEffParamSquareToCircVal }}% !important;
+					-moz-border-radius: {{ ggEffParamSquareToCircVal }}% !important;
+					border-radius: {{ ggEffParamSquareToCircVal }}% !important;
+				}
+			{% endif %}
+
+			{# Rotate degree #}
+			{% if settings.captionEffSett.rotateDegreeEnabled == 1 and settings.captionEffSett.rotateDegree > 0 %}
+				{# rotate-z #}
+				{% set sggFigureTransformRotateVal = 'rotateZ(-' ~ (settings.captionEffSett.rotateDegree | default(0)) ~ 'deg)' %}
+			{% endif %}
+
+			{# always set top, left and right, bottom #}
+			{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type] figcaption {
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+			}
+
+			{# set transform value #}
+			{% if sggFigureTransformScaleVal | length or sggFigureTransformRotateVal | length %}
+				{% set sggFigureTransformFullValue = sggFigureTransformScaleVal ~ ' ' ~ sggFigureTransformRotateVal %}
+
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type]:hover,
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type].hovered,
+				{{ galleryCssSelector|raw }}.grid-gallery-caption[data-grid-gallery-type]:active {
+					z-index: 999999;
+					-webkit-transform: {{ sggFigureTransformFullValue }};
+					-ms-transform: {{ sggFigureTransformFullValue }};
+					transform: {{ sggFigureTransformFullValue }};
+				}
+			{% endif %}
+
+		{% endif %}
+		</style>
+	{% endblock %}
+{% endembed %}

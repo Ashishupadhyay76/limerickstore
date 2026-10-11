@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * Class WOOMULTI_CURRENCY_Frontend_Cart
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+class WOOMULTI_CURRENCY_Frontend_Cart {
+	protected $settings;
+
+	public function __construct() {
+		$this->settings = WOOMULTI_CURRENCY_Data::get_ins();
+		if ( $this->settings->get_enable() ) {
+			add_filter( 'woocommerce_calculated_total', array( $this, 'woocommerce_calculated_total' ), 10, 2 );
+			add_filter( 'woocommerce_widget_shopping_cart_total', array( $this, 'woocommerce_widget_shopping_cart_total' ), 10 );
+		}
+	}
+
+	/**
+	 * @param $total
+	 * @param $cart WC_Cart
+	 *
+	 * @return string
+	 */
+	public function woocommerce_calculated_total( $total, $cart ) {
+		$list_currencies  = $this->settings->get_list_currencies();
+		$current_currency = $this->settings->get_current_currency();
+		$default_currency = $this->settings->get_default_currency();
+		if ( $list_currencies[ $default_currency ]['decimals'] > 0 ) {
+			return $total;
+		}
+
+		if ( $list_currencies[ $current_currency ]['decimals'] ) {
+			$new_total = $cart->get_cart_contents_total() + $cart->get_fee_total() + $cart->get_shipping_total() + $cart->get_total_tax();
+			if ( $new_total > $total ) {
+				$total = number_format( $new_total, (int) $list_currencies[ $current_currency ]['decimals'], wc_get_price_decimal_separator(), '' );
+			}
+		}
+		return $total;
+	}
+
+	public function woocommerce_widget_shopping_cart_total( $total ) {
+		if ( ! function_exists( 'wmc_get_price' ) || ! function_exists( 'wmc_revert_price' ) ) {
+			return $total;
+		}
+
+		$current_currency = $this->settings->get_current_currency();
+		$default_currency = $this->settings->get_default_currency();
+		if ( $current_currency === $default_currency ) {
+			return $total;
+		}
+
+		$cart = WC()->cart;
+		if ( ! $cart ) {
+			return $total;
+		}
+
+		$shipping = $cart->get_shipping_total();
+		$fees     = $cart->get_fee_total();
+		$subtotal = $cart->get_subtotal() + $shipping + $fees;
+
+		if ( $cart->display_prices_including_tax() ) {
+			$subtotal += $cart->get_subtotal_tax() + $cart->get_shipping_tax() + $cart->get_fee_tax();
+		}
+
+		return wc_price( $subtotal );
+	}
+
+}

@@ -1,0 +1,149 @@
+.subheader {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 400;
+	display: none;
+	position: relative;
+	z-index: 101;
+  &.light {
+    border-bottom: 1px solid $border;
+  }
+	.subheader-full-width-on & {
+		.row {
+			max-width: none;
+		}
+	}
+	@include min-break($break-small) {
+    display: block;
+    + .header:not(.fixed) {
+      top: 35px;
+    }
+    .admin-bar & {
+
+  	 + .header:not(.fixed) {
+  	 	  top: 81px;
+  	 	}
+    	@media screen and (min-width: 783px){
+    	  + .header:not(.fixed) {
+  	  	  top: 67px;
+  	  	}
+    	}
+    }
+  }
+	&.subheader-mobile-on {
+		display: block;
+	}
+  .subheader-leftside {
+    @include min-break($break-small) {
+      text-align: left;
+
+			.rtl & {
+				text-align: right;
+			}
+    }
+  }
+  .subheader-rightside {
+    @include min-break($break-small) {
+      text-align: right;
+
+			.rtl & {
+				text-align: left;
+			}
+    }
+  }
+	.subheader-text {
+		display: inline-flex;
+		height: 100%;
+		align-items: center;
+		min-height: 35px;
+		> * {
+			margin-bottom: 0;
+		}
+	}
+  .thb-full-menu {
+		display: inline-flex;
+    >.menu-item {
+			.thb-menu-label {
+				display: block;
+				padding: 10px 0;
+			}
+      >a {
+        min-height: 34px;
+        font-size: 12px;
+        text-transform: none;
+        font-weight: 400;
+        align-items: center;
+				padding: 10px 0;
+
+				&:before {
+					bottom: 8px;
+				}
+      }
+      & + .menu-item {
+  			margin-left: 15px;
+
+  			.rtl & {
+  				margin-left: 0;
+  				margin-right: 15px;
+  			}
+  		}
+      &.menu-item-has-children>a:before {
+        top: calc( 100% - 1px );
+      }
+    }
+    .sub-menu {
+      min-width: 0;
+      padding: 15px 0;
+      top: calc(100% - 1px);
+      left: -15px;
+      li {
+        padding: 0 20px;
+        font-size: 12px;
+      }
+    }
+  }
+
+	.columns {
+		>*  {
+			vertical-align: middle;
+			& + ul,
+			& + div {
+				margin-left: 18px;
+
+				.rtl & {
+					margin-left: 0;
+					margin-right: 18px;
+				}
+			}
+		}
+	}
+	.thb-social-links-container {
+		height: 100%;
+    align-items: center;
+		.thb-social-link {
+			font-size: 16px;
+			min-height: 35px;
+			align-items: center;
+			& + .thb-social-link {
+				margin-left: 13px;
+			}
+		}
+	}
+  &.dark {
+    background: $black;
+    .thb-full-menu {
+      >.menu-item {
+        >a {
+          color: #fff;
+					&:before {
+						border-color: #fff;
+					}
+        }
+      }
+      .thb-menu-label {
+        color: rgba(#fff,0.8);
+      }
+    }
+  }
+}

@@ -1,0 +1,169 @@
+.footer {
+	&.style1 {
+		padding: 30px 0;
+
+		@include min-break($break-small) {
+			padding: 45px 0;
+		}
+		.footer-left-side {
+			text-align: center;
+			@include min-break($break-small) {
+				text-align: left;
+
+				.rtl & {
+					text-align: right;
+				}
+			}
+		}
+		.footer-right-side {
+			text-align: center;
+			@include min-break($break-small) {
+				text-align: right;
+
+				.rtl & {
+					text-align: left;
+				}
+			}
+		}
+	}
+	&.style2 {
+		background: #f4f4f4;
+		padding: 60px 0;
+		margin-top: 60px;
+		font-size: 14px;
+
+		p {
+			color: $color1;
+		}
+
+	}
+	&.style3 {
+		padding: 30px 0;
+
+		@include min-break($break-small) {
+			padding: 45px 0;
+		}
+		.footer-social-icons {
+			margin-bottom: 20px;
+		}
+	}
+	&.dark {
+		background: $black;
+		color: rgba(255,255,255,0.8);
+		a {
+			color: #fff;
+
+			&:not([class*="btn"]):after {
+				background: #fff;
+			}
+		}
+		p {
+			color: inherit;
+		}
+		label {
+      color: #fff;
+    }
+		.thb-custom-checkbox label:before {
+			border-color: #fff;
+		}
+		.thb-custom-checkbox input[type="checkbox"]:checked+label:before {
+			background: #fff;
+			color: $black;
+		}
+    .widget {
+			color: rgba(255,255,255,0.8);
+			h6 {
+				color: #fff;
+			}
+			&.widget_text {
+				a:not([class*="btn"]):after {
+					background: #fff;
+				}
+			}
+		}
+		.widget.widget_categories ul li a:not([class*="btn"]):after,
+		.widget.widget_nav_menu ul li a:not([class*="btn"]):after {
+			background: #fff;
+		}
+
+		.btn-text {
+			@extend .light-button-text;
+		}
+	}
+	.widget {
+		>h6 {
+			font-weight: 600;
+			color: #b2b2b2;
+			text-transform: uppercase;
+			font-size: 12px;
+		}
+	}
+	.paymenttypes {
+		display: inline-block;
+		margin: 0;
+		width: 50px;
+		height: 30px;
+		vertical-align: middle;
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+		&.payment_pp,
+		&.payment_discover,
+		&.payment_amazon,
+		&.payment_wirecard,
+		&.payment_payfast {
+			width: 70px;
+		}
+		&.payment_diners {
+			width: 30px;
+		}
+		&.payment_jcb {
+			width: 35px;
+		}
+		@include min-break($break-small) {
+			margin-left: 10px;
+		}
+	}
+	.thb-footer-menu {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		line-height: 1;
+		font-size: 14px;
+		li {
+			display: inline-flex;
+			margin: 0 5px;
+
+			@include min-break($break-small) {
+				margin-right: 15px;
+				margin-left: 0;
+			}
+		}
+		& + .thb-footer-copyright {
+			margin-top: 12px;
+			@include min-break($break-small) {
+				margin-top: 20px;
+			}
+		}
+	}
+	.thb-footer-copyright {
+		font-size: 12px;
+		color: rgba(#000,0.6);
+	}
+	.footer-social-icons {
+		margin-top: 35px;
+		@include min-break($break-small) {
+			margin: 0;
+		}
+		.social {
+			font-size: 14px;
+			display: inline-flex;
+			margin: 0 5px;
+		}
+		& + .footer-payment-icons {
+			margin-top: 10px;
+		}
+	}
+}

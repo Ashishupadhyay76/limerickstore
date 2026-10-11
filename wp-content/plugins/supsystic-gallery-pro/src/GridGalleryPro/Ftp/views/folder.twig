@@ -1,0 +1,126 @@
+{% extends 'grid-gallery.twig' %}
+
+{% block header %}
+
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs">
+        {#<a href="{{ environment.generateUrl('galleries') }}">{{ translate('Gallery by Supsystic') }}</a>#}
+        {#<i class="fa fa-angle-right"></i>#}
+        <a href="{{ environment.generateUrl('galleries') }}">{{ translate('Galleries') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ galleryName|capitalize }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ translate('Import images') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('ftp', 'folder', { 'id': id }) }}">{{ translate('FTP') }}</a>
+    </nav>
+
+{% endblock %}
+
+{% block content %}
+
+    <h2 id="gg-alrt" style="text-align: center; color: #bfbfbf; margin: 50px 0 25px 0;">
+		<span style="margin-bottom: 20px; display: block;">
+			{{ translate('Upload your images from the FTP Server') }}
+		</span>
+    </h2>
+    <form method="POST" style="max-width: 520px; margin: auto;" id="gg-ftp-folder-form" >
+        <!-- fake fields are a workaround for chrome autofill getting the wrong fields -->
+        <input style="display:none" type="text" name="fakeusernameremembered"/>
+        <input style="display:none" type="password" name="fakepasswordremembered"/>
+
+        <input type="text" id="gg-ftp-folderName" name="folderName" placeholder="{{ translate('Enter images folder name, e.g. my-images') }}"
+               value="{{ ftp.folderName }}"
+               style="width: 85%;">
+        <button class="button button-primary bordered" type="button" id="gg-ftp-folder-submit">
+            {{ translate('Upload') }}
+        </button>
+        <div>
+            <span id="gg-ftp-folder-note" style="font-weight: bold;">
+                {{ translate('Note: images folder must be in wp-content/uploads/directory') }}
+            </span>
+        </div>
+        <br>
+        <div style="margin-bottom: 10px;">
+            <label>Import from remote server</label>
+            <input type="checkbox" name="isRemote" id="gg-ftp-isRemote" value="{{ ftp.isRemote }}"
+                   class="gg-checkbox" data-observable />
+        </div>
+        <div id="remote-ftp-config" class="hidden">
+            <input type="text" name="host" placeholder="{{ translate('Host') }}"
+                   value="{{ ftp.host }}"
+                   style="width: 125px;" />
+            <input type="text" name="ftpUsername" placeholder="{{ translate('Username') }}"
+                   value="{{ ftp.ftpUsername }}"
+                   style="width: 125px;" />
+            <input type="password" name="ftpPassword" placeholder="{{ translate('Password') }}"
+                   value=""
+                   style="width: 125px;
+                    background-color: #f6f7f7;
+                    color: #252728;
+                    border-left: none;
+                    border-right: none;
+                    border-bottom: none;
+                    border-top: 1px solid #dfe4e4;
+                    height: 27px;" />
+            <input type="text" name="port" placeholder="{{ translate('Port') }}"
+                   value="{{ ftp.port }}"
+                   style="width: 125px;" />
+        </div>
+
+
+    </form>
+
+    <script>
+        /*global jQuery*/
+        (function ($) {
+            jQuery(document).ready(function () {
+
+
+                var button_select = jQuery('#gg-ftp-isRemote').click(function () {
+
+                    if(button_select.is(":checked")){
+                        $("#gg-ftp-folderName").attr("placeholder","{{ translate('Enter the full path to images folder') }}");
+                        $("#gg-ftp-folder-note").text("{{ translate('Note: you need to specify the full path to images folder') }}");
+                    }else{
+                        $("#gg-ftp-folderName").attr("placeholder","{{ translate('Enter images folder name, e.g. my-images') }}");
+                        $("#gg-ftp-folder-note").text("{{ translate('Note: images folder must be in wp-content/uploads/directory') }}");
+                    }
+                    $("#remote-ftp-config").toggleClass('hidden');
+                });
+
+                {% if(ftp.isRemote) %}
+                    button_select.click();
+                {% endif %}
+
+                jQuery('#gg-ftp-folder-submit').click(function(){
+
+                    var isRemote =  +jQuery('#gg-ftp-isRemote').is(":checked");
+                    jQuery('#gg-ftp-isRemote').val(isRemote);
+
+                    var form = jQuery('#gg-ftp-folder-form');
+                    var validateFlag = true;
+                    var inputs = form.find('input:visible');
+                    for (var i = 0; i < inputs.length - 1; i++){
+                        if(inputs.eq(i).val() == ""){
+                            validateFlag = false;
+                            break;
+                        }
+                    }
+
+                    if(validateFlag){
+                        form.submit();
+                    }else{
+                        jQuery.jGrowl('{{ translate('Please fill all fields') }}');
+                    }
+                });
+
+                {% if(ftp.hasParseError()) %}
+                $.jGrowl('{{ translate(ftp.getParseError()) }}');
+                {% endif %}
+
+            });
+
+       })(jQuery)
+    </script>
+
+{% endblock %}

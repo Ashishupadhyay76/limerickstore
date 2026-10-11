@@ -1,0 +1,67 @@
+[class^='icon-'],
+[class*=' icon-'] {
+  font-family: 'gridgallerypro';
+  font-style: normal;
+  font-weight: normal;
+
+  /* fix buttons height */
+  line-height: 1em;
+
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+}
+
+.icon-link {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe800;&nbsp;');
+}
+.icon-fullscreen {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe801;&nbsp;');
+}
+.icon-youtube {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe802;&nbsp;');
+}
+.icon-vimeo {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe803;&nbsp;');
+}
+.icon-left-1 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe804;&nbsp;');
+}
+.icon-right-1 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe805;&nbsp;');
+}
+.icon-left-5 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe806;&nbsp;');
+}
+.icon-right-5 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe807;&nbsp;');
+}
+.icon-left-2 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe808;&nbsp;');
+}
+.icon-right-2 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe809;&nbsp;');
+}
+.icon-left-6 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe80a;&nbsp;');
+}
+.icon-right-6 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe80b;&nbsp;');
+}
+.icon-left-3 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe80c;&nbsp;');
+}
+.icon-right-3 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe80d;&nbsp;');
+}
+.icon-left-7 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe80e;&nbsp;');
+}
+.icon-right-7 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe80f;&nbsp;');
+}
+.icon-left-4 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe810;&nbsp;');
+}
+.icon-right-4 {
+  *zoom: expression(this.runtimeStyle[ 'zoom'] = '1', this.innerHTML = '&#xe811;&nbsp;');
+}

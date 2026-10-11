@@ -1,0 +1,198 @@
+{% extends 'grid-gallery.twig' %}
+
+{% macro getAlbumsMarkup(albums) %}
+    {% for title, album in albums %}
+        <div style="border: 1px solid #ccc; margin-bottom:20px" class="album">
+            <div class="album-title" style="padding-left:10px;">
+                <h4 class="toggle">
+                    <i class="fa fa-plus toggle-icon"></i>
+                    {{ title }} ({{album.photos|length}})  <button class="button select-album" ><i class="fa fa-check-square-o fa-fw"></i></button> 
+                </h4>
+            </div>
+            <ul class="sg-photos hidden" {# data-sortable #} data-container="block">
+                {% for image in album.photos %}
+                    <li class="gg-list-item" data-entity data-entity-type="photo"
+                        data-entity-info="{{ image|json_encode|e }}">
+                        <div style="position: absolute; top: 14px; left: 14px;">
+                            <input type="checkbox" value="{{ image.original.source }}" class="gg-checkbox" data-observable>
+                        </div>
+                        <img class="lazy" data-original="{{ image.thumbnail.source }}" width="{{ image.thumbnail.width }}"
+                             style="min-height:150px;max-height:150px;width:auto;"/>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+{% block header %}
+
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs">
+        {#<a href="{{ environment.generateUrl('galleries') }}">{{ translate('Gallery by Supsystic') }}</a>#}
+        {#<i class="fa fa-angle-right"></i>#}
+        <a href="{{ environment.generateUrl('galleries') }}">{{ translate('Galleries') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ galleryName|capitalize }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('galleries', 'view', { 'gallery_id': id }) }}">{{ translate('Import images') }}</a>
+        <i class="fa fa-angle-right"></i>
+        <a href="{{ environment.generateUrl('facebook', 'index', { 'id': id }) }}">{{ translate('Facebook') }}</a>
+    </nav>
+
+    {% include '@facebook/includes/toolbar.twig' %}
+{% endblock %}
+
+{% block content %}
+    {% import _self as self %}
+
+    {% if images.albums is iterable and images.albums|length > 0 %}
+        {{ self.getAlbumsMarkup(images.albums) }}
+    {% elseif not images.albums %}
+        <p>Sorry, but you have no images on your Facebook account</p>
+    {% endif %}
+
+    {% if pageImages is iterable and pageImages|length > 0 %}
+        {% for title, albumsList in pageImages %}
+            <h3>{{ title }} Page</h3>
+            {{ self.getAlbumsMarkup(albumsList.albums) }}
+        {% endfor %}
+    {% endif %}
+    <script src="{{ lazyLoadUrl }}"></script>
+    <script>
+        /*global jQuery*/
+		(function ($) {
+
+			$("img.lazy").ggLazyLoad({
+				effect : "fadeIn",
+				threshold : 300
+			});
+
+
+			jQuery(document).ready(function () {
+
+				$('.album').on('click', '.toggle', function(event) {
+					event.preventDefault();
+					$toggleIcon = $(this).find('.fa.toggle-icon');
+					if ($toggleIcon.hasClass('fa-plus')) {
+						$toggleIcon.removeClass('fa-plus').addClass('fa-minus');
+					} else {
+						$toggleIcon.removeClass('fa-minus').addClass('fa-plus');
+					}
+					$album = $toggleIcon.closest('.album');
+					$album.find('.sg-photos').toggle(400);
+					$(window).trigger('scroll');
+				});
+
+				$('.album').on('click', '.select-album', function(event) {
+					event.preventDefault();
+					event.stopPropagation();
+					$album = $(this).closest('.album');
+					if ($(this).hasClass('checked')) {
+						$album.find('input:checkbox').each(function() {
+							var $currCheckbox = $(this);
+							$currCheckbox.prop('checked', false);
+							$currCheckbox.parent().removeClass('checked');
+						});
+						$(this).removeClass('checked');
+					} else {
+						$album.find('input:checkbox').each(function() {
+							var $currCheckbox = $(this);
+							$currCheckbox.prop('checked', true);
+							$currCheckbox.parent().addClass('checked');
+						});
+						$(this).addClass('checked');
+					}
+				});
+
+				$('.album:first .toggle').click();
+
+				jQuery('#add_images').click(function () {
+					getResourcesList($(this).data('gallery-id'));
+				});
+
+				var button_select = jQuery('#button-select').click(function () {
+					jQuery('input:checkbox').each(function () {
+						var $currCheckbox = $(this);
+						if (button_select.data('value') == 'select') {
+							$currCheckbox.prop('checked', true);
+							$currCheckbox.parent().addClass('checked');
+						} else {
+							$currCheckbox.prop('checked', false);
+							$currCheckbox.parent().removeClass('checked');
+						}
+					});
+					if ($(this).data('value') == 'select') {
+						$(this).data('value', 'remove');
+						$('.album .select-album').addClass('checked');
+					} else {
+						$(this).data('value', 'select');
+						$('.album .select-album').removeClass('checked');
+					}
+				});
+				jQuery('.supsystic-container').css({'overflow-y':'scroll'});
+			});
+
+			function getResourcesList(galleryId) {
+				var url = [],
+					elements = jQuery('.gg-checkbox:checked').each(function () {
+						url.push(jQuery(this).val());
+					}),
+					resources = [],
+					limit = 10,
+					offset = 0;
+
+				function savePhotos(){
+					if(offset < url.length){
+						var url_to_save = [];
+						for(var i = 0; i < limit; i++){
+							url_to_save.push(url[i+offset]);
+						}
+						offset = offset + limit;
+
+						var request = SupsysticGallery.Ajax.Post({
+							module: 'galleries',
+							action: 'sideloadSave'
+						});
+
+						request.add('urls', url_to_save);
+
+						request.send(function (response) {
+
+							for (var i = 0; i < response.ids.length; ++i) {
+								resources.push({type: 'photo', id: response.ids[i]});
+							}
+
+							savePhotos();
+
+						});
+					}else{
+						$.jGrowl('Done');
+						attachPhotos();
+					}
+				}
+
+				function attachPhotos(){
+					if (resources.length) {
+						$.post(wp.ajax.settings.url, {
+							action: 'grid-gallery',
+							_wpnonce: SupsysticGallery.nonce,
+							route: {module: 'galleries', action: 'attach'},
+							gallery_id: galleryId,
+							resources: resources
+						}, function (response) {
+							$.jGrowl(response.message);
+							window.location = response.redirectUrl.replace(/\\"/g, '"');
+						});
+					}
+				}
+
+				if (elements.length) {
+					SupsysticGallery.Loader.show('Please, wait until images will be imported.');
+					savePhotos();
+				} else {
+					$.jGrowl('Please select images for import');
+				}
+			}
+		})(jQuery);
+    </script>
+{% endblock %}

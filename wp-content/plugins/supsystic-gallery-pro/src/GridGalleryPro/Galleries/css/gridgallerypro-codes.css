@@ -1,0 +1,54 @@
+.icon-link:before {
+  content: '\e800';
+} /* '' */
+.icon-fullscreen:before {
+  content: '\e801';
+} /* '' */
+.icon-youtube:before {
+  content: '\e802';
+} /* '' */
+.icon-vimeo:before {
+  content: '\e803';
+} /* '' */
+.icon-left-1:before {
+  content: '\e804';
+} /* '' */
+.icon-right-1:before {
+  content: '\e805';
+} /* '' */
+.icon-left-5:before {
+  content: '\e806';
+} /* '' */
+.icon-right-5:before {
+  content: '\e807';
+} /* '' */
+.icon-left-2:before {
+  content: '\e808';
+} /* '' */
+.icon-right-2:before {
+  content: '\e809';
+} /* '' */
+.icon-left-6:before {
+  content: '\e80a';
+} /* '' */
+.icon-right-6:before {
+  content: '\e80b';
+} /* '' */
+.icon-left-3:before {
+  content: '\e80c';
+} /* '' */
+.icon-right-3:before {
+  content: '\e80d';
+} /* '' */
+.icon-left-7:before {
+  content: '\e80e';
+} /* '' */
+.icon-right-7:before {
+  content: '\e80f';
+} /* '' */
+.icon-left-4:before {
+  content: '\e810';
+} /* '' */
+.icon-right-4:before {
+  content: '\e811';
+} /* '' */

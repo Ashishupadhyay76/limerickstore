@@ -1,0 +1,22 @@
+<?php
+/**
+ *
+ */
+class GridGallery_Promo_Controller extends GridGallery_Core_BaseController
+{
+  public function welcomeAction(RscSgg_Http_Request $request)
+  {
+    update_option('sgg_plug_welcome_show', time()); // Remember this
+    return $this->response('@promo/promo.twig', [
+      'plugin_name' => $this->getConfig()->get('plugin_title_name'),
+      'plugin_version' => $this->getConfig()->get('plugin_version'),
+      'start_url' => '?page=supsystic-gallery&module=overview',
+    ]);
+  }
+
+  public function showTutorialAction()
+  {
+    update_user_meta(get_current_user_id(), 'sgg-detailed-tour-active', true);
+    return $this->redirect($this->generateUrl('galleries', 'showPresets', ['sgg_tutorial_reset' => 1]));
+  }
+}

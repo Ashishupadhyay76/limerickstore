@@ -1,0 +1,2870 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 'north'\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-11 11:10+0300\n"
+"PO-Revision-Date: 2017-12-12 11:03+0300\n"
+"Last-Translator: Ant Ekşiler <admin@wpfuelthemes.com>\n"
+"Language-Team: Fuel Themes <wpfuelthemes@gmail.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__;esc_html__;esc_html_e;esc_attr__;esc_attr_x;"
+"esc_attr_e\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Generator: Poedit 2.1.1\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: assets\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: inc/admin\n"
+
+#: 404.php:5
+msgid "Page cannot be found."
+msgstr ""
+
+#: 404.php:6
+msgid "We are sorry, but the page you're looking for cannot be found."
+msgstr ""
+
+#: 404.php:7
+msgid "BACK TO HOME"
+msgstr ""
+
+#: comments.php:24
+msgid "on"
+msgstr ""
+
+#: comments.php:36
+msgid "Reply"
+msgstr ""
+
+#: comments.php:53
+msgid "Comments are closed"
+msgstr ""
+
+#: comments.php:69 inc/framework/visualcomposer/visualcomposer-extend.php:1638
+#: woocommerce/single-product-reviews.php:78
+msgid "Name"
+msgstr ""
+
+#: comments.php:71 woocommerce/single-product-reviews.php:80
+msgid "Email"
+msgstr ""
+
+#: comments.php:73
+msgid "Website"
+msgstr ""
+
+#: comments.php:75
+msgid "Your Comment"
+msgstr ""
+
+#: comments.php:77
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr ""
+
+#: comments.php:79
+#, php-format
+msgid ""
+"Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\" title=\"Log out of "
+"this account\">Log out?</a>"
+msgstr ""
+
+#: comments.php:81
+msgid "Your email address will not be published."
+msgstr ""
+
+#: comments.php:85
+msgid "Leave a Reply"
+msgstr ""
+
+#: comments.php:86 woocommerce/single-product-reviews.php:73
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr ""
+
+#: comments.php:89
+msgid "Cancel reply"
+msgstr ""
+
+#: comments.php:91
+msgid "Submit Comment"
+msgstr ""
+
+#: inc/ajax.php:122
+msgid "Please accept the terms of our newsletter."
+msgstr ""
+
+#: inc/ajax.php:138
+msgid "<strong>Oh snap!</strong> That email address is already subscribed!"
+msgstr ""
+
+#: inc/ajax.php:147
+msgid "<strong>Well done!</strong> Your address has been added."
+msgstr ""
+
+#: inc/ajax.php:151
+msgid "<strong>Oh snap!</strong> Please enter a valid email address."
+msgstr ""
+
+#: inc/framework/thb-instagram.php:18
+msgid "Please enter an Instagram Access Token."
+msgstr ""
+
+#: inc/framework/thb-instagram.php:23
+msgid "Please enter an Instagram User."
+msgstr ""
+
+#: inc/framework/thb-instagram.php:27
+msgid "Please enter your own Instagram Access Token."
+msgstr ""
+
+#: inc/framework/thb-instagram.php:159 inc/framework/thb-instagram.php:191
+msgid "Instagram html data cannot be retrieved."
+msgstr ""
+
+#: inc/framework/thb-instagram.php:168
+msgid "Instagram data is not set, please check the ID."
+msgstr ""
+
+#: inc/framework/thb-instagram.php:174 inc/framework/thb-instagram.php:180
+msgid "There are no images in your account or the account is private."
+msgstr ""
+
+#: inc/framework/thb-twitter-helper.php:125
+msgid "ago"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-about.php:4
+msgid "About - 01"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-about.php:13
+msgid "About - 02"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-about.php:19
+msgid "About - 03"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-about.php:25
+msgid "About - 04"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-about.php:31
+msgid "About - 05"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-about.php:37
+msgid "About - 06"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-about.php:43
+msgid "About - 07"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-about.php:49
+msgid "About - 08"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-cta.php:4
+msgid "CTA - 01"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-cta.php:10
+msgid "CTA - 02"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-cta.php:16
+msgid "CTA - 03"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-cta.php:22
+msgid "CTA - 04"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-cta.php:28
+msgid "CTA - 05"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-cta.php:34
+msgid "CTA - 06"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-cta.php:40
+msgid "CTA - 07"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-hero.php:4
+msgid "Hero - 01"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-hero.php:10
+msgid "Hero - 02"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-hero.php:16
+msgid "Hero - 03"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-hero.php:22
+msgid "Hero - 04"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-hero.php:28
+msgid "Hero - 05"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-hero.php:34
+msgid "Hero - 06"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-homepage.php:4
+msgid "Default"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-homepage.php:13
+msgid "Lookbook"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-homepage.php:19
+msgid "Product Landing"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-homepage.php:47
+#: inc/framework/visualcomposer/templates/thb-homepage.php:85
+msgid "Snap to Scroll"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-homepage.php:69
+msgid "Grid Categories"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-homepage.php:77
+msgid "Simple"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-homepage.php:107
+msgid "Jewellery"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-homepage.php:113
+msgid "Furniture"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-misc.php:4
+msgid "Misc - 01"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-misc.php:19
+msgid "Misc - 02"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-misc.php:27
+msgid "Misc - 03"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-misc.php:33
+msgid "Misc - 04"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-misc.php:39
+msgid "Misc - 05"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-page.php:4
+msgid "About Page - 01"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-page.php:20
+msgid "About Page - 02"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-page.php:38
+msgid "Contact Page - 01"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-page.php:44
+msgid "Contact Page - 02"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:4
+msgid "Services - 01"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:17
+msgid "Services - 02"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:23
+msgid "Services - 03"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:56
+msgid "Services - 04"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:62
+msgid "Services - 05"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:68
+msgid "Services - 06"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:74
+msgid "Services - 07"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:92
+msgid "Services - 08"
+msgstr ""
+
+#: inc/framework/visualcomposer/templates/thb-services.php:98
+msgid "Services - 09"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:5
+#: inc/framework/visualcomposer/visualcomposer-extend.php:855
+msgid "Animation"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:106
+#: inc/framework/visualcomposer/visualcomposer-extend.php:117
+msgid "Column Content Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:113
+#: inc/framework/visualcomposer/visualcomposer-extend.php:124
+msgid "If you white-colored contents for this column, select Light."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:143
+msgid "Enable Max Width"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:149
+msgid ""
+"If you enable this, the row won't exceed the max width, especially inside a "
+"full-width parent row."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:154
+#: inc/framework/visualcomposer/visualcomposer-extend.php:185
+msgid "Disable Padding"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:160
+msgid "If you enable this, the columns inside won't leave padding on the sides"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:175
+msgid "Enable Full Width"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:181
+msgid "If you enable this, this row will fill the screen"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:191
+msgid "If you enable this, this row won't leave padding on the sides"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:195
+msgid "Full Height Row"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:200
+msgid ""
+"If enabled, this will cause this row to always fill the height of the window."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:204
+msgid "Video Background"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:207
+msgid "You can specify a video background file here (mp4)"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:211
+msgid "Video Overlay Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:214
+msgid "If you want, you can select an overlay color."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:218
+msgid "Disable AutoPlay"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:224
+msgid ""
+"If enabled, the video won't start automatically and can be toggled using the "
+"Play Button Element."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:228
+msgid "Header Logo Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:236
+msgid ""
+"This setting affects the color of the logo when snap to scroll template is "
+"being used."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:241
+msgid "Add to Cart Button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:245
+#: inc/framework/visualcomposer/visualcomposer-extend.php:318
+#: inc/framework/visualcomposer/visualcomposer-extend.php:377
+#: inc/framework/visualcomposer/visualcomposer-extend.php:414
+#: inc/framework/visualcomposer/visualcomposer-extend.php:464
+#: inc/framework/visualcomposer/visualcomposer-extend.php:475
+#: inc/framework/visualcomposer/visualcomposer-extend.php:538
+#: inc/framework/visualcomposer/visualcomposer-extend.php:636
+#: inc/framework/visualcomposer/visualcomposer-extend.php:666
+#: inc/framework/visualcomposer/visualcomposer-extend.php:726
+#: inc/framework/visualcomposer/visualcomposer-extend.php:780
+#: inc/framework/visualcomposer/visualcomposer-extend.php:882
+#: inc/framework/visualcomposer/visualcomposer-extend.php:972
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1045
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1072
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1153
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1208
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1241
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1252
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1324
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1372
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1413
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1466
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1548
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1577
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1628
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1684
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1708
+msgid "by Fuel Themes"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:250
+msgid "Product ID"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:252
+msgid "Only enter 1 Product ID"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:256
+msgid "Display Product Title?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:261
+msgid "If you want to show the product title, enable this"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:265
+msgid "Display Product Excerpt?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:270
+msgid "If you want to show the product excerpt, enable this"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:274
+msgid "Display Product Price?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:279
+msgid "If you want to show the price, enable this"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:283
+msgid "Button Style"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:286
+#: inc/framework/visualcomposer/visualcomposer-extend.php:332
+#: inc/framework/visualcomposer/visualcomposer-extend.php:390
+msgid "This changes the look of the button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:290
+msgid "Button Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:296
+#: inc/framework/visualcomposer/visualcomposer-extend.php:356
+msgid "This changes the color of the button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:300
+#: inc/framework/visualcomposer/visualcomposer-extend.php:796
+msgid "Alignment"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:309
+msgid "Single Add-to-Cart button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:314
+msgid "Button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:322
+#: inc/framework/visualcomposer/visualcomposer-extend.php:394
+#: inc/framework/visualcomposer/visualcomposer-extend.php:435
+#: inc/framework/visualcomposer/visualcomposer-extend.php:648
+#: inc/framework/visualcomposer/visualcomposer-extend.php:838
+msgid "Link"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:324
+msgid "Enter url for link"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:329
+#: inc/framework/visualcomposer/visualcomposer-extend.php:381
+#: inc/framework/visualcomposer/visualcomposer-extend.php:418
+#: inc/framework/visualcomposer/visualcomposer-extend.php:543
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1424
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1477
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1689
+msgid "Style"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:336
+msgid "Size"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:345
+msgid "This changes the size of the button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:349
+#: inc/woocommerce-attribute-settings.php:76
+msgid "Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:361
+msgid "Full Width"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:366
+msgid "If enabled, this will make the button fill it's container"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:369
+msgid "Add an animated button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:373
+msgid "Text Button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:396
+#: inc/framework/visualcomposer/visualcomposer-extend.php:437
+msgid "Set your url & text for your button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:402
+#: inc/framework/visualcomposer/visualcomposer-extend.php:443
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1604
+msgid "Extra Class Name"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:406
+msgid "Add a text button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:410
+msgid "Block Button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:426
+msgid "This changes the style of the block buttons."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:430
+msgid "Background Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:448
+msgid "Css"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:450
+msgid "Design Options"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:453
+msgid "Add a block button with image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:458
+msgid "Cascading Images"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:466
+msgid "Insert a cascading Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:471
+msgid "Single Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:480
+#: inc/framework/visualcomposer/visualcomposer-extend.php:886
+#: inc/framework/visualcomposer/visualcomposer-extend.php:976
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1212
+msgid "Select Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:482
+msgid "Select Image for the layer"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:486
+msgid "Offset X"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:493
+msgid "Offset Y"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:500
+#: inc/framework/visualcomposer/visualcomposer-extend.php:580
+#: inc/framework/visualcomposer/visualcomposer-extend.php:916
+msgid "Retina Size?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:505
+#: inc/framework/visualcomposer/visualcomposer-extend.php:921
+msgid ""
+"If selected, the image will be display half-size, so it looks crisps on "
+"retina screens. Full Width setting will override this."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:510
+msgid "Add Border Radius?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:513
+msgid "You can add Border Radius in px value."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:517
+msgid "Add Box Shadow?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:523
+msgid "You can add a Box Shadow to your image."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:533
+msgid "Clients"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:552
+msgid "This changes the layout style of the client logos"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:556
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1095
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1304
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1438
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1489
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1558
+msgid "Columns"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:570
+msgid "Image Borders"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:575
+msgid "If you enable this, the logos will have border"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:585
+msgid ""
+"If selected, the image will be display half-size, so it looks crisps on "
+"retina screens."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:589
+msgid "Border Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:597
+msgid "Hover Effect"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:610
+msgid "Auto Play"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:615
+msgid "If enabled, the carousel will autoplay."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:620
+msgid "Speed of the AutoPlay"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:623
+msgid "Speed of the autoplay, default 4000 (4 seconds)"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:627
+msgid "Partner/Client logos"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:632
+msgid "Client"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:641
+#: inc/woocommerce-attribute-settings.php:80
+#: inc/woocommerce-category-settings.php:130
+msgid "Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:644
+msgid "Add logo image here."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:651
+msgid "Add a link to client website if desired."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:654
+msgid "Single Client"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:661
+msgid "Contact Map Parent"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:671
+msgid "Map Height"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:675
+#, php-format
+msgid ""
+"Enter height of the map in vh (0-100). For example, 50 will be 50% of "
+"viewport height and 100 will be full height. <small>Make sure you have "
+"filled in your Google Maps API inside Appearance > Theme Options.</small>"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:679
+msgid "Map Zoom"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:682
+msgid "Set map zoom level. Leave 0 to automatically fit to bounds."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:686
+msgid "Map Controls"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:690
+msgid "Pan Control"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:691
+msgid "Zoom Control"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:692
+msgid "Map Type Control"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:693
+msgid "Scale Control"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:694
+msgid "Street View Control"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:696
+msgid "Toggle map options."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:700
+msgid "Map Type"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:704
+msgid "Roadmap"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:705
+msgid "Satellite"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:706
+msgid "Hybrid"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:708
+msgid "Choose map style."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:712
+msgid "Map Style"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:714
+msgid ""
+"Paste the style code here. Browse map styles in <a href=\"https://snazzymaps."
+"com/\" target=\"_blank\">SnazzyMaps</a>"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:717
+msgid "Insert your Contact Map"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:722
+msgid "Contact Map Location"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:731
+msgid "Marker Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:733
+msgid "Add your Custom marker image or use default one."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:737
+msgid "Retina Marker"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:740
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1029
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1116
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1126
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1173
+msgid "Yes"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:742
+msgid ""
+"Enabling this option will reduce the size of marker for 50%, example if "
+"marker is 32x32 it will be 16x16."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:746
+msgid "Latitude"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:749
+msgid ""
+"Enter latitude coordinate. To select map coordinates <a href=\"http://www."
+"latlong.net/convert-address-to-lat-long.html\" target=\"_blank\">click here</"
+"a>."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:753
+msgid "Longitude"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:756
+msgid "Enter longitude coordinate."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:760
+msgid "Marker Title"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:765
+msgid "Marker Description"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:776
+msgid "Iconbox"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:784
+msgid "Type"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:809
+msgid "Add Background Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:815
+msgid "Icon"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:821
+msgid "SVG Icon Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:826
+msgid "Image As Icon"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:828
+msgid "You can set an image instead of an icon."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:832
+msgid "Image Width"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:834
+msgid ""
+"If you are using an image, you can set custom width here. Default is 64 "
+"(pixels)."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:840
+msgid "Add a link to the iconbox if desired."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:844
+msgid "Heading"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:850
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1583
+msgid "Content"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:862
+msgid "You can disable animation if you like."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:866
+msgid "Animation Speed"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:869
+msgid "Speed of the animation in seconds"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:873
+msgid "Iconboxes with different animations"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:891
+msgid "Display Caption?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:896
+msgid "If selected, the image caption will be displayed."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:900
+msgid "Caption Style"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:906
+msgid "Select caption style."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:911
+msgid "Text Below Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:925
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1223
+msgid "Full Width?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:930
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1228
+msgid "If selected, the image will always fill its container"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:935
+msgid "Image size"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:937
+msgid ""
+"Enter image size. Example: thumbnail, medium, large, full or other sizes "
+"defined by current theme. Alternatively enter image size in pixels: 200x100 "
+"(Width x Height). Leave empty to use 'thumbnail' size."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:941
+msgid "Image alignment"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:944
+msgid "Select image alignment."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:948
+msgid "Link to Full-Width Image?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:956
+msgid "Image link"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:958
+msgid "Enter url if you want this image to have link."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:962
+msgid "Add an animated image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:967
+msgid "Image Hot Spots"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:978
+msgid ""
+"After selecting your image, you can then click on the image in the preview "
+"area to add your hotspots on the desired locations."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:982
+msgid "Image Preview"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:985
+msgid "Click to add a hotspot - Drag to move it"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:990
+msgid "Functionality"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:996
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1007
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1022
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1033
+msgid "Styling"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1001
+msgid "Pin Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1011
+msgid "Pin Animation"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1026
+msgid "Enable Pulsate Effect"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1032
+msgid "Shows a pulsate around the pin."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1036
+msgid "Add an image with hotspots"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1041
+msgid "Image Slider"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1049
+msgid "Select Images"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1055
+msgid "Navigation Arrows"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1060
+msgid "Check this if you want to show navigation arrows."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1063
+msgid "Add an image slider"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1068
+msgid "Instagram"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1076
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1157
+msgid "Instagram Username"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1079
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1160
+msgid "Instagram username to retrieve photos from."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1083
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1164
+msgid "Instagram Access Token"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1085
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1166
+msgid "Instagram Access Token."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1089
+msgid "Number of Photos"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1091
+msgid "Number of Instagram Photos to retrieve."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1102
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1514
+msgid "Column Padding"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1109
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1523
+msgid "You can have columns without spaces using this option"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1113
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1170
+msgid "Link Photos to Instagram?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1119
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1176
+msgid "Do you want to link the Instagram photos to instagram.com website?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1123
+msgid "Display Username?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1129
+msgid "If you want to show the username above photos."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1133
+msgid "Username Position"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1141
+msgid "Alignment of the username."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1145
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1200
+msgid "Add Instagram Photos"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1149
+msgid "Instagram Block"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1180
+msgid "Color - 1"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1183
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1190
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1197
+msgid "Select background color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1187
+msgid "Color - 2"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1194
+msgid "Color - 3"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1217
+msgid "Select Products"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1219
+msgid "Set your products to show on hover"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1232
+msgid "Add a Look Book element"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1237
+msgid "Play Button"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1243
+msgid "For Row Video Backgrounds"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1248
+msgid "Products"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1256
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1335
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1376
+msgid "Product Sort"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1267
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1274
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1345
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1386
+msgid "Select the order of the products you'd like to show."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1271
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1417
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1470
+msgid "Product Category"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1279
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1349
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1390
+msgid "Product IDs"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1281
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1351
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1392
+msgid "Enter the products IDs you would like to display seperated by comma"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1286
+msgid "Carousel"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1292
+msgid "Select yes to display the products in a carousel."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1296
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1356
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1397
+msgid "Number of Items"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1299
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1359
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1400
+msgid "The number of products to show."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1312
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1500
+msgid "Select the layout of the products."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1315
+msgid "Add WooCommerce products"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1320
+msgid "Product List"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1328
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:93
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:117
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:105 inc/wp3menu.php:227
+msgid "Title"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1331
+msgid "Title of the widget"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1363
+msgid "Add WooCommerce products in a list"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1368
+msgid "Product Slider"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1404
+msgid "Add WooCommerce products in a slider"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1409
+msgid "Product Category Grid"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1420
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1473
+msgid "Select the categories you would like to display"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1434
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1485
+msgid "This applies different grid structures"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1445
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1527
+msgid "Category Ordering"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1454
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1536
+msgid "This changes the ordering of categories"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1457
+msgid "Display Product Category Grid"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1462
+msgid "Product Categories"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1504
+msgid "Carousel?"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1510
+msgid "If you want to use a carousel, enable this."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1539
+msgid "Add WooCommerce product categories"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1544
+msgid "Posts"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1552
+msgid "Post Source"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1554
+msgid "Set your post source here"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1566
+msgid "Select the layout of the posts."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1569
+msgid "Display Posts from your blog"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1575
+msgid "Stroke Type"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1576
+msgid "Text with Stroke style"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1591
+msgid "Text Color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1593
+msgid "Select text color"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1597
+msgid "Stroke Width"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1600
+msgid "Enter the value for the stroke width. "
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1613
+msgid "Subscription Form"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1619
+msgid "Add a subscription form"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1624
+msgid "Team Member"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1632
+msgid "Select Team Member Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1634
+msgid "Minimum size is 270x270 pixels"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1641
+msgid "Enter name of the team member"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1645
+msgid "Position"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1647
+msgid "Enter position/title of the team member"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1651
+msgid "Facebook"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1653
+msgid "Enter Facebook Link"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1657
+msgid "Twitter"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1659
+msgid "Enter Twitter Link"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1663
+msgid "Pinterest"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1665
+msgid "Enter Pinterest Link"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1669
+msgid "Linkedin"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1671
+msgid "Enter Linkedin Link"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1674
+msgid "Display your team members in a stylish way"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1679
+msgid "Testimonial Slider"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1697
+msgid "This changes the layout style of the testimonials"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1700
+msgid "Testimonials Slider"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1704
+msgid "Testimonial"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1713
+msgid "Quote"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1715
+msgid "Quote you want to show"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1719
+msgid "Author"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1722
+msgid "Name of the member."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1726
+msgid "Author Title"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1728
+msgid "Title that will appear below author name."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1732
+msgid "Author Image"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1734
+msgid "Add Author image here. Could be used depending on style."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1737
+msgid "Single Testimonial"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1745
+msgid "Affect Header Colors"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-extend.php:1751
+msgid ""
+"If enabled, this slider will affect header colors. Please make sure that "
+"every slide has an image background."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-templates.php:23
+msgid ""
+"These templates append the Page Builder elements to your page. The added "
+"elements still need to be configured from their settings for your content "
+"such as images, post sources, etc. as well as page options."
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-templates.php:33
+msgid "Add"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer-templates.php:63
+msgid "Homepage layouts used inside the demos"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer.php:145
+msgid "Hotspot Tooltip Content"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer.php:145
+msgid "Save changes"
+msgstr ""
+
+#: inc/framework/visualcomposer/visualcomposer.php:145
+#: inc/templates/header/mobile-menu.php:5 inc/woocommerce.php:114
+#: inc/woocommerce.php:132 inc/woocommerce.php:165
+msgid "Close"
+msgstr ""
+
+#: inc/misc.php:833
+msgid "SUBSCRIBE NOW"
+msgstr ""
+
+#: inc/misc.php:847 inc/templates/header/mobile-menu.php:4
+msgid "Menu"
+msgstr ""
+
+#: inc/misc.php:898 searchform.php:4 woocommerce/product-searchform.php:28
+msgid "Search"
+msgstr ""
+
+#: inc/misc.php:909
+msgid "PRESS ESC TO CLOSE"
+msgstr ""
+
+#: inc/misc.php:953
+msgid "Your e-mail address"
+msgstr ""
+
+#: inc/misc.php:954
+msgid "Subscribe Now"
+msgstr ""
+
+#: inc/misc.php:978
+msgid "I would like to receive news and special offers."
+msgstr ""
+
+#: inc/misc.php:1038
+msgid "This is a protected area. Please enter your password:"
+msgstr ""
+
+#: inc/misc.php:1039 woocommerce/myaccount/form-login.php:49
+#: woocommerce/myaccount/form-login.php:95
+msgid "Password"
+msgstr ""
+
+#: inc/misc.php:1039 woocommerce/single-product-reviews.php:83
+msgid "Submit"
+msgstr ""
+
+#: inc/misc.php:1129
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: inc/misc.php:1146 inc/woocommerce.php:100
+msgid "Prev"
+msgstr ""
+
+#: inc/misc.php:1147 inc/woocommerce.php:101
+msgid "Next"
+msgstr ""
+
+#: inc/misc.php:1157 inc/script-calls.php:113
+msgid "Load More"
+msgstr ""
+
+#: inc/misc.php:1180
+msgid "Share This"
+msgstr ""
+
+#: inc/misc.php:1359
+msgid "Previous Article"
+msgstr ""
+
+#: inc/misc.php:1377
+msgid "Next Article"
+msgstr ""
+
+#: inc/misc.php:1479
+#, php-format
+msgid "Thank you for choosing %1$sFuel Themes%2$s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/CustomizerImporter.php:37
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/CustomizerImporter.php:45
+msgid "Importing customizer settings"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/CustomizerImporter.php:43
+msgid "Customizer settings import finished!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/CustomizerImporter.php:73
+#, php-format
+msgid "Error: The customizer import file is missing! File path: %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/CustomizerImporter.php:93
+msgid ""
+"Error: The customizer import file is not in a correct format. Please make "
+"sure to use the correct customizer import file."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/CustomizerImporter.php:99
+msgid ""
+"Error: The customizer import file is not suitable for current theme. You can "
+"only import customizer settings for the same theme or a child theme."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Downloader.php:58
+msgid "Missing URL for downloading a file!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Downloader.php:76
+#, php-format
+msgid ""
+"An error occurred while fetching file from: %1$s%2$s%3$s!%4$sReason: %5$s - "
+"%6$s."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:219
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:262
+#, php-format
+msgid ""
+"An error occurred while writing file to your server! Tried to write a file "
+"to: %s%s."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:296
+#, php-format
+msgid ""
+"An error occurred while reading a file from your server! Tried reading file "
+"from path: %s%s."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:319
+#, php-format
+msgid ""
+"This WordPress page does not have %sdirect%s write file access. This plugin "
+"needs it in order to save the demo import xml file to the upload directory "
+"of your site. You can change this setting with these instructions: %s."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:330
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:131
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:15
+msgid "One Click Demo Import"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:331
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:132
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:105
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:117
+msgid "Import Demo Data"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:343
+msgid ""
+"An error occurred while retrieving reading/writing permissions to your "
+"server (could not retrieve WP filesystem credentials)!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:351
+msgid "Your WordPress login credentials don't allow to use WP_Filesystem!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:391
+msgid "One Click Demo Import - "
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:425
+#, php-format
+msgid ""
+"%sYour user role isn't high enough. You don't have permission to import demo "
+"data.%s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:471
+#, php-format
+msgid "Content file was not uploaded. Error: %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:475
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:492
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:509
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:520
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:540
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:548
+msgid "Upload files"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:488
+#, php-format
+msgid "Widget file was not uploaded. Error: %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:505
+#, php-format
+msgid "Customizer file was not uploaded. Error: %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:518
+msgid "Missing Redux option name! Please also enter the Redux option name!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:536
+#, php-format
+msgid "Redux file was not uploaded. Error: %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:546
+msgid "The import files were successfully uploaded!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:572
+#, php-format
+msgid "Initial max execution time = %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:576
+#, php-format
+msgid ""
+"Files info:%1$sSite URL = %2$s%1$sData file = %3$s%1$sWidget file = %4$s"
+"%1$sCustomizer file = %5$s%1$sRedux files:%1$s%6$s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:579
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:580
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:581
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Helpers.php:582
+msgid "not defined!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/Importer.php:172
+msgid "New AJAX call!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:183
+msgid "No preview image defined for this import."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:184
+msgid "Are you sure?"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:185
+msgid "Cancel"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:186
+msgid "Yes, import!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:187
+msgid "Selected demo import:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:232
+msgid "Manually uploaded files"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:246
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:257
+msgid "Downloaded files"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:253
+#, php-format
+msgid "The import files for: %s were successfully downloaded!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:262
+msgid "No import files specified!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:383
+msgid ""
+"Just used One Click Demo Import plugin and it was awesome! Thanks "
+"@ProteusThemes! #OCDI https://www.proteusthemes.com/"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:386
+#, php-format
+msgid ""
+"%1$s%6$sWasn't this a great One Click Demo Import experience?%7$s Created "
+"and maintained by %3$sProteusThemes%4$s. %2$s%5$sClick to Tweet!%4$s%8$s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:399
+#, php-format
+msgid ""
+"%1$s%3$sThat's it, all done!%4$s%2$sThe demo import has finished. Please "
+"check your page and make sure that everything has imported correctly. If it "
+"did, you can deactivate the %3$sOne Click Demo Import%4$s plugin, because it "
+"has done its job.%5$s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/OneClickDemoImport.php:410
+#, php-format
+msgid ""
+"%1$sThe demo import has finished, but there were some import errors.%2$sMore "
+"details about the errors can be found in this %3$s%5$slog file%6$s%4$s%7$s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/ReduxImporter.php:23
+msgid "The Redux plugin is not activated, so the Redux import was skipped!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/ReduxImporter.php:32
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/ReduxImporter.php:53
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/ReduxImporter.php:66
+msgid "Importing Redux settings"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/ReduxImporter.php:51
+#, php-format
+msgid "Redux settings import for: %s finished successfully!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/ReduxImporter.php:57
+#, php-format
+msgid ""
+"The Redux option name: %s, was not found in this WP site, so it was not "
+"imported!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:34
+msgid "There are no predefined demo imports for currently active theme!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:37
+msgid "Here are the predefined demo imports:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:71
+msgid ""
+"At least one of the possible options should be set! Check them with --help"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:122
+msgid ""
+"The \"predefined\" parameter should be a number (an index of the OCDI "
+"predefined demo import)!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:128
+msgid ""
+"The supplied predefined index does not exist! Please take a look at the "
+"available predefined demo imports:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:135
+msgid "Predefined demo import started! All other parameters will be ignored!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:140
+#, php-format
+msgid "Selected predefined demo import: %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:143
+msgid "Preparing the demo import files..."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:148
+msgid "Demo import files could not be retrieved!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:151
+msgid "Demo import files retrieved successfully!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:153
+msgid "Importing..."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:173
+msgid "Predefined import finished!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:185
+msgid "Content import file provided does not exist! Skipping this import!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:194
+msgid "Importing content (this might take a while)..."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:196
+msgid "Importing content"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:201
+msgid "Content import finished!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:204
+msgid "There were some issues while importing the content!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:223
+msgid "Widgets import file provided does not exist! Skipping this import!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:227
+msgid "Importing widgets..."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:232
+msgid "Widgets imported successfully!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:235
+msgid "There were some issues while importing widgets!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:254
+msgid "Customizer import file provided does not exist! Skipping this import!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:258
+msgid "Importing customizer settings..."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:263
+msgid "Customizer settings imported successfully!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:266
+msgid "There were some issues while importing customizer settings!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WPCLICommands.php:286
+#, php-format
+msgid "Executing action: %s ..."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:40
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:52
+msgid "Importing widgets"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:88
+msgid "Error: Widget import file could not be found."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:118
+msgid ""
+"Error: Widget import data could not be read. Please try a different file."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:157
+msgid "Sidebar does not exist in theme (moving widget to Inactive)"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:178
+msgid "Site does not support widget"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:211
+msgid "Widget already exists"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:269
+msgid "Imported"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:273
+msgid "Imported to Inactive"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:279
+msgid "No Title"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/inc/WidgetImporter.php:326
+msgid "No results for widget import!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/one-click-demo-import.php:57
+#, php-format
+msgid ""
+"The %2$sOne Click Demo Import%3$s plugin requires %2$sPHP 5.3.2+%3$s to run "
+"properly. Please contact your hosting company and ask them to update the PHP "
+"version of your site to at least PHP 5.3.2.%4$s Your current version of PHP: "
+"%2$s%1$s%3$s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:131
+msgid "Could not open the file for parsing"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:167
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:283
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:356
+#, php-format
+msgid ""
+"This WXR file (version %s) is newer than the importer (version %s) and may "
+"not be supported. Please consider updating."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:505
+msgid "The file does not exist, please try again."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:565
+msgid "Invalid author mapping"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:666
+msgid "Cannot import auto-draft posts"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:754
+#, php-format
+msgid "Failed to import \"%s\": Invalid post type %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:764
+#, php-format
+msgid "%s \"%s\" already exists."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:842
+#, php-format
+msgid "Skipping attachment \"%s\", fetching attachments disabled"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:856
+#, php-format
+msgid "Failed to import \"%s\" (%s)"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:888
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1771
+#, php-format
+msgid "Imported \"%s\" (%s)"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:893
+#, php-format
+msgid "Post %d remapped to %d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:933
+#, php-format
+msgid "Failed to import term: %s - %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1074
+msgid "Invalid file type"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1557
+#, php-format
+msgid "Failed to import user \"%s\""
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1578
+#, php-format
+msgid "Imported user \"%s\""
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1582
+#, php-format
+msgid "User %d remapped to %d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1732
+#, php-format
+msgid "Failed to import %s %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1776
+#, php-format
+msgid "Term %d remapped to %d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1834
+#, php-format
+msgid "Failed to add metakey: %s, metavalue: %s to term_id: %d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1843
+#, php-format
+msgid "Meta for term_id %d : %s => %s ; successfully added!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1894
+#, php-format
+msgid "Remote server returned %1$d %2$s for %3$s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1907
+msgid "Remote file is incorrect size"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1912
+msgid "Zero size file downloaded"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1918
+#, php-format
+msgid "Remote file is too large, limit is %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1943
+#, php-format
+msgid "Running post-processing for post %d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1956
+#, php-format
+msgid "Could not find the post parent for \"%s\" (post #%d)"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1961
+#, php-format
+msgid "Post %d was imported with parent %d, but could not be found"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1975
+#, php-format
+msgid "Could not find the author for \"%s\" (post #%d)"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:1980
+#, php-format
+msgid "Post %d was imported with author \"%s\", but could not be found"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2006
+#, php-format
+msgid "Post %d was marked for post-processing, but none was required."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2017
+#, php-format
+msgid "Could not update \"%s\" (post #%d) with mapped data"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2062
+#, php-format
+msgid "Could not find the menu object for \"%s\" (post #%d)"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2067
+#, php-format
+msgid ""
+"Post %d was imported with object \"%d\" of type \"%s\", but could not be "
+"found"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2089
+#, php-format
+msgid "Could not find the comment parent for comment #%d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2093
+#, php-format
+msgid "Comment %d was imported with parent %d, but could not be found"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2107
+#, php-format
+msgid "Could not find the author for comment #%d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2111
+#, php-format
+msgid "Comment %d was imported with author %d, but could not be found"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2128
+#, php-format
+msgid "Could not update comment #%d with mapped data"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2157
+#, php-format
+msgid "Faulty term_id provided in terms-to-be-remapped array %s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2167
+#, php-format
+msgid "No taxonomy provided in terms-to-be-remapped array for term #%d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2178
+#, php-format
+msgid "No parent_slug identified in remapping-array for term: %d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2186
+#, php-format
+msgid "The term(%d)\"s parent_slug (%s) is not found in the remapping-array."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2200
+#, php-format
+msgid "No data returned by get_term_by for term_id #%d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2219
+#, php-format
+msgid "Could not update \"%s\" (term #%d) with mapped data"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/vendor/proteusthemes/wp-content-importer-v2/src/WXRImporter.php:2229
+#, php-format
+msgid "Term %d was successfully updated with parent %d"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:25
+#, php-format
+msgid ""
+"%sWarning: your server is using %sPHP safe mode%s. This means that you might "
+"experience server timeout errors.%s"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:38
+msgid "Before you begin, make sure all the required plugins are activated."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:43
+msgid ""
+"Importing demo data (post, pages, images, theme settings, ...) is the "
+"easiest way to setup your theme."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:44
+msgid ""
+"It will allow you to quickly edit everything instead of creating content "
+"from scratch."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:49
+msgid "When you import the data, the following things might happen:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:52
+msgid ""
+"No existing posts, pages, categories, images, custom post types or any other "
+"data will be deleted or modified."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:53
+msgid ""
+"Posts, pages, images, widgets, menus and other theme settings will get "
+"imported."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:54
+msgid ""
+"Please click on the Import button only once and wait, it can take a couple "
+"of minutes."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:71
+msgid ""
+"There are no predefined import files available in this theme. Please upload "
+"the import files manually!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:75
+msgid "Manual demo files upload"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:78
+msgid "Choose a XML file for content import:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:83
+msgid "Choose a WIE or JSON file for widget import:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:88
+msgid "Choose a DAT file for customizer import:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:94
+msgid "Choose a JSON file for Redux import:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:97
+msgid "Enter the Redux option name:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:132
+msgid "All"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:139
+msgid "Search demos..."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:160
+msgid "No preview image."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:165
+msgid "Import"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:167
+msgid "Preview"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/one-click-demo-import/views/plugin-page.php:180
+msgid "Importing, please wait!"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/vc_templates/thb_clients.php:45
+msgid "Learn More"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/vc_templates/thb_instagram.php:14
+#: inc/plugins/north-plugin/inc/vc_templates/thb_instagram_block.php:14
+msgid "Please check your Instagram username."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/vc_templates/thb_instagram_block.php:48
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:65
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:74
+msgid "Followers"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/vc_templates/thb_instagram_block.php:52
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:66
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:73
+msgid "Following"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/vc_templates/thb_lookbook.php:38
+msgid "Shop This Look"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/vc_templates/thb_subscribe.php:10
+#: inc/plugins/north-plugin/inc/widgets/subscribe.php:38
+msgid "Your E-Mail"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:7
+msgid "Display Your Instagram Feed"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:12
+msgid "Fuel Themes - Instagram"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:97
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:118
+msgid "Username:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:101
+msgid "Access Token:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:106
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:110
+msgid "Layout"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:108
+msgid "Thumbnails"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:109
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:113
+msgid "Slider"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/instagram.php:113
+msgid "Number of Photos:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:7
+msgid "Display latest posts with images"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:12
+msgid "Fuel Themes - Latest Posts with Images"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:121
+msgid "Number of Posts"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:126
+msgid "Order by"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:128
+msgid "Date"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:129
+msgid "Comments"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:130
+msgid "Random"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:136
+msgid "Order"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:138
+msgid "Descending"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:139
+msgid "Ascending"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:144
+msgid "Time Frame"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:145
+msgid "3 months"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/latest-posts-images.php:149
+msgid "Category"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/subscribe.php:9
+msgid "A widget that gathers email addresses."
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/subscribe.php:14
+msgid "Fuel Themes - Subscribe Widget"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/subscribe.php:65
+msgid "Widget Title:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/subscribe.php:70
+msgid "Short Description:"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/subscribe.php:76
+msgid "Download Emails"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:7
+msgid "Display Your Twitter Feed"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:12
+msgid "Fuel Themes - Twitter"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:112
+msgid "List"
+msgstr ""
+
+#: inc/plugins/north-plugin/inc/widgets/twitter.php:122
+msgid "Number of Tweets:"
+msgstr ""
+
+#: inc/script-calls.php:114
+msgid "Loading ..."
+msgstr ""
+
+#: inc/script-calls.php:115
+msgid "All Posts Loaded"
+msgstr ""
+
+#: inc/script-calls.php:116
+msgid "All Products Loaded"
+msgstr ""
+
+#: inc/script-calls.php:117
+msgid "results found."
+msgstr ""
+
+#: inc/script-calls.php:118
+msgid "View All Results"
+msgstr ""
+
+#: inc/script-calls.php:119
+msgid "Adding to Cart"
+msgstr ""
+
+#: inc/script-calls.php:120
+msgid "Added to Cart"
+msgstr ""
+
+#: inc/templates/header/cookie-bar.php:6
+msgid "I accept"
+msgstr ""
+
+#: inc/templates/header/header-shop-filters.php:4 inc/woocommerce.php:113
+msgid "Filter"
+msgstr ""
+
+#: inc/templates/password-protected.php:4
+msgid "Protected Area"
+msgstr ""
+
+#: inc/templates/postbit/style1.php:23
+msgid "By"
+msgstr ""
+
+#: inc/woocommerce-attribute-settings.php:47
+msgid "Color / Image - North"
+msgstr ""
+
+#: inc/woocommerce-attribute-settings.php:48
+msgid "Text - North"
+msgstr ""
+
+#: inc/woocommerce-attribute-settings.php:49
+msgid "Box - North"
+msgstr ""
+
+#: inc/woocommerce-attribute-settings.php:73
+#: inc/woocommerce-category-settings.php:56
+msgid "North Settings"
+msgstr ""
+
+#: inc/woocommerce-attribute-settings.php:87
+#: inc/woocommerce-category-settings.php:64
+msgid "Upload/Add image"
+msgstr ""
+
+#: inc/woocommerce-attribute-settings.php:88
+#: inc/woocommerce-category-settings.php:65
+msgid "Remove image"
+msgstr ""
+
+#: inc/woocommerce-category-settings.php:59
+#: inc/woocommerce-category-settings.php:131
+msgid "Header"
+msgstr ""
+
+#: inc/woocommerce-category-settings.php:70
+msgid "Category Header Color"
+msgstr ""
+
+#: inc/woocommerce-category-settings.php:78
+msgid "Category Top Content"
+msgstr ""
+
+#: inc/woocommerce-category-settings.php:81
+msgid "This content will appear on top of the category, you can use shortcodes"
+msgstr ""
+
+#: inc/woocommerce-category-settings.php:85
+msgid "Category Bottom Content"
+msgstr ""
+
+#: inc/woocommerce-category-settings.php:88
+msgid ""
+"This content will appear at the bottom of the category, you can use "
+"shortcodes"
+msgstr ""
+
+#: inc/woocommerce-product-data-tabs.php:12
+msgid "Peak Shops"
+msgstr ""
+
+#: inc/woocommerce-product-data-tabs.php:31
+msgid "Opens the video in lightbox. Accepts youtube, video and mp4 urls."
+msgstr ""
+
+#: inc/woocommerce.php:131
+msgid "Shopping Bag"
+msgstr ""
+
+#: inc/woocommerce.php:161 inc/woocommerce.php:164
+msgid "Quick Shop"
+msgstr ""
+
+#: inc/woocommerce.php:170
+msgid "Categories"
+msgstr ""
+
+#: inc/woocommerce.php:211 inc/woocommerce.php:214
+msgid "Cart"
+msgstr ""
+
+#: inc/woocommerce.php:242
+msgid "Out of Stock"
+msgstr ""
+
+#: inc/woocommerce.php:267
+msgid "Sale"
+msgstr ""
+
+#: inc/woocommerce.php:274
+msgid "Just Arrived"
+msgstr ""
+
+#: inc/woocommerce.php:317
+msgid "Add To Wishlist"
+msgstr ""
+
+#: inc/woocommerce.php:322
+msgid "View Wishlist"
+msgstr ""
+
+#: inc/woocommerce.php:345
+msgid "Sizing Guide"
+msgstr ""
+
+#: inc/woocommerce.php:388
+msgid "Explore Now"
+msgstr ""
+
+#: inc/woocommerce.php:399
+msgid "Shop The Collection"
+msgstr ""
+
+#: inc/wp3menu.php:212
+msgid "Mega Menu"
+msgstr ""
+
+#: inc/wp3menu.php:215 inc/wp3menu.php:230
+msgid "Enable"
+msgstr ""
+
+#: inc/wp3menu.php:220
+msgid "Mega Menu Background"
+msgstr ""
+
+#: inc/wpml.php:69
+msgid "Add Languages"
+msgstr ""
+
+#: woocommerce/cart/cart-empty.php:31
+msgid "Return To Shop"
+msgstr ""
+
+#: woocommerce/cart/cart.php:24
+msgid "Shopping Cart"
+msgstr ""
+
+#: woocommerce/cart/cart.php:35 woocommerce/cart/cart.php:81
+msgid "Product"
+msgstr ""
+
+#: woocommerce/cart/cart.php:36 woocommerce/cart/cart.php:97
+msgid "Price"
+msgstr ""
+
+#: woocommerce/cart/cart.php:37 woocommerce/cart/cart.php:103
+msgid "Quantity"
+msgstr ""
+
+#: woocommerce/cart/cart.php:38 woocommerce/cart/cart.php:124
+msgid "Subtotal"
+msgstr ""
+
+#: woocommerce/cart/cart.php:61
+msgid "Remove this item"
+msgstr ""
+
+#: woocommerce/cart/cart.php:93
+msgid "Available on backorder"
+msgstr ""
+
+#: woocommerce/cart/cart.php:142
+msgid "Coupon:"
+msgstr ""
+
+#: woocommerce/cart/cart.php:142 woocommerce/checkout/form-coupon.php:35
+msgid "Coupon code"
+msgstr ""
+
+#: woocommerce/cart/cart.php:142 woocommerce/checkout/form-coupon.php:36
+msgid "Apply coupon"
+msgstr ""
+
+#: woocommerce/cart/cart.php:148
+msgid "Update cart"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:23
+msgid "Checkout"
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:31
+msgid "You must be logged in to checkout."
+msgstr ""
+
+#: woocommerce/checkout/form-checkout.php:56
+msgid "Your order"
+msgstr ""
+
+#: woocommerce/checkout/form-coupon.php:31
+msgid "Have a coupon?"
+msgstr ""
+
+#: woocommerce/checkout/form-coupon.php:31
+msgid "Click here to enter your code"
+msgstr ""
+
+#: woocommerce/checkout/form-login.php:27
+#: woocommerce/checkout/form-login.php:36
+msgid "Returning customer?"
+msgstr ""
+
+#: woocommerce/checkout/form-login.php:28
+#: woocommerce/checkout/form-login.php:36
+msgid "Click here to login"
+msgstr ""
+
+#: woocommerce/checkout/form-login.php:41
+msgid ""
+"If you have shopped with us before, please enter your details below. If you "
+"are a new customer, please proceed to the Billing section."
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:31
+#: woocommerce/myaccount/form-login.php:57
+msgid "Login"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:33
+#: woocommerce/myaccount/form-login.php:105
+msgid "Register"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:45
+msgid "Username or email address"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:59
+msgid "Remember me"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:63
+msgid "Lost your password?"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:81
+msgid "Username"
+msgstr ""
+
+#: woocommerce/myaccount/form-login.php:88
+msgid "Email address"
+msgstr ""
+
+#: woocommerce/product-searchform.php:27
+msgid "Search Products&hellip;"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:37
+msgid "Reviews"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:59
+msgid "There are no reviews yet."
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:72
+msgid "Add a review"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:72
+#, php-format
+msgid "Be the first to review &ldquo;%s&rdquo;"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:90
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a review."
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:94
+msgid "Your rating"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:95
+msgid "Rate&hellip;"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:96
+msgid "Perfect"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:97
+msgid "Good"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:98
+msgid "Average"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:99
+msgid "Not that bad"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:100
+msgid "Very poor"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:104
+msgid "Your review"
+msgstr ""
+
+#: woocommerce/single-product-reviews.php:113
+msgid ""
+"Only logged in customers who have purchased this product may leave a review."
+msgstr ""
+
+#: woocommerce/single-product/add-to-cart/variable.php:32
+msgid "This product is currently out of stock and unavailable."
+msgstr ""
+
+#: woocommerce/single-product/add-to-cart/variable.php:51
+msgid "Clear"
+msgstr ""
+
+#: woocommerce/single-product/product-image-style1.php:45
+#: woocommerce/single-product/product-image-style2.php:35
+#: woocommerce/single-product/product-image-style3.php:44
+#: woocommerce/single-product/product-image-style4.php:31
+#: woocommerce/single-product/product-image-style5.php:31
+msgid "Awaiting product image"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Error 404"
+#~ msgstr "﻿Error 404"

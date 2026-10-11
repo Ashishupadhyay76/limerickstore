@@ -1,0 +1,172 @@
+{% extends 'grid-gallery.twig' %}
+
+{% block header %}
+
+    <nav id="supsystic-breadcrumbs" class="supsystic-breadcrumbs">
+        {#<a href="{{ environment.generateUrl('galleries') }}">{{ translate('Gallery by Supsystic') }}</a>#}
+        {#<i class="fa fa-angle-right"></i>#}
+        <a href="{{ environment.generateUrl('galleries') }}">{{ translate('Galleries') }}</a>
+    </nav>
+
+{% endblock %}
+
+{% block content %}
+
+    <section id="gg-galleries" data-page="{{ page }}" data-per-page="{{ perPage }}" data-sort="{{ sort }}" data-dir="{{ dir }}" data-records-total="{{ recordsTotal }}">
+
+        <div class="supRow">
+            <div class="supXs12">
+                <div class="gg-table-toolbar">
+                    <div class="gg-table-toolbar-left">
+                        <a class="button button-primary gg-add-gallery-button" href="{{ environment.generateUrl('galleries', 'showPresets') }}">
+                            <i class="fa fa-fw fa-plus"></i>{{ environment.translate('Add new gallery') }}
+                        </a>
+                        <button class="button group_button" id="delete-group" disabled>
+                            <i class="fa fa-fw fa-trash"></i>{{ environment.translate('Delete selected') }}
+                        </button>
+
+                        <div class="gg-galleries-search">
+                            <input type="search" id="gg-galleries-search" placeholder="{{ translate('Search galleries…') }}">
+                        </div>
+                    </div>
+
+                    <div class="gg-pagination">
+                        <div class="gg-pagination-info" id="gg-pagination-info"></div>
+                        <div class="gg-pagination-controls">
+                            <button type="button" class="gg-page-btn" data-page-action="prev" title="{{ translate('Previous') }}">
+                                <i class="fa fa-angle-left"></i>
+                            </button>
+                            <span class="gg-page-numbers" id="gg-page-numbers"></span>
+                            <button type="button" class="gg-page-btn" data-page-action="next" title="{{ translate('Next') }}">
+                                <i class="fa fa-angle-right"></i>
+                            </button>
+                            <select id="gg-per-page">
+                                <option value="10">10</option>
+                                <option value="20" selected>20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <table id="galleries" class="gg-galleries-table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="gg-col-check">
+                                <input type="checkbox" id="gg-check-all" name="check_all">
+                            </th>
+                            <th scope="col" class="gg-sortable" data-sort-key="id">
+                                {{ translate('ID') }} <i class="fa fa-sort gg-sort-icon"></i>
+                            </th>
+                            <th scope="col">{{ translate('Thumbnail') }}</th>
+                            <th scope="col" class="gg-sortable" data-sort-key="title">
+                                {{ translate('Title') }} <i class="fa fa-sort gg-sort-icon"></i>
+                            </th>
+                            <th scope="col" class="gg-sortable" data-sort-key="type">
+                                {{ translate('Type') }} <i class="fa fa-sort gg-sort-icon"></i>
+                            </th>
+                            <th scope="col" class="gg-sortable" data-sort-key="gallery_group">
+                                {{ translate('Group') }} <i class="fa fa-sort gg-sort-icon"></i>
+                            </th>
+                            <th scope="col" class="gg-sortable" data-sort-key="images">
+                                {{ translate('Images') }} <i class="fa fa-sort gg-sort-icon"></i>
+                            </th>
+                            <th scope="col" class="gg-sortable" data-sort-key="created">
+                                {{ translate('Created') }} <i class="fa fa-sort gg-sort-icon"></i>
+                            </th>
+                            <th scope="col" class="gg-sortable" data-sort-key="modified">
+                                {{ translate('Updated') }} <i class="fa fa-sort gg-sort-icon"></i>
+                            </th>
+                            <th scope="col">{{ translate('Shortcode / PHP') }}</th>
+                            <th scope="col">{{ translate('Actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gg-galleries-tbody">
+                        {% include '@galleries/includes/list_rows.twig' with {'galleries': galleries} %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </section>
+
+    {% macro putPreset(data) %}
+        <div class="preset {% if environment.isPro() == false and data.pro %}disabled{% endif %}"
+             data-preset="{{ data.value }}">
+            <p>{{ data.title|title }}</p>
+            <img src="{{ environment.getModule('galleries').getLocationUrl() }}/assets/img/{{ data.image }}" alt=""/>
+            {% if data.pro and environment.isPro() == false %}
+                <a class="button button-primary inPro"
+                    {% if data.title == 'Categories' %}
+                        href="https://supsystic.com/plugins/photo-gallery/" target="_blank">
+                    {% endif %}
+                    {% if data.title == 'Icons' %}
+                        href="https://supsystic.com/plugins/photo-gallery/" target="_blank">
+                    {% endif %}
+                    {% if data.title == 'Pagination' %}
+                        href="https://supsystic.com/plugins/photo-gallery/" target="_blank">
+                    {% endif %}
+                    Available in PRO
+                </a>
+            {% endif %}
+        </div>
+    {% endmacro %}
+
+
+
+    {% import '@galleries/shortcode/import.twig' as importTypes %}
+    <div id="importDialog" title="{{ translate('Select source to import from') }}" style="display: none;">
+        {{ importTypes.show(400) }}
+    </div>
+
+	{% import '@core/form.twig' as form %}
+	<div id="videoUrlAddDialog" title="{{ 'Add video url' }}" style="display:none;" data-gallery-id="{{ gallery.id }}">
+		<div class="sggVideoUrlAddWr">
+			<div class="sggTableRow">
+				<div class="sggTableColumn6">
+					<div class="sggDlgVideoTypeH3">{{ translate('Video type:') }}</div>
+				</div>
+				<div class="sggTableColumn6">
+					{{(
+						form.radio(
+							'sggDlgVideoType',
+							'youtube',
+							{'id':'sggDlgYoutubeVideoType', 'class':'sggDlgVideoTypeRadio', 'checked':'checked'}
+						) ~
+						form.label(
+							translate('Youtube url'),
+							'sggDlgYoutubeVideoType'
+						) ~ '<br/>' ~
+						form.radio(
+							'sggDlgVideoType',
+							'vimeo',
+							{'id':'sggDlgVimeoVideoType', 'class':'sggDlgVideoTypeRadio',}
+						) ~
+						form.label(
+							translate('Vimeo url'),
+							'sggDlgVimeoVideoType'
+						)
+					) |raw }}
+				</div>
+			</div>
+			<div class="sggTableRow">
+				<div class="sggTableColumn6">
+					<div class="sggDlgVideoTypeH3">{{ translate('Video url:') }}</div>
+				</div>
+				<div class="sggTableColumn6">
+					{{
+						form.input(
+							'text',
+							'sggDlgUrlVideoValue',
+							'',
+							{'id': 'sggDlgUrlVideoInp', 'class': '', }
+						)
+					}}
+				</div>
+			</div>
+			<div class="sggTableRow sggAduHiden" id="sggAduErrorText"></div>
+		</div>
+	</div>
+
+{% endblock %}

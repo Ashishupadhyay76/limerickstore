@@ -1,0 +1,165 @@
+<?php
+
+/**
+ * Class GridGallery_Stats_Model
+ * @package GridGallery\Stats
+ */
+class GridGallery_Stats_Model extends GridGallery_Core_BaseModel
+{
+  const MAX_VISITS = 10;
+  //const PLUGIN_CODE = 'ggp';
+
+  protected $pluginCode;
+
+  /**
+   * @var string
+   */
+  protected $table;
+
+  /**
+   * @var string
+   */
+  protected $apiUrl;
+
+  /**
+   * Constructor
+   * @param bool $debugEnabled
+   */
+  public function __construct($debugEnabled, $code)
+  {
+    parent::__construct((bool) $debugEnabled);
+
+    $this->table = $this->db->prefix . 'gg_stats';
+    $this->pluginCode = $code;
+  }
+
+  /**
+   * Saves the action.
+   * @param string $action The name of the action.
+   */
+  public function save($action) {}
+
+  /**
+   * Returns the all usage stats.
+   * @return array
+   */
+  public function get()
+  {
+    $query = $this->getQueryBuilder();
+    $query->select('*')->from($this->table);
+
+    return $this->db->get_results($query->build(), ARRAY_A);
+  }
+
+  /**
+   * Clears the stats.
+   */
+  public function clear()
+  {
+    $query = $this->getQueryBuilder();
+    $query->deleteFrom($this->table);
+
+    $this->db->query($query->build());
+  }
+
+  /**
+   * Sends the usage stats.
+   * @return bool
+   */
+  public function send()
+  {
+    return false;
+  }
+
+  /**
+   * Inserts the new action to the database.
+   * @param string $action The name of the action.
+   */
+  public function insert($action)
+  {
+    $query = $this->getQueryBuilder();
+
+    $query->insertInto($this->table)->fields('code', 'visits')->values($action, 1);
+
+    $this->db->query($query->build());
+  }
+
+  /**
+   * Updates the specified action in the database.
+   * @param string $action The name of the action.
+   */
+  public function update($action)
+  {
+    $query = $this->getQueryBuilder();
+    $visits = $this->getVisits($action);
+
+    $query
+      ->update($this->table)
+      ->where('code', '=', $action)
+      ->fields('visits')
+      ->values((int) $visits + 1);
+
+    $this->db->query($query->build());
+  }
+
+  /**
+   * Counts the action.
+   * @param string $action The name of the action.
+   * @return int
+   */
+  public function exists($action)
+  {
+    $query = $this->getQueryBuilder();
+
+    $query->select('*')->from($this->table)->where('code', '=', $action);
+
+    $data = $this->db->get_results($query->build());
+    if (empty($data)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Returns the action's "visits".
+   * @param string $action The name of the action.
+   * @return int
+   */
+  public function getVisits($action)
+  {
+    $query = $this->getQueryBuilder();
+
+    $query->select('visits')->from($this->table)->where('code', '=', $action);
+
+    if (null !== ($data = $this->db->get_row($query->build()))) {
+      return $data->visits;
+    }
+
+    return 0;
+  }
+
+  /**
+   * Checks whether the one of the action has more then MAX_VISITS visits.
+   * @return bool
+   */
+  public function isReadyToSend()
+  {
+    $query = $this->getQueryBuilder();
+
+    $query->select('*')->from($this->table);
+
+    $data = $this->db->get_results($query->build());
+    if (empty($data)) {
+      return false;
+    }
+
+    foreach ($data as $action) {
+      if ($action->visits >= self::MAX_VISITS) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+}

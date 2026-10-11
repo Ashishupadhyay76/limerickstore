@@ -1,0 +1,755 @@
+{% import '@galleries/shortcode/style.twig' as style %}
+{% embed '@galleries/shortcode/gallery.twig' %}
+	{% if settings.captionBuilder.icons.enable == '1' and settings.captionBuilder.icons.enableOldCompatibility == 1 %}
+		{% set useFreePluginView = 'true' %}
+		{% set settings = settings|merge({
+			'icons': (settings.icons|merge({'enabled': 'true'})),
+			'thumbnail': (settings.thumbnail|merge({'overlay': (settings.thumbnail.overlay|merge({'enabled': 'true'}))}))
+		}) %}
+	{% else %}
+		{% set useFreePluginView = 'false' %}
+	{% endif %}
+
+	{% if settings.captionBuilder.background.enable != 1
+		and settings.captionBuilder.title.enable != 1
+		and settings.captionBuilder.description.enable != 1
+		and settings.captionBuilder.icons.enable != '1'
+	%}
+		{% set saveNewPlugin = 0 %}
+	{% else %}
+		{% set saveNewPlugin = 1 %}
+		{% if settings.captionBuilder.enabled is empty %}
+			{% set settings = settings | merge({
+				'captionBuilder': (settings.captionBuilder | merge({'enabled' : 1}))
+			}) %}
+		{% endif %}
+	{% endif %}
+
+	{% set hideFilter = (settings.categories is defined and settings.categories.enabled == 'true') or (settings.showMore is defined and settings.showMore.enabled == 'true') %}
+
+	{% set customButtonStyles %}
+		{% if settings.buttons.color is not empty %}
+			color: {{ settings.buttons.color }};
+		{% endif %}
+		{% if settings.buttons.backgroundColor is not empty %}
+			background-color: {{ settings.buttons.backgroundColor }};
+		{% endif %}
+		{% if settings.buttons.fontWeight is not empty %}
+			font-weight: {{ settings.buttons.fontWeight }};
+		{% endif %}
+		{% if settings.buttons.fontFamily is not empty %}
+			font-family: {{ settings.buttons.fontFamily }};
+		{% endif %}
+		{% if settings.buttons.fontSize is not empty %}
+			font-size: {{ settings.buttons.fontSize }}px;
+		{% endif %}
+		{% if settings.buttons.paddingH is not empty %}
+			padding-left: {{ settings.buttons.paddingH }}px;
+			padding-right: {{ settings.buttons.paddingH }}px;
+		{% endif %}
+		{% if settings.buttons.paddingV is not empty %}
+			padding-top: {{ settings.buttons.paddingV }}px;
+			padding-bottom: {{ settings.buttons.paddingV }}px;
+		{% endif %}
+		{% if settings.buttons.borderStyle is not empty %}
+			border-style: {{ settings.buttons.borderStyle }};
+		{% endif %}
+		{% if settings.buttons.borderWidth is not empty %}
+			border-width: {{ settings.buttons.borderWidth }}px;
+		{% endif %}
+		{% if settings.buttons.borderColor is not empty %}
+			border-color: {{ settings.buttons.borderColor }};
+		{% endif %}
+		{% if settings.buttons.borderRadius is not empty %}
+			border-radius: {{ settings.buttons.borderRadius }}px;
+		{% endif %}
+		text-decoration:none;
+		line-height:unset;
+	{% endset %}
+
+	{% set paginationButtons %}
+		{% if environment.isPro() and settings.pagination is defined and settings.pagination.enabled == 'true' %}
+
+			{% if settings.posts.enable != '1' %}
+				{% set postsLength = 0 %}
+			{% endif %}
+
+			{#{% set totalPages = settings.pagination.totalPages %}#}
+			{% set totalPages = ceil((gallery.photos|length + postsLength)/ settings.pagination.per_page) %}
+
+			{% set paginationWrapperStyle %}
+				{{ style.prop('text-align', settings.pagination.align) }}
+				{{ style.prop('text-align', settings.pagination.align) }}
+				{{ style.prop('font-weight', settings.pagination.font.weight) }}
+				{{ style.prop('font-size', settings.pagination.font.size ~ 'px') }}
+				{% if settings.pagination.container.hide_background == 'off' %}
+					{{ style.prop('background-color', settings.pagination.container.background) }}
+				{% endif %}
+				{% if settings.buttons.fontSize is not empty %}
+					font-size: {{ settings.buttons.fontSize }}px;
+				{% endif %}
+			{% endset %}
+
+			{% set paginationLinkStyle %}
+				{{ customButtonStyles }}
+				display:inline-block;
+			{% endset %}
+
+			<div data-custom-buttons="true" data-font="{{ settings.buttons.fontFamily }}" class="grid-gallery-pagination-wrap hidden-item" style="{{ paginationWrapperStyle|trim }}">
+				{% if settings.pagination.showNextPreviousArrows == 1 and totalPages > 1 %}
+					<a href="#"
+						data-page="1"
+						data-pagemax="{{ totalPages - 1 }}"
+						class="grid-gallery-page gg-prev-pagination-btn {{ settings.buttons.class }}"
+						title="{{ translate('Show the previous page of the grid') }}"
+						style="{{ paginationLinkStyle|trim }}">{{ translate(settings.pagination.previousArrowText) | default(translate('prev')) }}</a>
+				{% endif %}
+				{% for page in 1..totalPages %}
+					<a href="#"
+					data-page="{{ page }}"
+					class="grid-gallery-page {{ settings.buttons.class }}"
+					title="{{ translate('Page ') ~ page }}"
+					style="{{ paginationLinkStyle|trim }}">{{ page }}</a>
+				{% endfor %}
+				{% if settings.pagination.showNextPreviousArrows == 1 and totalPages > 1 %}
+					<a href="#"
+						data-page="{{ 2 }}"
+						data-pagemax="{{ totalPages }}"
+						class="grid-gallery-page gg-next-pagination-btn {{ settings.buttons.class }}"
+						title="{{ translate('Show the next page of the grid') }}"
+						style="{{ paginationLinkStyle|trim }}">{{ translate(settings.pagination.nextArrowText) | default(translate('next')) }}</a>
+				{% endif %}
+			</div>
+		{% endif %}
+	{% endset %}
+
+	{% set categoriesButtons %}
+		{% set navStyle %}
+			text-align: {{ settings.categories.align|default('left') }};
+			{% if settings.categories.hide_nav_bg == 'off' %}
+				background-color: {{ settings.categories.nav_bg }};
+				padding-left: 10px; padding-right: 10px;
+			{% endif %}
+			position: relative;
+		{% endset %}
+
+		{% set navAStyle %}
+			{{ customButtonStyles }}
+		{% endset %}
+
+		<nav data-custom-buttons="true" data-font="{{ settings.buttons.fontFamily }}" class="grid-gallery-nav hidden-item" style="{{ navStyle|trim }}"
+			data-multiselect="{% if settings.categories.multiselect is defined and settings.categories.multiselect == 'on' %}1{% else %}0{% endif %}"
+			data-multiselect-results="{{  settings.categories.multiselect_results|default('at_least_one') }}">
+			{% for category in categories.order %}
+				{% if category == '__all__' %}
+					{% if settings.categories.hide_all_category is not defined %}
+						<a class="{{ settings.buttons.class }}"
+						{% if categories.count is defined %}
+						data-count="{{ gallery.settings.total }}"
+						{% endif %}
+						href="#" data-tag="__all__" style="{{ navAStyle|trim }}">{{ translate('All') }}</a>
+					{% endif %}
+				{% else %}
+					<a class="{{ settings.buttons.class }}"
+					{% if categories.count is defined %}
+						data-count="{{ categories.count[category] }}"
+					{% endif %}
+					href="#" data-tag="{{ category|trim }}" style="{{ navAStyle|trim }}">
+						{% if  settings.categories.disableTtitleOptimize == 1 %}
+							{{ category|raw }}
+						{% else %}
+							{{ category|title|raw }}
+						{% endif %}
+					</a>
+				{% endif %}
+			{% endfor %}
+		</nav>
+	{% endset %}
+
+	{% set filterAndSearch %}
+		{% if environment.isPro() and hideFilter == false and settings.attributes is defined and settings.attributes.enabled == 'true' %}
+			{% if settings.attributes.showFilter == 1 and gallery.attributes is defined %}
+				<div data-custom-buttons="true" data-font="{{ settings.buttons.fontFamily }}" class="grid-gallery-filter" style="display:none;">
+					<select class="gg-filter-attributes-names {{ settings.buttons.class }}" style="{{ customButtonStyles|trim }}">
+						<option data-attribute value="0">{{ translate('Filter By') }}</option>
+						{% if settings.attributes is defined and settings.attributes.order|length > 0 %}
+							{% for index, name in settings.attributes.order %}
+                                {% if name in settings.attributes.enable %}
+									<option data-attribute value="{{ index + 1 }}">{{ name }}</option>
+                                {% endif %}
+							{% endfor %}
+						{% endif %}
+					</select>
+					<select class="gg-filter-attributes-values {{ settings.buttons.class }}" style="display:none;{{ customButtonStyles|trim }}" data-values="{{ gallery.attributes|json_encode }}">
+					</select>
+					<a href="#" class="gg-filter-attributes-clear {{ settings.buttons.class }}" title="{{ translate('Clear') }}" style="{{ customButtonStyles|trim }}">{{ translate('Clear') }}</a>
+				</div>
+			{% endif %}
+			{% if settings.attributes.showSearch == 1 %}
+				<div data-custom-buttons="true" data-font="{{ settings.buttons.fontFamily }}" class="grid-gallery-search" style="display:none;">
+					<input type="text" class="gg-search-keywords {{ settings.buttons.class }}" style="{{ customButtonStyles|trim }}" values="" placeholder="Search"/>
+					<a href="#" class="gg-search-btn {{ settings.buttons.class }}" title="{{ translate('Search') }}" style="{{ customButtonStyles|trim }}">{{ translate('Go') }}</a>
+				</div>
+			{% endif %}
+			<div class="grid-gallery-clearfix"></div>
+		{% endif %}
+	{% endset %}
+
+	{% set loadMoreButton %}
+		<div style="text-align:center;">
+			<a
+				class="{{ settings.buttons.class }} showMore"
+				href="#"
+				data-total="{{ settings.total }}"
+				data-font="{{ settings.buttons.fontFamily }}"
+				style="{{ customButtonStyles|trim }} display:none;">{{ settings.showMore.buttonText|title|raw }}</a>
+		</div>
+	{% endset %}
+
+	{% block gallery_before %}
+		{% if (saveNewPlugin == 0 or useFreePluginView == 'true') and settings.captionBuilder.isOnceUsed != 1 or settings.captionBuilder.enabled != 1 %}
+			{{ parent() }}
+		{% else %}
+			{% if settings.captionBuilder.icons is defined and settings.captionBuilder.icons.enable == '1' %}
+				<style>
+					#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .{{ settings.icons.effect }} .hi-icon {
+						color: {{ settings.icons.color }} !important;
+						{% if settings.icons.background is defined and settings.icons.background != '' %}
+							{% if settings.icons.bgTransparency is defined and settings.icons.bgTransparency != '' %}
+								background: {{ hex_to_rgba(settings.icons.background, (10 - settings.icons.bgTransparency)/10) }} !important;
+							{% else %}
+								background: {{ settings.icons.background }} !important;
+							{% endif %}
+						{% endif %}
+						{% if settings.icons.transparency is defined and settings.icons.transparency != ''%}
+							opacity: {{ (10 - settings.icons.transparency)/10 }};
+						{% endif %}
+					}
+					#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .{{ settings.icons.effect }} .hi-icon:hover {
+						color: {{ settings.icons.hover_color }} !important;
+						{% if settings.icons.background_hover is defined and settings.icons.background_hover != '' %}
+							{% if settings.icons.bgTransparency is defined and settings.icons.bgTransparency != '' %}
+								background: {{ hex_to_rgba(settings.icons.background_hover, (10 - settings.icons.bgTransparency)/10) }} !important;
+							{% else %}
+								background: {{ settings.icons.background_hover }} !important;
+							{% endif %}
+						{% endif %}
+					}
+					#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .hi-icon { width: {{ settings.icons.size * 2 }}px !important; height: {{ settings.icons.size * 2 }}px !important; }
+					#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .hi-icon:before { font-size: {{ settings.icons.size|default(16) }}px !important; line-height: {{ settings.icons.size * 2 }}px !important; }
+				</style>
+			{% endif %}
+		{% endif %}
+
+		{% if settings.area.grid == 4 and settings.mosaic.use2Layout == 1 %}
+		<style>
+			{# Mosaic Layout2 Style #}
+			.grid-gallery.grid-gallery-mosaic[data-usemosaic2layout="1"] .grid-gallery-photos > a {
+				position: absolute !important;
+				display: inline-block;
+			}
+			.grid-gallery.grid-gallery-mosaic[data-usemosaic2layout="1"] .grid-gallery-caption {
+				margin: 0 !important;
+			}
+		</style>
+		{% endif %}
+
+		{% if settings.captionBuilder.enabled == 0 and settings.thumbnail.overlay.enabled == 'true' %}
+			{% set useBackgroundForShowOnHover = 1 %}
+		{% elseif settings.captionBuilder.enabled == 1 and settings.captionBuilder.background.enable == 1 %}
+			{% set useBackgroundForShowOnHover = 1 %}
+		{% endif %}
+
+		{% if useBackgroundForShowOnHover == 1
+			or (settings.box.enabled == 'true' and settings.box.type == '2' and settings.box.theme == 'theme_1_pro' and isMobile == true)
+			or (settings.area.grid == 4)
+		%}
+			<style>
+				{# Show on hower effect#}
+				{% if useBackgroundForShowOnHover == 1 %}
+					{% if settings.thumbnail.overlay.backgroundForShowOnHover != '' %}
+					#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="show-on-hover"] figcaption {
+						background-color: {{ settings.thumbnail.overlay.backgroundForShowOnHover }} !important;
+					}{% endif %}
+					{% if settings.thumbnail.overlay.background != '' %}
+					#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="show-on-hover"]:hover figcaption,
+					#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="show-on-hover"].hovered figcaption,
+					#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="show-on-hover"]:active figcaption {
+						background-color: {{ hex_to_rgba(settings.thumbnail.overlay.background, (10 - settings.thumbnail.overlay.transparency)/10) }} !important;
+					}{% endif %}
+				{% endif %}
+
+				{# popup theme 8, arrows visibility on mobile #}
+				{% if settings.box.enabled == 'true' and settings.box.type == '2' and settings.box.theme == 'theme_1_pro' and isMobile == true %}
+					#pbOverlay div.prevNext {
+						opacity: 0.5 !important;
+						z-index: 100;
+						width: auto;
+						min-width: 10%;
+						padding: 0 !important;
+						height: auto;
+						top: 50%;
+
+						 -webkit-transform: translate(0, -50%);
+							-moz-transform: translate(0, -50%);
+							 -ms-transform: translate(0, -50%);
+							  -o-transform: translate(0, -50%);
+								 transform: translate(0, -50%);
+					}
+					#pbOverlay .prevNext b {
+						transform: initial !important;
+						-webkit-transform: initial !important;
+					}
+					#pbOverlay .prevNext b::before,
+					#pbOverlay .prevNext b::after {
+						font-size: 13em !important;
+					}
+				{% endif %}
+
+				{# Mosaic Gallery type #}
+				{% if settings.area.grid == 4 %}
+					{% if settings.captionBuilder.enabled != 1 and settings.thumbnail.overlay.enabled == 'true' and settings.icons.enabled == 'true' %}
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption figcaption {
+							z-index: 10;
+						}
+					{% endif %}
+
+					{% if gallery.photos|length > 5 %}
+						{% set fontSizeUnitsArr = ['px', '%', 'em'] %}
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .gg-mosaic-pr-text {
+							font-family: "{{ settings.area.ggMosaicType.fontFamily }}" !important;
+							font-size: {{ settings.area.ggMosaicType.fontSize ~ fontSizeUnitsArr[settings.area.ggMosaicType.fontSizeUnit] }} !important;
+							color: {{ settings.area.ggMosaicType.foreground }} !important;
+							{% if 'bold' in settings.area.ggMosaicType.fontStyle %}
+								font-weight: bold !important;
+							{% endif %}
+							{% if 'italic' in settings.area.ggMosaicType.fontStyle %}
+								font-style: italic !important;
+							{% endif %}
+
+							{% if 'line' in settings.area.ggMosaicType.fontStyle %}
+								text-decoration: underline !important;
+							{% endif %}
+						}
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .gg-mosaic-photo-remain {
+							background-color: {{ hex_to_rgba(settings.area.ggMosaicType.bgColor, (10 - settings.area.ggMosaicType.bgColorTransparency)/10) }} !important;
+							z-index: 100;
+						}
+					{% endif %}
+
+					{% if settings.thumbnail.overlay.effect == 'half-slide' %}
+						{# OLD STYLES #}
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="half-slide"]:hover img,
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="half-slide"].hovered img,
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="half-slide"]:active img {
+							-webkit-transform: none;
+							-ms-transform: none;
+							-o-transform: none;
+							transform: none;
+						}
+						{# NEW STYLES #}
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="half-slide"] .crop {
+							display: block;
+							position: relative;
+							-webkit-transition: 500ms;
+							-o-transition: 500ms;
+							transition: 500ms;
+							overflow: hidden;
+						}
+
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="half-slide"]:hover .crop,
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="half-slide"].hovered .crop,
+						#grid-gallery-{{ gallery.id }}-{{ gallery.random_val }} .grid-gallery-caption[data-grid-gallery-type="half-slide"]:active .crop {
+							-webkit-transform: translateY(-50%);
+							-ms-transform: translateY(-50%);
+							-o-transform: translateY(-50%);
+							transform: translateY(-50%);
+						}
+					{% endif %}
+				{% endif %}
+			</style>
+		{% endif %}
+	{% endblock %}
+
+	{% block gallery_attributes %}
+		{{ parent() }}
+		{% if settings.showMore is defined and settings.showMore.enabled == 'true' %}
+			data-id="{{ gallery.id }}"
+			data-show-more-enabled="{{ settings.showMore.enabled }}"
+			data-show-more-img-first-load="{{ settings.showMore.imagesAmount }}"
+			data-show-more-amount="{{ settings.showMore.showMoreAmount }}"
+			data-show-more-scroll="{{ settings.showMore.loadOnScroll }}"
+			data-show-more-loading-text="{{ settings.showMore.loadingText }}"
+		{% endif %}
+		data-popup-video="{{ settings.popup.video|json_encode|e }}"
+		data-popup-disable-source-image-for-linked-img="{{ settings.box.disableSourceImageForLi|default('0') }}"
+		data-popup-enable-download-photos-button="{{ settings.box.enableDownloadPhotosButton|default('0') }}"
+        {% if settings.box.enableDownloadPhotosButton is defined and settings.box.enableDownloadPhotosButton == 1 %}
+			data-popup-enable-download-photos-button-text="{{ translate('Download') }}"
+        {% endif %}
+        {% if settings.icons.showFewIcons == 'params' and settings.icons.isDownloadIcon == '1' %}
+			data-popup-download-sizes="{{ settings.captionBuilder.icons.downloadSizes|keys|join('|') }}"
+			data-popup-download-cancel="{{ translate('Cancel') }}"
+			data-popup-download-full="{{ translate('Full size') }}"
+			data-popup-download-large="{{ translate('Large') }}"
+			data-popup-download-medium="{{ translate('Medium') }}"
+        {% endif %}
+		{% if settings.disableRightClick is not empty %}
+			data-disable-right-click="true"
+		{% endif %}
+
+		{% if (saveNewPlugin == 0 or useFreePluginView == 'true') and settings.captionBuilder.isOnceUsed != 1 or settings.captionBuilder.enabled != 1 %}
+			{% if settings.thumbnail.overlay.enabled == 'true'
+				and settings.thumbnail.overlay.imageOnHoverEnable == '1'
+				and settings.thumbnail.overlay.personal == 'false' %}
+					data-image-on-hover="{{ settings.thumbnail.overlay.imageOnHover }}"
+			{% endif %}
+		{% else %}
+			{% if settings.captionBuilder.background.enable == 1
+				and settings.thumbnail.overlay.imageOnHoverEnable == '1'
+				and settings.thumbnail.overlay.personal == 'false' %}
+					data-image-on-hover="{{ settings.thumbnail.overlay.imageOnHover }}"
+			{% endif %}
+			data-caption-buider="{% if settings.captionBuilder.enabled == 1 %}{{ "1" }}{% else %}{{ "0" }}{% endif %}"
+			data-caption-builder-icons="{% if settings.captionBuilder.icons.enable == 1 %}{{ '1' }}{% else %}{{ '0' }}{% endif %}"
+		{% endif %}
+		{% if settings.thumbnailSize is defined %}
+			data-thumbnail-size="{{ settings.thumbnailSize }}"
+		{% endif %}
+		{% if settings.pagination.showNextPreviousArrows == 1 %}
+			data-use-pagination-prev-next="1"
+		{% endif %}
+		{% if settings.mosaic.images.showHiddenImageByClick == 1 %}
+			data-show-hide-mosaic-img-by-click="1"
+		{% endif %}
+		{% if settings.mosaic.images.allimages == 1 %}
+			data-show-mosaic-all-img="1"
+		{% endif %}
+
+		{% if settings.exif.enabled == 1 %}
+			{% if settings.exif.showExifAsCaption == 1 %}
+				data-exif-as-caption="1"
+			{% endif %}
+			{% if settings.exif.showExifAsDescription == 1 %}
+				data-exif-as-description="1"
+			{% endif %}
+			{% if settings.exif.showExifOnLightoboxImage == 1 %}
+				data-exif-as-popup="1"
+			{% endif %}
+		{% endif %}
+
+		{% if environment.isPro() and settings.attributes is defined and settings.attributes.enabled == 'true' %}
+			{% if settings.attributes.showAttributes == 1 and settings.box.type == '1'%}
+				data-show-attributes-in-popup="1"
+				data-attributes-position="{{ settings.attributes.position|default('right') }}"
+				data-attributes-width="{{ settings.attributes.width|default('200') }}"
+				data-attributes-order="{{ settings.attributes.order|json_encode|e }}"
+				{% if settings.attributes.showButtonLink == 1 %}
+					data-show-buttonlink-in-popup="1"
+					data-buttonlink-title="{{ settings.attributes.buttonLinkTitle|default('button') }}"
+					data-buttonlink-url="{{ settings.attributes.buttonLinkUrl|default('') }}"
+					data-buttonlink-style="{{ customButtonStyles|trim }}"
+					data-buttonlink-font="{{ settings.buttons.fontFamily }}"
+				{% endif %}
+			{% endif %}
+			{% if settings.attributes.showFilter == 1 and hideFilter == false %}
+				data-show-filter="1"
+			{% endif %}
+			{% if settings.attributes.showSearch == 1 and hideFilter == false %}
+				data-show-search="1"
+			{% endif %}
+		{% endif %}
+
+		{% if settings.box.showRotateBtn == 1 %}
+			data-show-rotate-btn-in-popup="1"
+		{% endif %}
+
+		{% if settings.box.showLinkBtn == 1 %}
+			data-show-link-btn-in-popup="1"
+		{% endif %}
+
+		{% if settings.box.showThumbnailOnHover == 1 %}
+			data-show-thumb-hov-in-popup="1"
+		{% endif %}
+
+		{% if settings.mosaic.use2Layout == 1 %}
+			data-useMosaic2Layout="1"
+			data-useMosaicCountColumns="{% if settings.mosaic.countColumns is defined and settings.mosaic.countColumns >= 3 %}{{ settings.mosaic.countColumns }}{% else %}{{ "4" }}{% endif %}"
+		{% endif %}
+	{% endblock %}
+
+	{% block photos_attributes_class %}
+		{% if environment.isPro() and settings.pagination is defined and settings.pagination.enabled == 'true' %}
+			grid-gallery-pagination
+		{% endif %}
+	{% endblock %}
+	{% block photos_attributes %}
+		{% if environment.isPro() and settings.pagination is defined and settings.pagination.enabled == 'true' %}
+			data-per-page="{{ settings.pagination.per_page }} "
+		{% endif %}
+		{% if environment.isPro() and settings.categories is defined and settings.categories.enabled == 'true' and settings.categories.flexibleHeight == 1 %}
+			data-flexible-height="1"
+		{% endif %}
+		{{ parent() }}
+	{% endblock %}
+
+	{% block photos_before %}
+		{% if categories is defined and categories is not empty and environment.isPro() %}
+			{% if settings.categories is defined and settings.categories.enabled == 'true' and settings.categories.position == 'top' %}
+				{{ categoriesButtons }}
+			{% endif %}
+		{% endif %}
+
+		{% if settings.pagination.pos == 'top' %}
+			{{ paginationButtons }}
+		{% endif %}
+
+		{{ filterAndSearch }}
+	{% endblock %}
+
+	{% block photos_after %}
+		{% if categories is defined and categories is not empty and environment.isPro() %}
+			{% if settings.categories is defined and settings.categories.enabled == 'true' and settings.categories.position == 'bottom' %}
+				{{ categoriesButtons }}
+			{% endif %}
+		{% endif %}
+
+		{% if settings.pagination.pos == 'bottom' %}
+			{{ paginationButtons }}
+		{% endif %}
+		
+		{% if settings.showMore.enabled == 'true' %}
+            {{ loadMoreButton }}
+		{% endif %}
+
+		{# add image on hover images for image loading #}
+		{# Why need this ? #}
+		{#{% if settings.thumbnail.overlay.imageOnHoverEnable == 1 %}#}
+			{#<div class="sggImageOnHover" data-gg-id="{{ gallery.id }}">#}
+				{#<img src="{{ settings.thumbnail.overlay.imageOnHover }}" class="sggInvisibleImg" data-ohit="1" width="0" height="0" alt=""/>#}
+				 {#check every photo#}
+				{#{% if settings.thumbnail.overlay.personal == 'true' %}#}
+					{#{% for onePhoto in gallery.photos %}#}
+						{#<img src="{{ onePhoto.attachment.hoverCaptionImage }}" class="sggInvisibleImg" data-ohit="1" width="0" height="0" alt=""/>#}
+						{#{% set i = i + 1 %}#}
+					{#{% endfor %}#}
+				{#{% endif %}#}
+			{#</div>#}
+		{#{% endif %}#}
+	{% endblock %}
+
+	{% block additionalGridGalleryClass %}
+		{% if settings.area.grid == '1' %}
+			grid-gallery-fluid-height
+		{% elseif settings.area.grid == '4' %}
+			grid-gallery-mosaic
+		{% else %}
+			grid-gallery-fixed
+		{% endif %}
+	{% endblock %}
+
+	{% block photos %}
+        {% if settings.watermark is defined %}
+			{% set settingsWatermark = settings.watermark|merge({'galleryId': gallery.id}) %}
+            {{ set_attachment_settings('watermark', settingsWatermark) }}
+        {% endif %}
+
+
+		{# Mosaic type #}
+		{% if settings.area.grid == 4 and gallery.photos|length > 0 and settings.mosaic.use2Layout != 1 %}
+            {# Show all gallery images #}
+			{% if(settings.mosaic.images.allimages) %}
+				{{ _self.mosaicGalleryView(gallery, settings, null) }}
+			{% else %}
+				{{ _self.mosaicGalleryView(gallery, settings, 1) }}
+			{% endif %}
+		{% else %}
+			{% set i = 0 %}
+            {# if category tag exist #}
+            {% if categories is defined and categories is not empty and categories.order|length > 1 and environment.isPro() %}
+				{% for photo in gallery.photos %}
+					{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': photo, 'settings': settings, 'index' : i} only %}
+					{% set i = i + 1 %}
+				{% endfor %}
+            {% else %}
+                {% for photo in gallery.photos %}
+                    {% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': photo, 'settings': settings, 'index' : i} only %}
+                    {% set i = i + 1 %}
+                {% endfor %}
+            {% endif %}
+
+			{% if settings.posts.enable == '1' %}
+				{% import '@galleries_pro/shortcode/post_helpers.twig' as post_helper %}
+
+				{% for post in posts %}
+					{% if settings.posts.style > '3' %}
+						{{ post_helper.sodiumStyles(post, settings, settings.posts.style) }}
+					{% endif %}
+					{% if settings.posts.style == '3' %}
+						{{ post_helper.captionRight(post, settings) }}
+					{% endif %}
+					{% if settings.posts.style == '2' %}
+						{{ post_helper.imageSlide(post, settings) }}
+					{% endif %}
+					{% if settings.posts.style == '1' %}
+						{{ post_helper.imageCaption(post, settings) }}
+					{% endif %}
+					{% if settings.posts.style == '0' %}
+						{{ post_helper.image(post, settings) }}
+					{% endif %}
+				{% endfor %}
+
+				{% for page in pages %}
+					{% if settings.posts.style > '3' %}
+						{{ post_helper.sodiumStyles(page, settings, settings.posts.style) }}
+					{% endif %}
+					{% if settings.posts.style == '3' %}
+						{{ post_helper.captionRight(page, settings) }}
+					{% endif %}
+					{% if settings.posts.style == '2' %}
+						{{ post_helper.imageSlide(page, settings) }}
+					{% endif %}
+					{% if settings.posts.style == '1' %}
+						{{ post_helper.imageCaption(page, settings) }}
+					{% endif %}
+					{% if settings.posts.style == '0' %}
+						{{ post_helper.image(page, settings) }}
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		{% endif %}
+	{% endblock %}
+
+	{% macro mosaicGalleryView(gallery, settings, viewType) %}
+
+		{# create photo keys array #}
+		{% set mosaicPhotoKeys = [] %}
+		{% set i = 0 %}
+		{% for key1, photo in gallery.photos %}
+			{% set mosaicPhotoKeys = mosaicPhotoKeys|merge({(loop.index0):key1}) %}
+			{% set i = i + 1 %}
+		{% endfor %}
+
+		{% set mosaicImagesCount = 5 %}
+		{% set oneRowMosaic = 0 %}
+		{% set countPerRow = 3 %}
+		{% if settings.mosaic.use2Layout != 0 %}
+			{% set oneRowMosaic = 1 %}
+			{% if settings.mosaic.use2Layout == 3 %}
+				{% set countPerRow = 5 %}
+			{% endif %}
+			{% set mosaicImagesCount = countPerRow %}
+		{% endif %}
+
+		{% set galleryPhotoCount = gallery.photos|length %}
+		{% set ggMosaicImgCount = mosaicImagesCount %}
+		{% if galleryPhotoCount < mosaicImagesCount %}
+			{% set ggMosaicImgCount = galleryPhotoCount %}
+		{% endif %}
+
+		{% set count =  ceil(mosaicPhotoKeys|length  / mosaicImagesCount) %}
+		{% set j = 0 %}
+
+		{% set hideOtherImages = false %}
+
+		<div class="gg-mosaic-wrapper">
+			{% for i in 0..count-1 %}
+				{% if(viewType == 1 and i >= 1) %}
+					{% set hideOtherImages = true %}
+				{% endif  %}
+
+				{% if(oneRowMosaic != 1) %}
+					{% if(j < mosaicPhotoKeys|length) %}
+							<div class="gg-mw-row gg-mw-first-row {% if hideOtherImages %}{{ ' sggDisplNone' }}{% endif %}">
+							{% if(j < mosaicPhotoKeys|length) %}
+								<div class="gg-mw-column gg-mw-column-1">
+									{% if mosaicPhotoKeys[j] is defined %}
+										{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j} only %}
+									{% endif %}
+								</div><!-- this comment need for empty space between gg-mw-column
+								{% set j = j + 1 %}
+							{% endif %}
+							{% if(j < mosaicPhotoKeys|length) %}
+							1--><div class="gg-mw-column gg-mw-column-2">
+								{% if mosaicPhotoKeys[j] is defined %}
+									{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j} only %}
+								{% endif %}
+								</div>
+								{% set j = j + 1 %}
+							{% else %}
+							2-->
+							{% endif %}
+						</div>
+					{% endif %}
+				{% endif %}
+
+				{% if(j < mosaicPhotoKeys|length) %}
+					<div class="gg-mw-row gg-mw-second-row {% if hideOtherImages %}{{ ' sggDisplNone' }}{% endif %}">
+						<table class="gg-mosaic-table-row2">
+							<tr>
+								{% if(j < mosaicPhotoKeys|length) %}
+									<td rowspan="2" class="gg-mt-column1">
+										{% if mosaicPhotoKeys[j] is defined %}
+											{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j} only %}
+										{% endif %}
+									</td>
+									{% set j = j + 1 %}
+								{% endif %}
+								{% if(j < mosaicPhotoKeys|length) %}
+									<td class="gg-mt-row2-column gg-mt-row2-column-1-1" data-group="1">
+										{% if mosaicPhotoKeys[j] is defined %}
+											{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j} only %}
+										{% endif %}
+									</td>
+									{% set j = j + 1 %}
+								{% endif %}
+								{% if(countPerRow == 5) %}
+									{% if(j < mosaicPhotoKeys|length) %}
+										<td class="gg-mt-row2-column gg-mt-row2-column-1-2" data-group="1">
+											{% if mosaicPhotoKeys[j] is defined %}
+												{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j} only %}
+											{% endif %}
+										</td>
+										{% set j = j + 1 %}
+									{% endif %}
+								{% endif %}
+							</tr>
+							{% if(j < mosaicPhotoKeys|length) %}
+								<tr>
+									<td class="gg-mt-row2-column gg-mt-row2-column-2-1" id="last-photo" data-group="2">
+										{% if mosaicPhotoKeys[j] is defined %}
+											{% if(viewType == 1 and i == 0 and countPerRow != 5) %}
+												{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j, 'mosaicParams': {'photoCountLeft': galleryPhotoCount - ggMosaicImgCount - mosaicImagesCount + mosaicImagesCount} } only %}
+											{% else %}
+												{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j} only %}
+											{% endif %}
+										{% endif %}
+										{% set j = j + 1 %}
+									</td>
+
+									{% if(countPerRow == 5) %}
+										<td class="gg-mt-row2-column gg-mt-row2-column-2-2" id="last-photo" data-group="2">
+										{% if mosaicPhotoKeys[j] is defined %}
+											{% if(viewType == 1 and i == 0 ) %}
+												{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j, 'mosaicParams': {'photoCountLeft': galleryPhotoCount - ggMosaicImgCount - mosaicImagesCount + mosaicImagesCount} } only %}
+											{% else %}
+												{% include '@galleries_pro/shortcode/helpers.twig' with {'gallery': gallery,'photo': gallery.photos[mosaicPhotoKeys[j]], 'settings': settings, 'index' : j} only %}
+											{% endif %}
+										{% endif %}
+										{% set j = j + 1 %}
+										</td>
+									{% endif %}
+								</tr>
+
+							{% endif %}
+						</table>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	{% endmacro %}
+
+	{% block styleForEffectInclude %}
+		{% include '@galleries_pro/shortcode/style_for_effects.twig' with {'gallery': gallery, 'settings': settings} %}
+	{% endblock %}
+{% endembed %}
