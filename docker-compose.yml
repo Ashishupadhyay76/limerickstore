@@ -1,0 +1,47 @@
+# Local development only. Not used in production.
+services:
+  web:
+    image: wordpress:php8.5-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      # The repo is the web root.
+      - .:/var/www/html
+      # Local config overlays the real wp-config.php inside the container only.
+      - ./docker/wp-config.php:/var/www/html/wp-config.php:ro
+
+  db:
+    image: mysql:8.0
+    # Publishes on 3307 because MariaDB/PostgreSQL already run on this machine.
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: limerickstore
+      MYSQL_USER: limerick_local
+      MYSQL_PASSWORD: local-password-change-me
+      MYSQL_ROOT_PASSWORD: local-root-password-change-me
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -ulimerick_local -plocal-password-change-me --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # WP-CLI, run on demand: docker compose run --rm wpcli <command>
+  wpcli:
+    image: wordpress:cli-php8.5
+    profiles: ["tools"]
+    depends_on:
+      db:
+        condition: service_healthy
+    user: "33:33" # www-data, matches the web container
+    volumes:
+      - .:/var/www/html
+      - ./docker/wp-config.php:/var/www/html/wp-config.php:ro
+
+volumes:
+  db_data:

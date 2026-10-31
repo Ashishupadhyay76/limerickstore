@@ -1,4 +1,15 @@
 wp-config.php
+# Local Docker config holds placeholders only and is meant to be committed
+!docker/wp-config.php
+
+# Database dumps and local Docker data
+*.sql
+*.sql.gz
+*.sql.zip
+*.dump
+docker/data/
+docker/mysql/
+docker/db_data/
 jetpack-temp/
 bv_connector_*.php
 malcare-waf.php
@@ -13,3 +24,7 @@ wp-content/advanced-cache.php
 wp-content/object-cache.php
 *.log
 .DS_Store
+
+# Local environment files
+.htaccess
+wp-content/wpo-cache/
