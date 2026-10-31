@@ -1,2 +1,4 @@
 wp-config.php
 jetpack-temp/
+bv_connector_*.php
+malcare-waf.php
