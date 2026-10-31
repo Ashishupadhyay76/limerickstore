@@ -36,3 +36,4 @@ Production e-commerce site at https://www.limerickstore.com. The repo holds the 
 - Don't add new plugins or Composer/npm packages without asking. If one is needed, state why, who maintains it, and when it was last updated.
 - Don't leave debug files such as `test.php`, `phpinfo()` calls or `.bak` files in the repo or web root.
 - Before finishing any change that touches input, output, auth or payments, review the diff for the issues above and report what you checked.
+- Never hard-code passwords, API keys, tokens or salts. Read them from constants defined in wp-config.php or from environment variables.
