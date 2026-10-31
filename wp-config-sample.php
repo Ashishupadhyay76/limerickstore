@@ -1,4 +1,5 @@
 <?php
+@include '/var/www/limerickstore/malcare-waf.php';
 /**
  * The base configuration for WordPress
  *
@@ -17,48 +18,47 @@
  *
  * @package WordPress
  */
-
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'database_name_here' );
-
 /** Database username */
 define( 'DB_USER', 'username_here' );
-
 /** Database password */
 define( 'DB_PASSWORD', 'password_here' );
-
 /** Database hostname */
 define( 'DB_HOST', 'localhost' );
-
 /** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8mb4' );
-
+//define( 'DB_CHARSET', 'utf8mb4' );
+define( 'DB_CHARSET', 'utf8' );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
+/** SSL Mode is required */
+define( 'MYSQL_CLIENT_FLAGS', MYSQLI_CLIENT_SSL );
+define( 'MYSQL_SSL_CA', '/etc/mysql/certs/ca-cert.pem' );
 
+define( 'WP_SITEURL', 'https://www.limerickstore.com' );
+define( 'WP_HOME', 'https://www.limerickstore.com' );
 /**#@+
  * Authentication unique keys and salts.
  *
  * Change these to different unique phrases! You can generate these using
  * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
  *
+*
  * You can change these at any point in time to invalidate all existing cookies.
  * This will force all users to have to log in again.
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         'put your unique phrase here' );
-define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
-define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
-define( 'NONCE_KEY',        'put your unique phrase here' );
-define( 'AUTH_SALT',        'put your unique phrase here' );
-define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
-define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
-define( 'NONCE_SALT',       'put your unique phrase here' );
-
+define('AUTH_KEY',         'put-your-unique-phrase-here');
+define('SECURE_AUTH_KEY',  'put-your-unique-phrase-here');
+define('LOGGED_IN_KEY',    'put-your-unique-phrase-here');
+define('NONCE_KEY',        'put-your-unique-phrase-here');
+define('AUTH_SALT',        'put-your-unique-phrase-here');
+define('SECURE_AUTH_SALT', 'put-your-unique-phrase-here');
+define('LOGGED_IN_SALT',   'put-your-unique-phrase-here');
+define('NONCE_SALT',       'put-your-unique-phrase-here');
 /**#@-*/
-
 /**
  * WordPress database table prefix.
  *
@@ -71,8 +71,7 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
  *
  * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/#table-prefix
  */
-$table_prefix = 'wp_';
-
+$table_prefix = 'lm_';
 /**
  * For developers: WordPress debugging mode.
  *
@@ -88,15 +87,22 @@ $table_prefix = 'wp_';
 define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
-
-
-
 /* That's all, stop editing! Happy publishing. */
-
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
+        define( 'ABSPATH', __DIR__ . '/' );
 }
+define('FS_METHOD','direct');
+define('DISABLE_WP_CRON', true);
 
+// keep FALSE for now
+define( 'DISALLOW_FILE_EDIT', true );
+define( 'FORCE_SSL_ADMIN', true );
+if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) {
+    $forwarded_proto = trim( explode( ',', $_SERVER['HTTP_X_FORWARDED_PROTO'] )[0] );
+    if ( $forwarded_proto === 'https' ) {
+        $_SERVER['HTTPS'] = 'on';
+    }
+}
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
