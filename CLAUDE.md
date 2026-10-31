@@ -24,3 +24,15 @@ Production e-commerce site at https://www.limerickstore.com. The repo holds the 
 - Escape output (`esc_html`, `esc_attr`, `esc_url`), sanitize input, use nonces and capability checks.
 - Use WooCommerce hooks and template overrides instead of editing plugin files.
 - Keep each change small and explain what and why in the commit message.
+
+## Security rules
+- Validate and sanitize all input (`sanitize_text_field`, `absint`, `wp_kses_post`). Escape all output late, at the point of printing.
+- Every form handler and AJAX/REST endpoint needs a nonce check and a `current_user_can()` capability check. REST routes must set a real `permission_callback`, never `__return_true` on anything that changes data.
+- Database access goes through `$wpdb->prepare()`. No string concatenation in SQL.
+- No `eval`, `base64_decode` on external data, `shell_exec`, `system`, `unserialize` on user input, or `extract()` on request data.
+- File uploads: check type with `wp_check_filetype_and_ext()`, never trust the file name, and never allow `.php` uploads.
+- Payment and checkout code (PayPal, Razorpay, PayGlocal): never log card data, tokens or API keys. Verify webhook signatures. Don't change this code without explaining the change first.
+- Keep `DISALLOW_FILE_EDIT`, `FORCE_SSL_ADMIN` and the DB SSL settings as they are.
+- Don't add new plugins or Composer/npm packages without asking. If one is needed, state why, who maintains it, and when it was last updated.
+- Don't leave debug files such as `test.php`, `phpinfo()` calls or `.bak` files in the repo or web root.
+- Before finishing any change that touches input, output, auth or payments, review the diff for the issues above and report what you checked.
