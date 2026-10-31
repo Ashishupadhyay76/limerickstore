@@ -5,7 +5,13 @@
       "Read(./.env)",
       "Read(./**/*.sql)",
       "Read(./**/*.sql.gz)",
-      "Read(./wp-content/uploads/**)"
+      "Read(./wp-content/uploads/**)",
+      "Bash(*wp-config.php*)",
+      "Bash(*.env*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push origin master*)",
+      "Bash(rm -rf*)"
     ]
   }
 }
