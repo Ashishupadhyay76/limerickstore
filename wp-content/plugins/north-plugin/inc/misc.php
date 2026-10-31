@@ -5,7 +5,7 @@ function thb_csv_export() {
 	if ($download && current_user_can( 'manage_options' ) ) {
 		$filename = 'thb_subcribed_emails_' . time(). '.csv';
 		// emails
-		$stack = get_option('subscribed_emails');
+		$stack = get_option( 'subscribed_emails', array() );
 
 		$fh = @fopen( 'php://output', 'w' );
 
@@ -16,7 +16,7 @@ function thb_csv_export() {
 		header( 'Expires: 0' );
 		header( 'Pragma: public' );
 
-		foreach ( $stack as $line ) {
+		foreach ( is_array( $stack ) ? $stack : array() as $line ) {
 			$val = explode( ",",$line );
 			fputcsv( $fh, $val );
 		}
