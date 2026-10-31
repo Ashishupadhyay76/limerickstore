@@ -23,9 +23,14 @@ function thb_csv_export() {
 		header( 'Pragma: public' );
 
 		foreach ( is_array( $stack ) ? $stack : array() as $line ) {
+			if ( ! is_string( $line ) ) {
+				continue;
+			}
+
 			$val = explode( ",",$line );
 			foreach ( $val as $key => $cell ) {
-				if ( '' !== $cell && in_array( $cell[0], array( '=', '+', '-', '@' ), true ) ) {
+				$trimmed = ltrim( $cell, ' ' );
+				if ( '' !== $trimmed && in_array( $trimmed[0], array( '=', '+', '-', '@', "\t", "\r" ), true ) ) {
 					$val[ $key ] = "'" . $cell;
 				}
 			}
