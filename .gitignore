@@ -2,3 +2,14 @@ wp-config.php
 jetpack-temp/
 bv_connector_*.php
 malcare-waf.php
+
+# Generated / runtime content
+wp-content/cache/
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/wflogs/
+wp-content/debug.log
+wp-content/advanced-cache.php
+wp-content/object-cache.php
+*.log
+.DS_Store
