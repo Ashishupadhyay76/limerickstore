@@ -78,7 +78,7 @@ class thb_subscribe_widget extends WP_Widget {
 
 		<?php if ( current_user_can( 'manage_options' ) ) { ?>
 			<p>
-				<a href="?thb_download_emails=true" class="button button-primary"><?php esc_html_e( 'Download Emails', 'north' ); ?></a>
+				<a href="<?php echo esc_url( wp_nonce_url( '?thb_download_emails=true', 'thb_download_emails' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Download Emails', 'north' ); ?></a>
 			</p>
 		<?php } ?>
 		<?php
